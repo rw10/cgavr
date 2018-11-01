@@ -1,236 +1,106 @@
-/*
- * openGL_test.cpp
- *
- *  Created on: 11.10.2018
- *      Author: rene
- */
-
-
-#include <opencv2/opencv.hpp>
-#include <GL/glut.h>
-
-#include <chrono>
-#include <thread>
-
-#include <vector>
-
-
-cv::Mat loadImage( int argc, char** argv ){
-	cv::Mat image;
-
-	if(argc != 2){
-		printf( "No image file specified \n" );
-		return image;
-	}
-	image = cv::imread( argv[1], 1 );
-	if(!image.data){
-		printf( "No image data \n" );
-		return image;
-	}
-
-	return image;
-}
-
-void viewImage(cv::Mat image){
-	cv::namedWindow( "Display Image", cv::WINDOW_AUTOSIZE );
-	cv::imshow( "Display Image", image );
-	cv::waitKey(0);
-}
-
-// bools for each key, init with all false
-std::vector<bool> keys(256,false);
-
-std::vector<float> cameraPos = {0.0f, 5.0f, 5.0f};
-
-void createBlock(float x, float y, float height);
-
-void display(void){
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	createBlock(0,0,1);
-	glutSwapBuffers();
-
-
-	//glRotatef(1.0f, 0.0f, 1.0f, 0.0f);
-
-	glFlush();
-
-
-	// force repaint
-	glutPostRedisplay();
-}
-
-void createBlock(float x, float y, float height){
-
-	glBegin(GL_QUADS);
-	// top
-	glColor3f(0.0f, 1.0f, 0.0f);
-	glNormal3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(x-0.5f, height, y-0.5f);
-	glVertex3f(x+0.5f, height, y-0.5f);
-	glVertex3f(x+0.5f, height, y+0.5f);
-	glVertex3f(x-0.5f, height, y+0.5f);
-
-	// bottom
-	glColor3f(1.0f, 0.0f, 0.0f);
-	glNormal3f(0.0f, 1.0f, 1.0f);
-	glVertex3f(x-0.5f, 0.0, y-0.5f);
-	glVertex3f(x+0.5f, 0.0, y-0.5f);
-	glVertex3f(x+0.5f, 0.0, y+0.5f);
-	glVertex3f(x-0.5f, 0.0, y+0.5f);
-
-	// front
-	glColor3f(0.0f, 0.0f, 1.0f);
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(x+0.5f, 0.0f, y-0.5f);
-	glVertex3f(x+0.5f, height, y-0.5f);
-	glVertex3f(x-0.5f, height, y-0.5f);
-	glVertex3f(x-0.5f, 0.0f, y-0.5f);
-
-	// back
-	glColor3f(0.0f, 1.0f, 1.0f);
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(x-0.5f, 0.0f, y+0.5f);
-	glVertex3f(x-0.5f, height, y+0.5f);
-	glVertex3f(x+0.5f, height, y+0.5f);
-	glVertex3f(x+0.5f, 0.0f, y+0.5f);
-
-	// right
-	glColor3f(1.0f, 1.0f, 1.0f);
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(x+0.5f, 0.0f, y+0.5f);
-	glVertex3f(x+0.5f, height, y+0.5f);
-	glVertex3f(x+0.5f, height, y-0.5f);
-	glVertex3f(x+0.5f, 0.0f, y-0.5f);
-
-	// left
-	glColor3f(1.0f, 1.0f, 0.0f);
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(x-0.5f, 0.0f, y+0.5f);
-	glVertex3f(x-0.5f, height, y+0.5f);
-	glVertex3f(x-0.5f, height, y-0.5f);
-	glVertex3f(x-0.5f, 0.0f, y-0.5f);
-	glEnd();
-
-
-}
-
-
-void idleFunc(){
-	glutPostRedisplay();
-	for (unsigned char key = 0; key != keys.size(); key++){
-		if (keys[key]){
-			switch (key) {
-				case 'w':
-					cameraPos[2]++;
-					break;
-				case 'a':
-					cameraPos[0]++;
-					break;
-				case 's':
-					cameraPos[2]--;
-					break;
-				case 'd':
-					cameraPos[0]--;
-					break;
-				default:
-					break;
-			}
-		}
-	}
-
-	gluLookAt(
-		0.0, 5.0, 5.0,  	/* eye is at (0,0,5) */
-		0.0, 0.0, 0.0,      /* center is at (0,0,0) */
-		0.0, 1.0, 0.);      /* up is in positive Y direction */
-
-
-}
-
-void keyboardFunc(unsigned char key, int x, int y){
-	// toggle the flag for the touched key
-	keys[key] = !keys[key];
-}
-
-
-void mouseFunc(int button, int state, int x, int y){
-	// toggle the flag for the touched key
-	int i=0;
-}
-
-void init(void)
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include "linmath.h"
+#include <stdlib.h>
+#include <stdio.h>
+static const struct
 {
-	/* Enable a single OpenGL light.
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-	glEnable(GL_LIGHT0);
-	glEnable(GL_LIGHTING);
-	*/
-
-
-
-	/* Use depth buffering for hidden surface elimination. */
-	glEnable(GL_DEPTH_TEST);
-
-	/* Setup the view. */
-	glMatrixMode(GL_PROJECTION);
-	gluPerspective(
-		/* field of view in degree */ 40.0,
-		/* aspect ratio */ 1.0,
-		/* Z near */ 1.0,
-		/* Z far */ 10.0
-	);
-	glMatrixMode(GL_MODELVIEW);
-	gluLookAt(
-		0.0, 5.0, 5.0,  	/* eye is at (0,0,5) */
-		0.0, 0.0, 0.0,      /* center is at (0,0,0) */
-		0.0, 1.0, 0.);      /* up is in positive Y direction */
-
-	glClearColor(0,0,0,0);
-
-	/* Adjust cube position to be asthetic angle. */
-	glTranslatef(0.0, 0.0, -1.0);
-	//glRotatef(60, 1.0, 0.0, 0.0);
-	//glRotatef(-20, 0.0, 0.0, 1.0);
-
-
-
-	// show both sides of objects
-	//glDisable(GL_CULL_FACE);
-
-	// define which side to show
-	//glCullFace(GL_BACK);
-	//glFrontFace(GL_CCW);
-
-	//glEnable(GL_CLIP_DISTANCE0);
+    float x, y;
+    float r, g, b;
+} vertices[3] =
+{
+    { -0.6f, -0.4f, 1.f, 0.f, 0.f },
+    {  0.6f, -0.4f, 0.f, 1.f, 0.f },
+    {   0.f,  0.6f, 0.f, 0.f, 1.f }
+};
+static const char* vertex_shader_text =
+"uniform mat4 MVP;\n"
+"attribute vec3 vCol;\n"
+"attribute vec2 vPos;\n"
+"varying vec3 color;\n"
+"void main()\n"
+"{\n"
+"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"
+"    color = vCol;\n"
+"}\n";
+static const char* fragment_shader_text =
+"varying vec3 color;\n"
+"void main()\n"
+"{\n"
+"    gl_FragColor = vec4(color, 1.0);\n"
+"}\n";
+static void error_callback(int error, const char* description)
+{
+    fprintf(stderr, "Error: %s\n", description);
 }
-
-
-int main(int argc, char** argv){
-
-
-	cv::Mat image = loadImage(argc, argv);
-	viewImage(image);
-
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-
-	glutInitWindowSize(800, 600);
-	glutInitWindowPosition(50, 100);
-	glutCreateWindow("Hello world!");
-	init();
-
-	glutDisplayFunc(display);
-	glutKeyboardFunc(keyboardFunc);
-
-	glutMouseFunc(mouseFunc);
-	glutIdleFunc(idleFunc);
-
-	while(true){
-		display();
-	}
-
-	// deprecated: glutMainLoop();
-
-	return 0;
+static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+int main(void)
+{
+    GLFWwindow* window;
+    GLuint vertex_buffer, vertex_shader, fragment_shader, program;
+    GLint mvp_location, vpos_location, vcol_location;
+    glfwSetErrorCallback(error_callback);
+    if (!glfwInit())
+        exit(EXIT_FAILURE);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+    window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        exit(EXIT_FAILURE);
+    }
+    glfwSetKeyCallback(window, key_callback);
+    glfwMakeContextCurrent(window);
+    gladLoadGLLoader((GLADloadproc) glfwGetProcAddress);
+    glfwSwapInterval(1);
+    // NOTE: OpenGL error checks have been omitted for brevity
+    glGenBuffers(1, &vertex_buffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+    glShaderSource(vertex_shader, 1, &vertex_shader_text, NULL);
+    glCompileShader(vertex_shader);
+    fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+    glShaderSource(fragment_shader, 1, &fragment_shader_text, NULL);
+    glCompileShader(fragment_shader);
+    program = glCreateProgram();
+    glAttachShader(program, vertex_shader);
+    glAttachShader(program, fragment_shader);
+    glLinkProgram(program);
+    mvp_location = glGetUniformLocation(program, "MVP");
+    vpos_location = glGetAttribLocation(program, "vPos");
+    vcol_location = glGetAttribLocation(program, "vCol");
+    glEnableVertexAttribArray(vpos_location);
+    glVertexAttribPointer(vpos_location, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(float) * 5, (void*) 0);
+    glEnableVertexAttribArray(vcol_location);
+    glVertexAttribPointer(vcol_location, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(float) * 5, (void*) (sizeof(float) * 2));
+    while (!glfwWindowShouldClose(window))
+    {
+        float ratio;
+        int width, height;
+        mat4x4 m, p, mvp;
+        glfwGetFramebufferSize(window, &width, &height);
+        ratio = width / (float) height;
+        glViewport(0, 0, width, height);
+        glClear(GL_COLOR_BUFFER_BIT);
+        mat4x4_identity(m);
+        mat4x4_rotate_Z(m, m, (float) glfwGetTime());
+        mat4x4_ortho(p, -ratio, ratio, -1.f, 1.f, 1.f, -1.f);
+        mat4x4_mul(mvp, p, m);
+        glUseProgram(program);
+        glUniformMatrix4fv(mvp_location, 1, GL_FALSE, (const GLfloat*) mvp);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    exit(EXIT_SUCCESS);
 }

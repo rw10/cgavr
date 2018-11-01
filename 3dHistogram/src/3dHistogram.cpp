@@ -64,6 +64,14 @@ void display(){
 
 	DrawHistogram3D(image);
 
+	/*
+	createBlock(
+			0, 0, 0,		// position
+			1, 1, 1,						// max size
+			0, 0, 0									// color
+	);
+	*/
+
 	glutSwapBuffers();
 
 	rotation = (rotation+1) % 180;
@@ -186,7 +194,7 @@ void createBlock(
 
 void idleFunc(){
 	glutPostRedisplay();
-	for (unsigned char key = 0; key != keys.size(); key++){
+	for (auto key = 0; key < keys.size(); key++){
 		if (keys[key]){
 			switch (key) {
 				case 'w':
@@ -288,6 +296,9 @@ int main(int argc, char** argv){
 
 	glutMouseFunc(mouseFunc);
 	glutIdleFunc(idleFunc);
+
+	glutMainLoop();
+
 
 	// any key (with focus on original pic) to stop
 	// space key = 32
