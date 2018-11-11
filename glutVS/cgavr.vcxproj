@@ -20,28 +20,37 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Block.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Color.cpp" />
     <ClCompile Include="src\GlutWindow.cpp" />
     <ClCompile Include="src\Histogram3D.cpp" />
+    <ClCompile Include="src\Labyrinth.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\pch.cpp" />
     <ClCompile Include="src\Vector3.cpp" />
+    <ClCompile Include="src\Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Block.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Drawable.h" />
     <ClInclude Include="src\GlutWindow.h" />
     <ClInclude Include="src\Histogram3D.h" />
+    <ClInclude Include="src\Labyrinth.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Quad.h" />
+    <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Vector3.h" />
+    <ClInclude Include="src\Wall.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{BE03FC5F-F23F-4A8E-B607-46C3ED5E42C2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>cgavr</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>cgavr</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

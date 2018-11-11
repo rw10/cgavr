@@ -3,8 +3,9 @@
 #include <vector>
 #include <memory>
 
-#include "Vector3.h"
+#include "Camera.h"
 #include "Drawable.h"
+#include "Block.h"
 
 class GlutWindow
 {
@@ -21,8 +22,9 @@ public:
 	void display();
 	void idleFunc();
 	void keyboardFunc(unsigned char key, int x, int y);
+	void keyboardUpFunc(unsigned char key, int x, int y);
 	void mouseFunc(int button, int state, int x, int y);
-	
+
 private:
 	static GlutWindow* INSTANCE;
 
@@ -31,12 +33,15 @@ private:
 
 	std::vector<std::shared_ptr<Drawable> > drawables;
 
+	bool showAxis;
+	void createAxis();
+	std::vector<Block> axis;
+
 	void initialize();
 
 	// bools for each key, init with all false
 	std::vector<bool> keys;
-	Vector3 cameraPos;
-	Vector3 cameraLookAt;
-	Vector3 cameraUp;
+
+	Camera camera;
 };
 
