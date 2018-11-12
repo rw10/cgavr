@@ -20,7 +20,7 @@ void Wall::draw(void) {
 
 	// z dimension
 	double floor = 0;
-	double ceiling = 1;	
+	double ceiling = 30;	
 
 	// TODO: normals dont fit anymore (only top/bottom)
 

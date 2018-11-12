@@ -7,9 +7,9 @@
 
 #pragma once
 
-#include <vector>
-
 #include "Wall.h"
+#include <vector>
+#include <GL/glut.h>
 
 class Labyrinth : public Drawable {
 public:
@@ -20,5 +20,7 @@ private:
 	void draw(void);
 
 	std::vector<Wall> walls;
+
+	GLuint wallTexture;
 };
 
