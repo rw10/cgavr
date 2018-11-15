@@ -2,11 +2,6 @@
 
 #include "Vector3.h"
 
-enum CameraType {
-	LOOK_AT, FIRST_PERSON
-};
-
-
 class Camera
 {
 public:
@@ -17,13 +12,14 @@ public:
 	Vector3 lookAtPoint;
 	Vector3 upDirection;
 
-	CameraType type;
+	virtual void update();
 
-	void rotateAroundX(double degrees);
-	void rotateAroundY(double degrees);
-	void rotateAroundZ(double degrees);
+	virtual void rotateAroundX(double degrees) = 0;
+	virtual void rotateAroundY(double degrees) = 0;
+	virtual void rotateAroundZ(double degrees) = 0;
 
 	/**
+	* move the camera position in x-y
 	* degrees = angle relative to looking direction
 	* 0 = move forward
 	* 90 = strafe right
@@ -32,18 +28,11 @@ public:
 	*/
 	void move(double distance, double degrees);
 
-	// moveDown = negative value param
+	/**
+	* move the camera in z
+	* moveDown => negative value param
+	*/
 	void moveUp(double distance);
-
-	// turn left = negative value param
-	virtual void turnRight(double degrees) = 0;
-
-	// turn down = negative value param
-	virtual void turnUp(double degrees) = 0;
-
-	void update();
-
-private:
 
 };
 

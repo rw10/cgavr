@@ -3,9 +3,6 @@
 
 Camera::Camera()
 {
-	// init camera settings
-	position = Vector3(3.0, -10.0, 80.0);
-	lookAtPoint = Vector3(0.0, 0.0, 0.0);
 	upDirection = Vector3(0.0, 0.0, 1.0);		// up is in positive Z direction
 }
 
@@ -28,36 +25,12 @@ void Camera::update() {
 	glutPostRedisplay();
 }
 
-
-
-void Camera::rotateAroundX(double degrees) {
-	Vector3 delta = position - lookAtPoint;
-	delta.rotateAroundX(degrees);
-	position = lookAtPoint + delta;
-	update();
-}
-
-void Camera::rotateAroundY(double degrees) {
-	Vector3 delta = position - lookAtPoint;
-	delta.rotateAroundY(degrees);
-	position = lookAtPoint + delta;
-	update();
-}
-
-void Camera::rotateAroundZ(double degrees) {
-	Vector3 delta = position - lookAtPoint;
-	delta.rotateAroundZ(degrees);
-	position = lookAtPoint + delta; 
-	update();
-}
-
-
 void Camera::move(double distance, double degrees) {
 	Vector3 delta = lookAtPoint - position;
 	// move only in xy-area
 	delta._z = 0;
 	delta.normalize(distance);
-	delta.rotateAroundZ(90);
+	delta.rotateAroundZ(degrees);
 	position = position + delta;
 	update();
 }

@@ -4,42 +4,98 @@
     <ClCompile Include="src\pch.cpp">
       <Filter>VS</Filter>
     </ClCompile>
-    <ClCompile Include="src\Block.cpp" />
-    <ClCompile Include="src\Color.cpp" />
-    <ClCompile Include="src\GlutWindow.cpp" />
-    <ClCompile Include="src\Histogram3D.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Vector3.cpp" />
-    <ClCompile Include="src\Camera.cpp" />
-    <ClCompile Include="src\Wall.cpp" />
-    <ClCompile Include="src\Labyrinth.cpp" />
+    <ClCompile Include="src\Histogram3D.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Block.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Labyrinth.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Wall.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Color.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GlutWindow.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vector3.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>GUI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LookAtCamera.cpp">
+      <Filter>GUI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FirstPersonCamera.cpp">
+      <Filter>GUI\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
       <Filter>VS</Filter>
     </ClInclude>
-    <ClInclude Include="src\Block.h" />
-    <ClInclude Include="src\Color.h" />
-    <ClInclude Include="src\GlutWindow.h" />
-    <ClInclude Include="src\Histogram3D.h" />
-    <ClInclude Include="src\Vector3.h" />
-    <ClInclude Include="src\Drawable.h" />
-    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Constants.h" />
-    <ClInclude Include="src\Wall.h" />
-    <ClInclude Include="src\Vector2.h" />
-    <ClInclude Include="src\Quad.h" />
-    <ClInclude Include="src\Labyrinth.h" />
+    <ClInclude Include="src\Drawable.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Block.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Histogram3D.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Labyrinth.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Wall.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Color.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GlutWindow.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Quad.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector2.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Vector3.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Camera.h">
+      <Filter>GUI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LookAtCamera.h">
+      <Filter>GUI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FirstPersonCamera.h">
+      <Filter>GUI\Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="VS">
       <UniqueIdentifier>{4d400ef8-89a4-4fd7-ace6-6d215861d382}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header">
-      <UniqueIdentifier>{aef509bf-28d6-4aec-9be9-003cf80f0f8c}</UniqueIdentifier>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{b02a0814-7c5b-4f73-859c-235d2db86167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source">
-      <UniqueIdentifier>{09ea8e6a-a125-4d14-b03b-5bc4ebbc6422}</UniqueIdentifier>
+    <Filter Include="Model">
+      <UniqueIdentifier>{8d6018c6-011b-470f-94ed-12597aa5a3f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Camera">
+      <UniqueIdentifier>{1de057df-b183-4ebc-b7ef-559186834d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Drawables">
+      <UniqueIdentifier>{27acb624-99c0-4781-ba80-a4966b78d63a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
