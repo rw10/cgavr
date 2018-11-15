@@ -52,6 +52,12 @@ double Vector3::getLength() {
 
 void Vector3::normalize(double targetLength) {
 	double length = getLength();
+	
+	// prevent division by 0
+	if (length == 0) {
+		length = 1;
+	}
+
 	_x = _x / length * targetLength;
 	_y = _y / length * targetLength;
 	_z = _z / length * targetLength;
