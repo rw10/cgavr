@@ -19,6 +19,9 @@ public:
 private:
 	void draw(void);
 
+
+	std::vector<Corner> corners;
+
 	std::vector<Wall> walls;
 
 	GLuint wallTexture;

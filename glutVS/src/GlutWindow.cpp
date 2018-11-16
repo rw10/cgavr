@@ -145,13 +145,13 @@ void GlutWindow::initialize(void)
 
 	// add labyrinth
 	std::shared_ptr<Labyrinth> lab(new Labyrinth);
-	double width = 1;
+	double width = 0;
 	for (int i = 0; i < 10; i++) {
 		Wall wall(
 			Vector2(i*10, 5*(i%3)),
 			Vector2(i*10+20, 50+ 5*(i%3)),
-			width,
 			Color(125, 10, 23)
+			//, 0				//width
 		);
 		lab->addWall(wall);
 	}

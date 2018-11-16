@@ -12,7 +12,7 @@ public:
 	~Wall();
 
 	// TODO: add textures
-	Wall(const Vector2 begin, const Vector2 end, double width, const Color color);
+	Wall(const Vector2 begin, const Vector2 end, const Color color = Color(255, 0, 0), double width = 0);
 
 	void draw(void);
 
