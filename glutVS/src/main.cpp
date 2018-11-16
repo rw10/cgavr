@@ -25,6 +25,15 @@ void keyboardUpFunc(unsigned char key, int x, int y) {
 	GlutWindow::get().keyboardUpFunc(key, x, y);
 }
 
+void specialFunc(int key, int x, int y) {
+	unsigned char k = static_cast<unsigned char>(key);
+	GlutWindow::get().specialFunc(k, x, y);
+}
+void specialUpFunc(int key, int x, int y) {
+	unsigned char k = static_cast<unsigned char>(key);
+	GlutWindow::get().specialUpFunc(k, x, y);
+}
+
 void mouseFunc(int button, int state, int x, int y) {
 	GlutWindow::get().mouseFunc(button, state, x, y);
 }
@@ -39,6 +48,8 @@ int main(int argc, char** argv) {
 
 	glutKeyboardFunc(keyboardFunc);
 	glutKeyboardUpFunc(keyboardUpFunc);
+	glutSpecialFunc(specialFunc);
+	glutSpecialUpFunc(specialUpFunc);
 	glutMouseFunc(mouseFunc);
 
 	glutMainLoop();

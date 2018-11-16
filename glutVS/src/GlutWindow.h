@@ -23,6 +23,8 @@ public:
 	void idleFunc();
 	void keyboardFunc(unsigned char key, int x, int y);
 	void keyboardUpFunc(unsigned char key, int x, int y);
+	void specialFunc(unsigned char key, int x, int y);
+	void specialUpFunc(unsigned char key, int x, int y);
 	void mouseFunc(int button, int state, int x, int y);
 
 private:
@@ -31,6 +33,7 @@ private:
 	GlutWindow();
 	~GlutWindow();
 
+	// list of all drawn objects
 	std::vector<std::shared_ptr<Drawable> > drawables;
 
 	bool showAxis;
@@ -40,8 +43,10 @@ private:
 	void initialize();
 
 	// bools for each key, init with all false
-	std::vector<bool> keys;
+	// TODO: maybe replace with set of only keys with 'true' value??
+	std::vector<bool> keys; 
+	std::vector<bool> specialkeys;
 
-	Camera camera;
+	std::shared_ptr<Camera> camera;
 };
 

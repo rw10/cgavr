@@ -8,11 +8,16 @@
 #include "Histogram3D.h"
 #include "Labyrinth.h"
 
+#include "FirstPersonCamera.h"
+#include "LookAtCamera.h"
+
 
 GlutWindow* GlutWindow::INSTANCE = 0;
 
 GlutWindow::GlutWindow()
 {
+	camera = std::shared_ptr<Camera>(new FirstPersonCamera());
+
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(50, 100);
@@ -22,8 +27,7 @@ GlutWindow::GlutWindow()
 
 
 GlutWindow::~GlutWindow()
-{
-}
+{}
 
 void GlutWindow::display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -47,28 +51,48 @@ void GlutWindow::display() {
 void GlutWindow::idleFunc() {
 
 	// keyboard actions
-
+	// for standard keys
 	for (auto key = 0; key < keys.size(); key++) {
 		if (keys[key]) {
 			switch (key) {
-
-			// WASD - control camera
-			// ws - control height
+			// WASD - control camera movement
 			case 'w':
-				camera.position._z++;
-				camera.update();
+				camera->move(1, 0);
 				break;
 			case 's':
-				camera.position._z--;
-				camera.update();
+				camera->move(-1, 0);
 				break;
 
-			// ad - rotate around z axis
-			case 'a':
-				camera.rotateAroundZ(-1);
+			// strafe - movement
+			case 'a':		// left
+				camera->move(1, 90);
 				break;
-			case 'd':
-				camera.rotateAroundZ(1);
+			case 'd':		// right
+				camera->move(1, -90);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	// for special keys (like the arrow keys)
+	for (auto key = 0; key < specialkeys.size(); key++) {
+		if (specialkeys[key]) {
+			switch (key) {
+				// control camera height
+			case GLUT_KEY_UP:
+				camera->moveUp(1);
+				break;
+			case GLUT_KEY_DOWN:
+				camera->moveUp(-1);
+				break;
+
+				// control camera rotation
+			case GLUT_KEY_LEFT:
+				camera->rotateAroundZ(1);
+				break;
+			case GLUT_KEY_RIGHT:
+				camera->rotateAroundZ(-1);
 				break;
 			default:
 				break;
@@ -96,6 +120,25 @@ void GlutWindow::keyboardUpFunc(unsigned char key, int , int ) {
 }
 
 
+void GlutWindow::specialFunc(unsigned char key, int, int) {
+	if (specialkeys[key]) {
+		//std::cout << "key '" << key << "' is already pressed" << std::endl;
+	}
+	else {
+		// set the flag for the touched key
+		specialkeys[key] = true;
+
+		std::cout << "specialkey '" << key << "' pressed" << std::endl;
+	}
+}
+void GlutWindow::specialUpFunc(unsigned char key, int, int) {
+	// unset the flag for the touched key
+	specialkeys[key] = false;
+
+	std::cout << "specialkey '" << key << "' released" << std::endl;
+}
+
+
 void GlutWindow::mouseFunc(int button, int state, int , int ) {
 	// toggle the flag for the touched key
 
@@ -104,6 +147,7 @@ void GlutWindow::mouseFunc(int button, int state, int , int ) {
 void GlutWindow::initialize(void)
 {
 	keys = std::vector<bool>(256, false);
+	specialkeys = std::vector<bool>(256, false);
 
 	// set the clear color
 	glClearColor(0.0, 0.1, 0.5, 1);
@@ -175,7 +219,7 @@ void GlutWindow::initialize(void)
 
 	//glEnable(GL_CLIP_DISTANCE0);
 
-	camera.update();
+	camera->update();
 }
 
 void GlutWindow::createAxis() {
