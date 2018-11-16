@@ -11,13 +11,14 @@ Dijkstra::Dijkstra(const Connection& routes, Vector2 start, Vector2 target) : ro
 	addNextTargets(startNode);
 	bool finished = false;
 
-	std::shared_ptr<DijkstraPoint> endNode;
+	// search target
 	while (queue.size() != 0 && !finished) {
 		// get the first element from queue
 		auto closest = queue[0];
 		if (closest->position == target) {
 			finished = true;
-			endNode = closest;
+			// assemble route by going backwards
+			assemble(closest);
 		}
 		else {
 			// mark as visited
@@ -28,9 +29,6 @@ Dijkstra::Dijkstra(const Connection& routes, Vector2 start, Vector2 target) : ro
 			addNextTargets(closest);
 		}
 	}
-
-	// assemble route by going backwards
-	assemble(endNode);
 }
 
 void Dijkstra::addNextTargets(std::shared_ptr<DijkstraPoint> currentPoint) {
@@ -60,19 +58,10 @@ void Dijkstra::updateQueue() {
 	std::sort(queue.begin(), queue.end());
 }
 
-void visit() {
-	// remove this
-
-	// add neighbors
-
-	// clean up queue from visited
-}
-
-
 void Dijkstra::assemble(std::shared_ptr<DijkstraPoint> target) {
 	route.push_back(Vector2(target->position));
 
 	if (!target->isFirst()) {
-		assemble(target);
+		assemble(target->predecessor);
 	}
 }

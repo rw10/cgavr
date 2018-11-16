@@ -71,13 +71,21 @@ double Vector3::rad2deg(double radians) {
 	return (radians * 180.0) / PI;
 }
 
-double Vector3::calcAngleInXY(const Vector3& other) {
-	return rad2deg(
-		atan2(
-			other.x - x, 
-			other.y - y
-		)
-	);
+double Vector3::dotProduct(const Vector3& u, const Vector3& v) {
+	return u.x*v.x + u.y*v.y + u.z*v.z;
+}
+
+double Vector3::calcAngleInXY(Vector3 u, Vector3 v) {
+
+	// normalize
+	u.normalize();
+	v.normalize();
+	
+	// dot product u * v
+	// angle = acos(u*v)
+	// convert radian to degrees
+
+	return rad2deg(acos(dotProduct(u, v)));
 }
 
 void Vector3::rotateAroundX(double degrees) {

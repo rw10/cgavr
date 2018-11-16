@@ -17,6 +17,7 @@ GlutWindow* GlutWindow::INSTANCE = 0;
 GlutWindow::GlutWindow()
 {
 	camera = std::shared_ptr<Camera>(new FirstPersonCamera());
+	camera = std::shared_ptr<Camera>(new LookAtCamera());
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
@@ -185,10 +186,13 @@ void GlutWindow::initialize(void)
 	glMatrixMode(GL_MODELVIEW);
 
 	// show axis
-	createAxis();
+	//createAxis();
 
 	// add labyrinth
 	std::shared_ptr<Labyrinth> lab(new Labyrinth);
+	drawables.push_back(lab);
+	
+	/*
 	double width = 0;
 	for (int i = 0; i < 10; i++) {
 		Wall wall(
@@ -199,8 +203,14 @@ void GlutWindow::initialize(void)
 		);
 		lab->addWall(wall);
 	}
-	drawables.push_back(lab);
+	*/
 
+	// sägezahn muster
+	for (int i = 0; i < 3; i++) {
+		lab->addWall(Wall(Vector2(10 * i, 10 * i), Vector2(10 * i, 10 * (i+1))));
+		lab->addWall(Wall(Vector2(10 * i, 10 * (i + 1)), Vector2(10 * (i + 1), 10 * (i + 1))));
+	}
+	lab->findWayPoints();
 
 	// 3D Histogram
 	//std::shared_ptr<Histogram3D> hist(new Histogram3D);

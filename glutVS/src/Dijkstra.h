@@ -11,15 +11,13 @@ public:
 
 	Dijkstra(const Connection& routes, Vector2 start, Vector2 target);
 
-	void assemble(std::shared_ptr<DijkstraPoint> target);
-
 	// result
 	std::vector<Vector2> route;
 private:
 
 	// remove visited Points from queue
 	void updateQueue();
-
+	void assemble(std::shared_ptr<DijkstraPoint> target);
 
 	Connection routes;
 	std::vector<std::shared_ptr<DijkstraPoint>> queue;

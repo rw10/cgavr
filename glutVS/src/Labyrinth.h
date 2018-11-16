@@ -17,15 +17,25 @@ public:
 	Labyrinth();
 	void addWall(const Wall& wall);
 
+
+
+	void findWayPoints();
 private:
 	void draw(void);
 
-	Connection corners;
+	//void findWayPoints();
+	void updateRoutes(const Wall& wall);
 
+	// for model
+	Connection corners;
+	Connection waypoints;
+
+	// only for display
 	std::vector<Wall> walls;
 
 	GLuint wallTexture;
 
+	// keeping track of the min/max values to draw the floor with a fitting size
 	Vector2 lowCorner, highCorner;
 
 };

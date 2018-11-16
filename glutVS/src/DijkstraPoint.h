@@ -22,22 +22,17 @@ public:
 	}
 
 	Vector2 position;
+	std::shared_ptr<DijkstraPoint> predecessor;
 
 	bool isFirst() const {
 		return first;
 	}
-
-	double getDistance() const {
-		return distance;
-	}
-
 
 	bool operator< (const DijkstraPoint& other) const {
 		return distance < other.distance;
 	}
 
 private:
-	std::shared_ptr<DijkstraPoint> predecessor;
 	double distance;
 	bool first;
 };

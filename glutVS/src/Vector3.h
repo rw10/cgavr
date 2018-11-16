@@ -55,7 +55,11 @@ public:
 		start.distance(end);
 	}
 
-	double calcAngleInXY(const Vector3& other);
+	static double calcAngleInXY(Vector3 u, Vector3 v);
+	static double dotProduct(const Vector3& u, const Vector3& v);
+
+
+
 	// not needed (yet)
 	//double calcAngleInXZ(const Vector3& other);
 	//double calcAngleInYZ(const Vector3& other);
