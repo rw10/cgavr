@@ -11,9 +11,14 @@
 
 #include <iostream>
 #include <SOIL.h>
+#include <math.h>
+
+#include "Constants.h"
 
 Labyrinth::Labyrinth() {
 	std::string file = "wall.png";
+	lowCorner = Vector2(0, 0);
+	highCorner = Vector2(0, 0);
 
 	/* load an image file directly as a new OpenGL texture */
 	wallTexture = SOIL_load_OGL_texture
@@ -33,7 +38,22 @@ Labyrinth::Labyrinth() {
 }
 
 void Labyrinth::addWall(const Wall& wall){
+	// add drawable wall
 	walls.push_back(wall);
+
+	// add connections
+	corners[wall.begin].push_back(wall.end);
+	corners[wall.end].push_back(wall.begin);
+
+	// keep size up to date
+	lowCorner.x = fmin(lowCorner.x, wall.begin.x);
+	lowCorner.x = fmin(lowCorner.x, wall.end.x);
+	highCorner.x = fmax(highCorner.x, wall.begin.x);
+	highCorner.x = fmax(highCorner.x, wall.end.x);
+	lowCorner.y = fmin(lowCorner.y, wall.begin.y);
+	lowCorner.y = fmin(lowCorner.y, wall.end.y);
+	highCorner.y = fmax(highCorner.y, wall.begin.y);
+	highCorner.y = fmax(highCorner.y, wall.end.y);
 }
 
 void Labyrinth::draw(void)
@@ -49,13 +69,24 @@ void Labyrinth::draw(void)
 	//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
 
+	// draw floor
 	glBegin(GL_QUADS);
-	// floor
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(0, 0, 10);
-	glVertex3f(0, 100, 10);
-	glVertex3f(100, 100, 10);
-	glVertex3f(100, 0, 10);
+	glColor3b(0, 0, 0);		//black
+	glNormal3f(0.0f, 0.0f, 1.0f);		// view from further up
+	glVertex3f(lowCorner.gl_x(), lowCorner.gl_y(), lowCorner.gl_z());
+	glVertex3f(lowCorner.gl_x(), highCorner.gl_y(), lowCorner.gl_z());
+	glVertex3f(highCorner.gl_x(), highCorner.gl_y(), lowCorner.gl_z());
+	glVertex3f(highCorner.gl_x(), lowCorner.gl_y(), lowCorner.gl_z());
+
+	/*
+	// draw ceiling
+	GLfloat height = (GLfloat) (highCorner.z + Constants::WallHeight);
+	glNormal3f(0.0f, 0.0f, -1.0f);		// view from below
+	glVertex3f(lowCorner.gl_x(), lowCorner.gl_y(), height);
+	glVertex3f(lowCorner.gl_x(), highCorner.gl_y(), height);
+	glVertex3f(highCorner.gl_x(), highCorner.gl_y(), height);
+	glVertex3f(highCorner.gl_x(), lowCorner.gl_y(), height);
+	*/
 	glEnd();
 
 	for (auto& wall : walls) {

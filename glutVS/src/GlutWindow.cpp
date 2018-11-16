@@ -139,7 +139,7 @@ void GlutWindow::specialUpFunc(unsigned char key, int, int) {
 }
 
 
-void GlutWindow::mouseFunc(int button, int state, int , int ) {
+void GlutWindow::mouseFunc(int , int , int , int ) {
 	// toggle the flag for the touched key
 
 }
@@ -150,7 +150,7 @@ void GlutWindow::initialize(void)
 	specialkeys = std::vector<bool>(256, false);
 
 	// set the clear color
-	glClearColor(0.0, 0.1, 0.5, 1);
+	glClearColor(0.0f, 0.1f, 0.5f, 1.0f);
 
 	// Enable a single OpenGL light.
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
@@ -194,8 +194,8 @@ void GlutWindow::initialize(void)
 		Wall wall(
 			Vector2(i*10, 5*(i%3)),
 			Vector2(i*10+20, 50+ 5*(i%3)),
-			Color(125, 10, 23)
-			//, 0				//width
+			Color(125, 10, 23),
+			width
 		);
 		lab->addWall(wall);
 	}

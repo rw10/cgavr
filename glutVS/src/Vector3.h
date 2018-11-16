@@ -9,18 +9,27 @@ public:
 	Vector3(double x, double y, double z);
 	~Vector3();
 
-	double _x;
-	double _y;
-	double _z;
+	double x;
+	double y;
+	double z;
 
-	GLfloat x() {
-		return (GLfloat)_x;
+	GLfloat gl_x() {
+		return (GLfloat)x;
 	}
-	GLfloat y() {
-		return (GLfloat)_y;
+	GLfloat gl_y() {
+		return (GLfloat)y;
 	}
-	GLfloat z() {
-		return (GLfloat)_z;
+	GLfloat gl_z() {
+		return (GLfloat)z;
+	}
+
+	// compare operator
+	bool operator< (const Vector3& other) {
+		return x == other.x ?
+			y == other.y ?
+			z < other.z :
+			y < other.y :
+			x < other.x;
 	}
 
 	// overloaded operators
@@ -40,6 +49,11 @@ public:
 	void rotateAroundX(double degrees);
 	void rotateAroundY(double degrees);
 	void rotateAroundZ(double degrees);
+
+	double distance(const Vector3& other) const;
+	static double distance(const Vector3& start, const Vector3& end) {
+		start.distance(end);
+	}
 
 	double calcAngleInXY(const Vector3& other);
 	// not needed (yet)

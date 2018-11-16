@@ -35,6 +35,9 @@
     <ClCompile Include="src\FirstPersonCamera.cpp">
       <Filter>GUI\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="src\Dijkstra.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -79,6 +82,13 @@
     </ClInclude>
     <ClInclude Include="src\FirstPersonCamera.h">
       <Filter>GUI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Dijkstra.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Types.h" />
+    <ClInclude Include="src\DijkstraPoint.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,9 +7,10 @@
 
 #pragma once
 
-#include "Wall.h"
-#include <vector>
 #include <GL/glut.h>
+
+#include "Types.h"
+#include "Wall.h"
 
 class Labyrinth : public Drawable {
 public:
@@ -19,11 +20,13 @@ public:
 private:
 	void draw(void);
 
-
-	std::vector<Corner> corners;
+	Connection corners;
 
 	std::vector<Wall> walls;
 
 	GLuint wallTexture;
+
+	Vector2 lowCorner, highCorner;
+
 };
 

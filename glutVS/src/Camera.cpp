@@ -16,9 +16,9 @@ void Camera::update() {
 
 	// update the camera settings
 	gluLookAt(
-		position._x, position._y, position._z,  				// eye
-		lookAtPoint._x, lookAtPoint._y, lookAtPoint._z,			// center
-		upDirection._x, upDirection._y, upDirection._z			// up
+		position.x, position.y, position.z,  				// eye
+		lookAtPoint.x, lookAtPoint.y, lookAtPoint.z,			// center
+		upDirection.x, upDirection.y, upDirection.z			// up
 	);
 
 	// trigger repaint on next turn
@@ -28,7 +28,7 @@ void Camera::update() {
 void Camera::move(double distance, double degrees) {
 	Vector3 delta = lookAtPoint - position;
 	// move only in xy-area
-	delta._z = 0;
+	delta.z = 0;
 	delta.normalize(distance);
 	delta.rotateAroundZ(degrees);
 	position = position + delta;
@@ -36,6 +36,6 @@ void Camera::move(double distance, double degrees) {
 }
 
 void Camera::moveUp(double distance) {
-	position._z += distance;
+	position.z += distance;
 	update();
 }

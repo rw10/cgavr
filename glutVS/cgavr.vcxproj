@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
     <ClCompile Include="src\Color.cpp" />
@@ -35,6 +36,8 @@
   <ItemGroup>
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Dijkstra.h" />
+    <ClInclude Include="src\DijkstraPoint.h" />
     <ClInclude Include="src\FirstPersonCamera.h" />
     <ClInclude Include="src\LookAtCamera.h" />
     <ClInclude Include="src\Color.h" />
@@ -42,6 +45,7 @@
     <ClInclude Include="src\Drawable.h" />
     <ClInclude Include="src\Histogram3D.h" />
     <ClInclude Include="src\Labyrinth.h" />
+    <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\Wall.h" />
     <ClInclude Include="src\GlutWindow.h" />
     <ClInclude Include="src\Quad.h" />
@@ -142,6 +146,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;$(GLUT)\include;$(SOIL)\src</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4505</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -181,6 +186,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;$(GLUT)\include;$(SOIL)\src</AdditionalIncludeDirectories>
+      <DisableSpecificWarnings>4505</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
