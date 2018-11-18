@@ -37,6 +37,15 @@ Vector3 Vector3::operator-(const Vector3& other) const
 	);
 }
 
+Vector3 Vector3::operator*(const Vector3& other) const
+{
+	return Vector3(
+		y * other.z - other.y * z,
+		z * other.x - other.z * x,
+		x * other.y - other.x * y
+	);
+}
+
 Vector3 Vector3::operator*(const double& multiplier) const
 {
 	return Vector3(
@@ -84,8 +93,12 @@ double Vector3::calcAngleInXY(Vector3 u, Vector3 v) {
 	// dot product u * v
 	// angle = acos(u*v)
 	// convert radian to degrees
+	// this only gives result values between 0 and 180, we need 0 to 360
+	//return rad2deg(acos(dotProduct(u, v)));
 
-	return rad2deg(acos(dotProduct(u, v)));
+	return rad2deg(
+		atan2(v.y, v.x) - atan2(u.y, u.x)
+	);
 }
 
 void Vector3::rotateAroundX(double degrees) {

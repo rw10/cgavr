@@ -206,9 +206,20 @@ void GlutWindow::initialize(void)
 	*/
 
 	// sägezahn muster
+	/*
 	for (int i = 0; i < 3; i++) {
-		lab->addWall(Wall(Vector2(10 * i, 10 * i), Vector2(10 * i, 10 * (i+1))));
-		lab->addWall(Wall(Vector2(10 * i, 10 * (i + 1)), Vector2(10 * (i + 1), 10 * (i + 1))));
+		lab->addWall(Wall(Vector2(10 * i, 0 * i), Vector2(10 * i, 10 * (i+1))));
+		lab->addWall(Wall(Vector2(10 * i, 10 * (i + 1)), Vector2(10 * (i + 1), 0 * (i + 1))));
+	}
+	*/
+
+	// stern muster
+	int pt = 8;
+	double PI = 3.14159;
+	for (int i = 0; i < pt; i++) {
+		if (i < 4) {
+			lab->addWall(Wall(Vector2(0, 0), Vector2(20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt))));
+		}
 	}
 	lab->findWayPoints();
 

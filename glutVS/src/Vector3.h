@@ -35,8 +35,14 @@ public:
 	// overloaded operators
 	Vector3 operator+ (const Vector3& other) const;
 	Vector3 operator- (const Vector3& other) const;
-	Vector3 operator* (const double& multiplier) const;	
-	//Vector3 operator* (const Vector3& other) const;
+	Vector3 operator*(const Vector3& other) const;		// cross product
+	Vector3 operator* (const double& multiplier) const;	// multiplication with scalar
+
+	static double dotProduct(const Vector3& u, const Vector3& v);
+	static double calcAngleInXY(Vector3 u, Vector3 v);
+	// not needed (yet)
+	//static double calcAngleInXZ(Vector3 u, Vector3 v);
+	//static double calcAngleInYZ(Vector3 u, Vector3 v);
 
 	double getLength();
 	void normalize(double targetLength = 1);
@@ -55,14 +61,8 @@ public:
 		start.distance(end);
 	}
 
-	static double calcAngleInXY(Vector3 u, Vector3 v);
-	static double dotProduct(const Vector3& u, const Vector3& v);
 
 
-
-	// not needed (yet)
-	//double calcAngleInXZ(const Vector3& other);
-	//double calcAngleInYZ(const Vector3& other);
 
 
 	// TODO:

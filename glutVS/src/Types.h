@@ -6,22 +6,19 @@
 #include "Vector2.h"
 
 struct WayPoint {
+	Vector2 main;
+	std::vector<Vector2> others;
+
+	std::vector<Vector2> getAll(){
+		std::vector<Vector2> all = others;
+		all.push_back(main);
+		return all;
+	}
+};
+
+struct Route {
 	Vector2 point;
-	Vector2 left;
-	Vector2 right;
-
-	std::vector<Vector2> all() {
-		std::vector<Vector2> points;
-		points.push_back(point);
-		points.push_back(left);
-		points.push_back(right);
-	}
-
-	std::vector<Vector2> partnerPoints() {
-		std::vector<Vector2> points;
-		points.push_back(left);
-		points.push_back(right);
-	}
+	double distance;
 };
 
 // container for unique points combined with collection of all connected points
