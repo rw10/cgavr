@@ -17,6 +17,10 @@ public:
 	Wall(const Vector2 begin, const Vector2 end, const Color3ub color, double width = Constants::WallWidth);
 	Wall(const Vector2 begin, const Vector2 end, const GLuint texture, double width = Constants::WallWidth);
 
+	double getLength() const {
+		return (begin - end).getLength();
+	}
+
 	void draw(void);
 
 	Color3ub color;

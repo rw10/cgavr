@@ -205,11 +205,11 @@ void GlutWindow::initialize(void)
 	}
 	*/
 
-	// sägezahn muster
 	/*
+	// sägezahn muster
 	for (int i = 0; i < 3; i++) {
-		lab->addWall(Wall(Vector2(10 * i, 0 * i), Vector2(10 * i, 10 * (i+1))));
-		lab->addWall(Wall(Vector2(10 * i, 10 * (i + 1)), Vector2(10 * (i + 1), 0 * (i + 1))));
+		lab->addWall(Vector2(10 * i, 0 * i), Vector2(10 * i, 10 * (i+1)));
+		lab->addWall(Vector2(10 * i, 10 * (i + 1)), Vector2(10 * (i + 1), 0 * (i + 1)));
 	}
 	*/
 
@@ -217,17 +217,34 @@ void GlutWindow::initialize(void)
 	int pt = 8;
 	double PI = 3.14159;
 	for (int i = 0; i < pt; i++) {
-		if (i < 4) {
-			lab->addWall(
-				Wall(
-					Vector2(0, 0),
-					Vector2(20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt)),
-					Textures::get().wallTexture
-				)
-			);
-		}
+
+		if (i > 5) continue;
+
+		lab->addWall(
+			Wall(
+				Vector2(0, 0),
+				Vector2(20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt)),
+				Textures::get().wallTexture
+			)
+		);
 	}
+
+	// nochmal...
+	for (int i = 0; i < pt; i++) {
+
+		if (i > 5) continue;
+
+		lab->addWall(
+			Wall(
+				Vector2(50, 0),
+				Vector2(50 + 20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt)),
+				Textures::get().wallTexture
+			)
+		);
+	}
+
 	lab->findWayPoints();
+	lab->testAllRoutes();
 
 	// 3D Histogram
 	//std::shared_ptr<Histogram3D> hist(new Histogram3D);

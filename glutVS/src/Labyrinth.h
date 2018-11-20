@@ -19,12 +19,14 @@ public:
 	void addAuxWall(const Vector3& begin, const Vector3& end, const Color3ub& color);
 
 	void findWayPoints();
+	void testAllRoutes();
 private:
 	void draw(void);
 	void drawFloor(void);
 
 	//void findWayPoints();
-	void updateRoutes(const Wall& wall);
+	//void testAllRoutes();
+	void testAllSubRoutes(const WayPoint& wp1, const WayPoint& wp2);
 
 	WayPoint createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, unsigned int count);
 	void connectWaypoints(const Vector2& wp1, const Vector2& wp2);

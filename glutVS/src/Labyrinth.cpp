@@ -13,6 +13,7 @@
 #include <math.h>
 #include <algorithm>
 
+#include "Collision.h"
 #include "Constants.h"
 #include "Textures.h"
 
@@ -252,6 +253,66 @@ void Labyrinth::findWayPoints() {
 					WayPoint wp = createWaypointsAroundCorner(corner, 360 - angles[0], direction1, 1);
 					waypoints.push_back(wp);
 				}
+			}
+		}
+	}
+}
+
+
+void Labyrinth::testAllRoutes() {
+
+	for (size_t i = 0; i < waypoints.size(); i++) {
+		const auto& wp1 = waypoints[i];
+
+		// start with j=i, so we don't double check
+		for (size_t j = i; j < waypoints.size(); j++) {
+			const auto& wp2 = waypoints[j];
+			bool collision = false;
+
+			// test all walls (or until a collision is found)
+			for (size_t w = 0; !collision && w < walls.size(); w++) {
+				const auto& wall = walls[w];
+				// or connection -> one collision shall prevent the connection
+				collision |= Collision::isColliding(wp1.main, wp2.main, wall);
+			}
+
+			if (!collision) {
+				//connectWaypoints(wp1.main, wp2.main);
+				testAllSubRoutes(wp1, wp2);
+			}
+			else {
+				//addAuxWall(wp1.main, wp2.main, Color3ub(125, 125, 0));
+			}
+		}
+	}
+}
+
+void Labyrinth::testAllSubRoutes(const WayPoint& wp1, const WayPoint& wp2) {
+	const auto& list1 = wp1.getAll();
+	const auto& list2 = wp2.getAll();
+
+	for (size_t i = 0; i < list1.size(); i++) {
+		const auto& point1 = list1[i];
+		for (size_t j = 0; j < list2.size(); j++) {
+			const auto& point2 = list2[j];
+			bool collision = false;
+
+			// test all walls (or until a collision is found)
+			for (size_t w = 0; !collision && w < walls.size(); w++) {
+				const auto& wall = walls[w];
+				// or connection -> one collision shall prevent the connection
+				collision |= Collision::isColliding(point1, point2, wall);
+
+				// check collision with player body
+				collision |= Collision::findClosestDistance(point1, point2, wall) < Constants::PlayerRadius * 0.99;
+			}
+
+			if (!collision) {
+				connectWaypoints(point1, point2);
+				addAuxWall(point1, point2, Color3ub(125, 125, 0));
+			}
+			else {
+				//addAuxWall(point1, point2, Color3ub(125, 125, 0));
 			}
 		}
 	}

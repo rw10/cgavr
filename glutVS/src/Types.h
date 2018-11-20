@@ -9,7 +9,7 @@ struct WayPoint {
 	Vector2 main;
 	std::vector<Vector2> others;
 
-	std::vector<Vector2> getAll(){
+	std::vector<Vector2> getAll() const {
 		std::vector<Vector2> all = others;
 		all.push_back(main);
 		return all;

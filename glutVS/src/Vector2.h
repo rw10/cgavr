@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector3.h"
+#include <math.h>
 
 class Vector2 : public Vector3
 {
@@ -33,5 +34,28 @@ public:
 			vector3.x, vector3.y
 		);
 	}
-};
 
+
+	static Vector2 getClosestPointOnLineSegment(const Vector2& A, const Vector2& B, const Vector2& P)
+	{
+		Vector2 AP = P - A;       //A->P
+		Vector2 AB = B - A;       //A->B
+
+		// if A and B are the same point, return one of them
+		if (AB.getLength() == 0) {
+			return A;
+		}
+			
+		//normalized distance to closest point 
+		double distance = dotProduct(AP, AB) / pow(AB.getLength(), 2); 
+
+		if (distance < 0){
+			return A;
+		} else if (distance > 1){
+			return B;
+		} else{
+			return A + AB * distance;
+		}
+	}
+
+};

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Collision.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
@@ -35,6 +36,7 @@
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\Color3f.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Camera.h" />

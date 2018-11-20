@@ -41,6 +41,9 @@
     <ClCompile Include="src\Color3ub.cpp">
       <Filter>GUI\Color</Filter>
     </ClCompile>
+    <ClCompile Include="src\Collision.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -98,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="src\Color3ub.h">
       <Filter>GUI\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Collision.h">
+      <Filter>Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
