@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Vector2.h"
-#include "Quad.h"
-#include "Color.h"
 #include "Drawable.h"
+
+#include "Quad.h"
+#include "Vector2.h"
+#include "Color3ub.h"
+#include "Constants.h"
 
 class Wall : public Drawable
 {
@@ -12,13 +14,15 @@ public:
 	~Wall();
 
 	// TODO: add textures
-	Wall(const Vector2 begin, const Vector2 end, const Color color = Color(255, 0, 0), double width = 0);
+	Wall(const Vector2 begin, const Vector2 end, const Color3ub color, double width = Constants::WallWidth);
+	Wall(const Vector2 begin, const Vector2 end, const GLuint texture, double width = Constants::WallWidth);
 
 	void draw(void);
 
-	Color color;
+	Color3ub color;
 	Vector2 begin;
 	Vector2 end;
+	GLuint texture;
 	double width;
 
 	Quad cornerPoints;

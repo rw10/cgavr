@@ -17,9 +17,6 @@
     <ClCompile Include="src\Wall.cpp">
       <Filter>GUI\Drawables</Filter>
     </ClCompile>
-    <ClCompile Include="src\Color.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="src\GlutWindow.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
@@ -37,6 +34,12 @@
     </ClCompile>
     <ClCompile Include="src\Dijkstra.cpp">
       <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Textures.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Color3ub.cpp">
+      <Filter>GUI\Color</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -58,9 +61,6 @@
     </ClInclude>
     <ClInclude Include="src\Wall.h">
       <Filter>GUI\Drawables</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Color.h">
-      <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="src\GlutWindow.h">
       <Filter>GUI</Filter>
@@ -90,6 +90,15 @@
     <ClInclude Include="src\DijkstraPoint.h">
       <Filter>Model</Filter>
     </ClInclude>
+    <ClInclude Include="src\Textures.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Color3f.h">
+      <Filter>GUI\Color</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Color3ub.h">
+      <Filter>GUI\Color</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="VS">
@@ -107,5 +116,31 @@
     <Filter Include="GUI\Drawables">
       <UniqueIdentifier>{27acb624-99c0-4781-ba80-a4966b78d63a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI\Color">
+      <UniqueIdentifier>{30b8807b-347c-45d4-9adc-f8038691b865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="img">
+      <UniqueIdentifier>{46154eb1-b628-4986-b13d-d758b56fbadd}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\wall.jpg">
+      <Filter>img</Filter>
+    </Image>
+    <Image Include="img\wall.png">
+      <Filter>img</Filter>
+    </Image>
+    <Image Include="img\grass.png">
+      <Filter>img</Filter>
+    </Image>
+    <Image Include="img\ground.jpg">
+      <Filter>img</Filter>
+    </Image>
+    <Image Include="img\ground2.jpg">
+      <Filter>img</Filter>
+    </Image>
+    <Image Include="img\rockwall.jpg">
+      <Filter>img</Filter>
+    </Image>
   </ItemGroup>
 </Project>

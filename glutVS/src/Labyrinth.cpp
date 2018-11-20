@@ -10,32 +10,15 @@
 #include "Labyrinth.h"
 
 #include <iostream>
-#include <SOIL.h>
 #include <math.h>
 #include <algorithm>
 
 #include "Constants.h"
+#include "Textures.h"
 
 Labyrinth::Labyrinth() {
-	std::string file = "wall.png";
 	lowCorner = Vector2(0, 0);
 	highCorner = Vector2(0, 0);
-
-	/* load an image file directly as a new OpenGL texture */
-	wallTexture = SOIL_load_OGL_texture
-	(
-		file.data(),
-		SOIL_LOAD_AUTO,
-		SOIL_CREATE_NEW_ID,
-		SOIL_FLAG_MIPMAPS | SOIL_FLAG_INVERT_Y | SOIL_FLAG_NTSC_SAFE_RGB | SOIL_FLAG_COMPRESS_TO_DXT
-	);
-	if (wallTexture == 0) {
-		std::cout << "error reading file: " << file.data() << std::endl;
-	}
-
-	glBindTexture(GL_TEXTURE_2D, wallTexture);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
 void Labyrinth::addWall(const Wall& wall){
@@ -57,27 +40,64 @@ void Labyrinth::addWall(const Wall& wall){
 	highCorner.y = fmax(highCorner.y, wall.end.y);
 }
 
+void Labyrinth::addWall(const Vector3& begin, const Vector3& end) {
+	addWall(Wall(begin, end, Textures::get().wallTexture));
+}
+
+void Labyrinth::addAuxWall(const Vector3& begin, const Vector3& end, const Color3ub& color) {
+	// add an auxiliary wall that will be drawn, but is separated from the 'real' walls
+	auxWalls.push_back(Wall(begin, end, color, 0));
+}
+
 void Labyrinth::draw(void)
 {
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//glLoadIdentity();
 
-	// enable texture
-	//glGenTextures(1, &wallTexture);
-	glBindTexture(GL_TEXTURE_2D, wallTexture);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	//glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+	drawFloor();
 
+	for (auto& wall : walls) {
+		wall.draw();
+	}
+
+	// draw auxiliary walls
+	for (auto& auxwall : auxWalls) {
+		auxwall.draw();
+	}
+}
+
+void Labyrinth::drawFloor() {
+
+	// enable texture
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, Textures::get().groundTexture);
+	// use repeat mode for wrapping
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	GLfloat textureSizeX = (GLfloat)(highCorner.gl_x() / Constants::TextureSizeMultiplier);
+	GLfloat textureSizeY = (GLfloat)(highCorner.gl_y() / Constants::TextureSizeMultiplier);
 
 	// draw floor
 	glBegin(GL_QUADS);
-	glColor3b(0, 0, 0);		//black
+	glColor3b(50, 50, 50);		//grey
 	glNormal3f(0.0f, 0.0f, 1.0f);		// view from further up
+
+	// bottom left
+	glTexCoord2f(0, 0);
 	glVertex3f(lowCorner.gl_x(), lowCorner.gl_y(), lowCorner.gl_z());
-	glVertex3f(lowCorner.gl_x(), highCorner.gl_y(), lowCorner.gl_z());
-	glVertex3f(highCorner.gl_x(), highCorner.gl_y(), lowCorner.gl_z());
+
+	// bottom right
+	glTexCoord2f(textureSizeX, 0);
 	glVertex3f(highCorner.gl_x(), lowCorner.gl_y(), lowCorner.gl_z());
+
+	// top right
+	glTexCoord2f(textureSizeX, textureSizeY);
+	glVertex3f(highCorner.gl_x(), highCorner.gl_y(), lowCorner.gl_z());
+
+	// top left
+	glTexCoord2f(0, textureSizeY);
+	glVertex3f(lowCorner.gl_x(), highCorner.gl_y(), lowCorner.gl_z());
 
 	/*
 	// draw ceiling
@@ -89,10 +109,6 @@ void Labyrinth::draw(void)
 	glVertex3f(highCorner.gl_x(), lowCorner.gl_y(), height);
 	*/
 	glEnd();
-
-	for (auto& wall : walls) {
-		wall.draw();
-	}
 }
 
 WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, unsigned int nrPointsOnEitherSide) {
@@ -118,27 +134,27 @@ WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double an
 
 	// add a waypoint in the middle
 	Vector2 middleVector = corner + directionVector;
-	addWall(Wall(corner, middleVector, Color(0, 0, 255)));
+	addAuxWall(corner, middleVector, Color3ub(0, 0, 255));
 	wp.main = middleVector;
 
 	Vector2 prevL = middleVector;
 	Vector2 prevR = middleVector;
 
 	// create n waypoints on circular path around the corner
-	for (int i = 1; i <= nrPointsOnEitherSide; i++) {
+	for (size_t i = 1; i <= nrPointsOnEitherSide; i++) {
 		double step = i * angle / nrPointsOnEitherSide;
 
 		// add a waypoint to the left
 		Vector2 leftVec = directionVector;
 		leftVec.rotateAroundZ(-step);
 		leftVec = Vector2(corner + leftVec);
-		addWall(Wall(corner, leftVec, Color(0, 0, 255)));
+		addAuxWall(corner, leftVec, Color3ub(0, 0, 255));
 
 		// add a waypoint to the right
 		Vector2 rightVec = directionVector;
 		rightVec.rotateAroundZ(step);
 		rightVec = Vector2(corner + rightVec);
-		addWall(Wall(corner, rightVec, Color(0, 0, 255)));
+		addAuxWall(corner, rightVec, Color3ub(0, 0, 255));
 
 		// add to corner-waypoint
 		wp.others.push_back(leftVec);
@@ -153,7 +169,7 @@ WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double an
 
 	return wp;
 	
-	// TODO: use circle-around-the-corner-distance instead of euclidean
+	// TODO: save circle-around-the-corner-distance instead of euclidean 
 	
 }
 
@@ -161,7 +177,7 @@ WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double an
 void Labyrinth::connectWaypoints(const Vector2& wp1, const Vector2& wp2) {
 	routes[wp1].push_back(wp2);
 	routes[wp2].push_back(wp1);
-	addWall(Wall(wp1, wp2, Color(0, 255, 0)));
+	addAuxWall(wp1, wp2, Color3ub(0, 255, 0));
 }
 
 
@@ -184,7 +200,8 @@ void Labyrinth::findWayPoints() {
 			WayPoint wp2 = createWaypointsAroundCorner(corner, -90, direction, 1);
 			waypoints.push_back(wp2);
 			
-			// should be the same points, but are not due to rounding errors
+			// TODO:
+			// 2 of the points should be the same, but are not due to rounding errors
 			// option 1: connect
 			//connectWaypoints(*wp1.others.rbegin(), *wp2.others.begin());
 			// 2: overwrite one with the others value, and transfer the connections
@@ -203,10 +220,9 @@ void Labyrinth::findWayPoints() {
 			waypoints.push_back(wp);
 		}
 		else{
-			// TODO: find the angles that combine to 360°. Use all connections combined, not only pairwise!!
+			// find the angles that combine to 360°. Use all connections combined, not only pairwise!!
 			// if there is an angle greater than 180°, put a waypoint on that side
 
-			//  TODO:
 			// start with one direction
 			// calc all angles to other directions
 			// negative values = 360-angle
@@ -237,7 +253,6 @@ void Labyrinth::findWayPoints() {
 					waypoints.push_back(wp);
 				}
 			}
-
 		}
 	}
 }

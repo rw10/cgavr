@@ -23,10 +23,11 @@
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
-    <ClCompile Include="src\Color.cpp" />
+    <ClCompile Include="src\Color3ub.cpp" />
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\Histogram3D.cpp" />
     <ClCompile Include="src\Labyrinth.cpp" />
+    <ClCompile Include="src\Textures.cpp" />
     <ClCompile Include="src\Wall.cpp" />
     <ClCompile Include="src\GlutWindow.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -34,17 +35,19 @@
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Color3f.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Dijkstra.h" />
     <ClInclude Include="src\DijkstraPoint.h" />
     <ClInclude Include="src\FirstPersonCamera.h" />
     <ClInclude Include="src\LookAtCamera.h" />
-    <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\Color3ub.h" />
     <ClInclude Include="src\Block.h" />
     <ClInclude Include="src\Drawable.h" />
     <ClInclude Include="src\Histogram3D.h" />
     <ClInclude Include="src\Labyrinth.h" />
+    <ClInclude Include="src\Textures.h" />
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\Wall.h" />
     <ClInclude Include="src\GlutWindow.h" />
@@ -52,6 +55,14 @@
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Vector3.h" />
     <ClInclude Include="src\pch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="img\grass.png" />
+    <Image Include="img\ground.jpg" />
+    <Image Include="img\ground2.jpg" />
+    <Image Include="img\rockwall.jpg" />
+    <Image Include="img\wall.jpg" />
+    <Image Include="img\wall.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

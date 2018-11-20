@@ -6,7 +6,7 @@
 #include "Block.h"
 
 
-Block Block::createByCorners(const Vector3& corner1, const Vector3& corner2, const Color& color){
+Block Block::createByCorners(const Vector3& corner1, const Vector3& corner2, const Color3ub& color){
 	Vector3 center(
 		(corner1.x + corner2.x) / 2.0,
 		(corner1.y + corner2.y) / 2.0,
@@ -21,12 +21,12 @@ Block Block::createByCorners(const Vector3& corner1, const Vector3& corner2, con
 	return Block(center, size, color);
 }
 
-Block Block::createByCenterSize(const Vector3& center, const Vector3& size, const Color& color){
+Block Block::createByCenterSize(const Vector3& center, const Vector3& size, const Color3ub& color){
 	return Block(center, size, color);
 }
 
 
-Block::Block(const Vector3 center, const Vector3 size, const Color color) : pos(center), size(size), color(color)
+Block::Block(const Vector3 center, const Vector3 size, const Color3ub color) : pos(center), size(size), color(color)
 {}
 
 Block::Block() : pos(Vector3(0, 0, 0)), size(0, 0, 0), color(0, 0, 0)
@@ -45,6 +45,9 @@ void Block::draw(void) {
 	// calc corner points
 	Vector3 low(pos.x - deltaX, pos.y - deltaY, pos.z - deltaZ);
 	Vector3 high(pos.x + deltaX, pos.y + deltaY, pos.z + deltaZ);
+
+	// save color status
+	//glPushAttrib(GL_CURRENT_BIT);
 
 	glBegin(GL_QUADS);
 	// top
@@ -90,4 +93,7 @@ void Block::draw(void) {
 	glVertex3f(low.gl_x(), low.gl_y(), high.gl_z());
 	glVertex3f(low.gl_x(), low.gl_y(), low.gl_z());
 	glEnd();
+
+	// restore color status
+	//glPopAttrib();
 }

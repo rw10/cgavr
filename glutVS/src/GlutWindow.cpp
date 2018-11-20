@@ -7,10 +7,12 @@
 
 #include "Histogram3D.h"
 #include "Labyrinth.h"
+#include "Textures.h"
 
 #include "FirstPersonCamera.h"
 #include "LookAtCamera.h"
 
+#include "Color3f.h"
 
 GlutWindow* GlutWindow::INSTANCE = 0;
 
@@ -151,7 +153,10 @@ void GlutWindow::initialize(void)
 	specialkeys = std::vector<bool>(256, false);
 
 	// set the clear color
-	glClearColor(0.0f, 0.1f, 0.5f, 1.0f);
+	// glClearColor(0.0f, 0.1f, 0.5f, 1.0f);	// some dark blue
+	glClearColor(0.22f, 0.69f, 0.87f, 1.0f);				//SummerSky = color red 0.22 green 0.69 blue 0.87
+	//glClearColor();				//NewMidnightBlue = color red 0.00 green 0.00 blue 0.61
+	
 
 	// Enable a single OpenGL light.
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
@@ -164,12 +169,7 @@ void GlutWindow::initialize(void)
 
 	// enable 2d textures
 	glEnable(GL_TEXTURE_2D);
-	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glShadeModel(GL_SMOOTH); 
 
 	// Setup the view.
 	glMatrixMode(GL_PROJECTION);
@@ -218,7 +218,13 @@ void GlutWindow::initialize(void)
 	double PI = 3.14159;
 	for (int i = 0; i < pt; i++) {
 		if (i < 4) {
-			lab->addWall(Wall(Vector2(0, 0), Vector2(20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt))));
+			lab->addWall(
+				Wall(
+					Vector2(0, 0),
+					Vector2(20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt)),
+					Textures::get().wallTexture
+				)
+			);
 		}
 	}
 	lab->findWayPoints();
@@ -251,7 +257,7 @@ void GlutWindow::createAxis() {
 		Block::createByCorners(
 			Vector3(0, 0, 0),
 			Vector3(100, axisWidth, axisWidth),
-			Color(255, 0, 0)
+			Color3ub(255, 0, 0)
 		)
 	);
 
@@ -260,7 +266,7 @@ void GlutWindow::createAxis() {
 		Block::createByCorners(
 			Vector3(0, 0, 0),
 			Vector3(axisWidth, 100, axisWidth),
-			Color(0, 255, 0)
+			Color3ub(0, 255, 0)
 		)
 	);
 
@@ -269,7 +275,7 @@ void GlutWindow::createAxis() {
 		Block::createByCorners(
 			Vector3(0, 0, 0),
 			Vector3(axisWidth, axisWidth, 100),
-			Color(0, 0, 255)
+			Color3ub(0, 0, 255)
 		)
 	);
 }

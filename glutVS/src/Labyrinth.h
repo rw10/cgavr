@@ -7,7 +7,6 @@
 
 #pragma once
 
-#include <GL/glut.h>
 
 #include "Types.h"
 #include "Wall.h"
@@ -16,12 +15,13 @@ class Labyrinth : public Drawable {
 public:
 	Labyrinth();
 	void addWall(const Wall& wall);
-
-
+	void addWall(const Vector3& begin, const Vector3& end);
+	void addAuxWall(const Vector3& begin, const Vector3& end, const Color3ub& color);
 
 	void findWayPoints();
 private:
 	void draw(void);
+	void drawFloor(void);
 
 	//void findWayPoints();
 	void updateRoutes(const Wall& wall);
@@ -53,8 +53,7 @@ private:
 
 	// only for display
 	std::vector<Wall> walls;
-
-	GLuint wallTexture;
+	std::vector<Wall> auxWalls;
 
 	// keeping track of the min/max values to draw the floor with a fitting size
 	Vector2 lowCorner, highCorner;
