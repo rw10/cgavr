@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vector3.h"
-#include <math.h>
+#include <cmath> 
 
 class Vector2 : public Vector3
 {

@@ -2,7 +2,7 @@
 
 #include "Collision.h"
 
-#include <math.h>
+#include <cmath> 
 
 Collision::Collision()
 {}

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Color3ub.h"
-#include <math.h>
+#include <cmath> 
 
 class Color3f
 {

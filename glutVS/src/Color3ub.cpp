@@ -1,15 +1,12 @@
 #include "pch.h"
 #include "Color3ub.h"
 
-#include <math.h>
+#include <cmath> 
 
 
 Color3ub::Color3ub(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha) :
 	r(red), g(green), b(blue), a(alpha)
 {
-}
-
-Color3ub::Color3ub() {
 }
 
 Color3ub::~Color3ub()

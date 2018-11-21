@@ -18,6 +18,9 @@ public:
 	static const double PlayerRadius;
 	static const double TextureSizeMultiplier;
 
+	// how many points to use for drawing a full circle, should be a common divisor of 360
+	static const size_t CircleDrawPrecision;
+
 	static WallDisplay invisibleWalls;
 	static WallDisplay wayPointWalls;
 	static WallDisplay autoRouteWalls;

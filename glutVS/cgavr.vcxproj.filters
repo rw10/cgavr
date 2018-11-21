@@ -48,6 +48,15 @@
     <ClCompile Include="src\TopDownCamera.cpp">
       <Filter>GUI\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="src\Circle.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cylinder.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Cone.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -111,6 +120,19 @@
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\TopDownCamera.h">
       <Filter>GUI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Circle.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cylinder.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\ConeTop.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Cone.h">
+      <Filter>GUI\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

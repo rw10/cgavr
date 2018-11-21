@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <set>
 #include <memory>
 
 #include "Camera.h"
@@ -42,10 +43,10 @@ private:
 
 	void initialize();
 
-	// bools for each key, init with all false
-	// TODO: maybe replace with set of only keys with 'true' value??
-	std::vector<bool> keys; 
-	std::vector<bool> specialkeys;
+	// previously: list of bools for each key, init with all false
+	// replaced with set of keys with 'true' value
+	std::set<unsigned char> keys; 
+	std::set<unsigned char> specialkeys;
 
 	std::shared_ptr<Camera> camera;
 };

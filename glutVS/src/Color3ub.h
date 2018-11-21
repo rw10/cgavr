@@ -8,6 +8,4 @@ public:
 	Color3ub operator*(const double& multiplier) const;
 
 	unsigned char r, g, b, a;
-private:
-	Color3ub();
 };

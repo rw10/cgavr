@@ -10,7 +10,7 @@
 #include "Labyrinth.h"
 
 #include <iostream>
-#include <math.h>
+#include <cmath> 
 #include <algorithm>
 
 #include "Collision.h"

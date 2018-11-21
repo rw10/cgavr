@@ -5,15 +5,22 @@
 
 #include "Settings.h"
 
+// drawables
 #include "Histogram3D.h"
 #include "Labyrinth.h"
+#include "Cylinder.h"
+#include "Cone.h"
+
+// surfaces
+#include "Color3f.h"
 #include "Textures.h"
 
+// cameras
 #include "FirstPersonCamera.h"
 #include "LookAtCamera.h"
 #include "TopDownCamera.h"
 
-#include "Color3f.h"
+
 
 GlutWindow* GlutWindow::INSTANCE = 0;
 
@@ -21,7 +28,7 @@ GlutWindow::GlutWindow()
 {
 	camera = std::shared_ptr<Camera>(new FirstPersonCamera());
 	camera = std::shared_ptr<Camera>(new LookAtCamera());
-	camera = std::shared_ptr<Camera>(new TopDownCamera());
+	//camera = std::shared_ptr<Camera>(new TopDownCamera());
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
@@ -57,69 +64,65 @@ void GlutWindow::idleFunc() {
 
 	// keyboard actions
 	// for standard keys
-	for (auto key = 0; key < keys.size(); key++) {
-		if (keys[key]) {
-			switch (key) {
-			// WASD - control camera movement
-			case 'w':
-				camera->move(1, 0);
-				break;
-			case 's':
-				camera->move(-1, 0);
-				break;
+	for (const auto& key : keys) {
+		switch (key) {
+		// WASD - control camera movement
+		case 'w':
+			camera->move(1, 0);
+			break;
+		case 's':
+			camera->move(-1, 0);
+			break;
 
-			// strafe - movement
-			case 'a':		// left
-				camera->move(1, 90);
-				break;
-			case 'd':		// right
-				camera->move(1, -90);
-				break;
-			default:
-				break;
-			}
+		// strafe - movement
+		case 'a':		// left
+			camera->move(1, 90);
+			break;
+		case 'd':		// right
+			camera->move(1, -90);
+			break;
+		default:
+			break;
 		}
 	}
 	// for special keys (like the arrow keys)
-	for (auto key = 0; key < specialkeys.size(); key++) {
-		if (specialkeys[key]) {
-			switch (key) {
-				// control camera height
-			case GLUT_KEY_UP:
-				camera->moveUp(1);
-				break;
-			case GLUT_KEY_DOWN:
-				camera->moveUp(-1);
-				break;
+	for (const auto& key : specialkeys) {
+		switch (key) {
+			// control camera height
+		case GLUT_KEY_UP:
+			camera->moveUp(1);
+			break;
+		case GLUT_KEY_DOWN:
+			camera->moveUp(-1);
+			break;
 
-				// control camera rotation
-			case GLUT_KEY_LEFT:
-				camera->rotateAroundZ(1);
-				break;
-			case GLUT_KEY_RIGHT:
-				camera->rotateAroundZ(-1);
-				break;
-			default:
-				break;
-			}
+			// control camera rotation
+		case GLUT_KEY_LEFT:
+			camera->rotateAroundZ(1);
+			break;
+		case GLUT_KEY_RIGHT:
+			camera->rotateAroundZ(-1);
+			break;
+		default:
+			break;
 		}
 	}
 }
 
 void GlutWindow::keyboardFunc(unsigned char key, int , int ) {
-	if (keys[key]) {
+	if (keys.count(key) != 0) {
 		//std::cout << "key '" << key << "' is already pressed" << std::endl;
 	}
 	else {
 		// set the flag for the touched key -> action during idleFunc
-		keys[key] = true;
+		keys.insert(key);
 
 		std::cout << "key '" << key << "' pressed" << std::endl;
 	}
 }
 void GlutWindow::keyboardUpFunc(unsigned char key, int , int ) {
 	// unset the flag for the touched key -> action during idleFunc
-	keys[key] = false;
+	keys.erase(key);
 
 
 	// direct action
@@ -154,19 +157,19 @@ void GlutWindow::keyboardUpFunc(unsigned char key, int , int ) {
 
 
 void GlutWindow::specialFunc(unsigned char key, int, int) {
-	if (specialkeys[key]) {
+	if (specialkeys.count(key) != 0) {
 		//std::cout << "key '" << key << "' is already pressed" << std::endl;
 	}
 	else {
 		// set the flag for the touched key
-		specialkeys[key] = true;
+		specialkeys.insert(key);
 
 		std::cout << "specialkey '" << key << "' pressed" << std::endl;
 	}
 }
 void GlutWindow::specialUpFunc(unsigned char key, int, int) {
 	// unset the flag for the touched key
-	specialkeys[key] = false;
+	specialkeys.erase(key);
 
 	std::cout << "specialkey '" << key << "' released" << std::endl;
 }
@@ -179,8 +182,8 @@ void GlutWindow::mouseFunc(int , int , int , int ) {
 
 void GlutWindow::initialize(void)
 {
-	keys = std::vector<bool>(256, false);
-	specialkeys = std::vector<bool>(256, false);
+	//keys = std::vector<bool>(256, false);
+	//specialkeys = std::vector<bool>(256, false);
 
 	// set the clear color
 	// glClearColor(0.0f, 0.1f, 0.5f, 1.0f);	// some dark blue
@@ -216,13 +219,14 @@ void GlutWindow::initialize(void)
 	glMatrixMode(GL_MODELVIEW);
 
 	// show axis
-	//createAxis();
+	createAxis();
 
 	// add labyrinth
 	std::shared_ptr<Labyrinth> lab(new Labyrinth);
-	drawables.push_back(lab);
+	//drawables.push_back(lab);
 	
 	/*
+	// some walls
 	double width = 0;
 	for (int i = 0; i < 10; i++) {
 		Wall wall(
@@ -243,6 +247,7 @@ void GlutWindow::initialize(void)
 	}
 	*/
 
+	/*
 	// stern muster
 	int pt = 8;
 	double PI = 3.14159;
@@ -275,6 +280,13 @@ void GlutWindow::initialize(void)
 
 	lab->findWayPoints();
 	lab->testAllRoutes();
+	*/
+
+
+	std::shared_ptr<ConeTop> c(new ConeTop(Vector3(0,0,0), 6, 30, Textures::get().wallTexture));
+	drawables.push_back(c);
+
+
 
 	// 3D Histogram
 	//std::shared_ptr<Histogram3D> hist(new Histogram3D);
