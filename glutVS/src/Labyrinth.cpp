@@ -14,7 +14,7 @@
 #include <algorithm>
 
 #include "Collision.h"
-#include "Constants.h"
+#include "Settings.h"
 #include "Textures.h"
 
 Labyrinth::Labyrinth() {
@@ -45,11 +45,6 @@ void Labyrinth::addWall(const Vector3& begin, const Vector3& end) {
 	addWall(Wall(begin, end, Textures::get().wallTexture));
 }
 
-void Labyrinth::addAuxWall(const Vector3& begin, const Vector3& end, const Color3ub& color) {
-	// add an auxiliary wall that will be drawn, but is separated from the 'real' walls
-	auxWalls.push_back(Wall(begin, end, color, 0));
-}
-
 void Labyrinth::draw(void)
 {
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -61,9 +56,37 @@ void Labyrinth::draw(void)
 		wall.draw();
 	}
 
+
 	// draw auxiliary walls
-	for (auto& auxwall : auxWalls) {
-		auxwall.draw();
+	if (Settings::wayPointWalls.show) {
+		for (auto& wall : wayPointWalls) {
+			wall.draw();
+		}
+	}
+	if (Settings::autoRouteWalls.show) {
+		for (auto& wall : autoRouteWalls) {
+			wall.draw();
+		}
+	}
+	if (Settings::lvl1RouteWalls.show) {
+		for (auto& wall : lvl1RouteWalls) {
+			wall.draw();
+		}
+	}
+	if (Settings::lvl1DeniedRouteWalls.show) {
+		for (auto& wall : lvl1DeniedRouteWalls) {
+			wall.draw();
+		}
+	}
+	if (Settings::lvl2RouteWalls.show) {
+		for (auto& wall : lvl2RouteWalls) {
+			wall.draw();
+		}
+	}
+	if (Settings::lvl2DeniedRouteWalls.show) {
+		for (auto& wall : lvl2DeniedRouteWalls) {
+			wall.draw();
+		}
 	}
 }
 
@@ -76,8 +99,8 @@ void Labyrinth::drawFloor() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	GLfloat textureSizeX = (GLfloat)(highCorner.gl_x() / Constants::TextureSizeMultiplier);
-	GLfloat textureSizeY = (GLfloat)(highCorner.gl_y() / Constants::TextureSizeMultiplier);
+	GLfloat textureSizeX = (GLfloat)(highCorner.gl_x() / Settings::TextureSizeMultiplier);
+	GLfloat textureSizeY = (GLfloat)(highCorner.gl_y() / Settings::TextureSizeMultiplier);
 
 	// draw floor
 	glBegin(GL_QUADS);
@@ -115,7 +138,7 @@ void Labyrinth::drawFloor() {
 WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, unsigned int nrPointsOnEitherSide) {
 
 	bool left = angle < 0;
-	directionVector.normalize(Constants::PlayerRadius);
+	directionVector.normalize(Settings::PlayerRadius);
 
 	// use side with angle>180°
 	// waypoints on cirle around the point, limited by right angle to the direction vectors
@@ -135,7 +158,7 @@ WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double an
 
 	// add a waypoint in the middle
 	Vector2 middleVector = corner + directionVector;
-	addAuxWall(corner, middleVector, Color3ub(0, 0, 255));
+	wayPointWalls.push_back(Wall(corner, middleVector, Settings::wayPointWalls.color));
 	wp.main = middleVector;
 
 	Vector2 prevL = middleVector;
@@ -149,13 +172,13 @@ WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double an
 		Vector2 leftVec = directionVector;
 		leftVec.rotateAroundZ(-step);
 		leftVec = Vector2(corner + leftVec);
-		addAuxWall(corner, leftVec, Color3ub(0, 0, 255));
+		wayPointWalls.push_back(Wall(corner, leftVec, Settings::wayPointWalls.color * 2));
 
 		// add a waypoint to the right
 		Vector2 rightVec = directionVector;
 		rightVec.rotateAroundZ(step);
 		rightVec = Vector2(corner + rightVec);
-		addAuxWall(corner, rightVec, Color3ub(0, 0, 255));
+		wayPointWalls.push_back(Wall(corner, rightVec, Settings::wayPointWalls.color * 2));
 
 		// add to corner-waypoint
 		wp.others.push_back(leftVec);
@@ -163,8 +186,10 @@ WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double an
 
 		// connect the waypoints that are next to each other
 		connectWaypoints(prevL, leftVec);
+		autoRouteWalls.push_back(Wall(prevL, leftVec, Settings::autoRouteWalls.color));
 		prevL = leftVec;
 		connectWaypoints(prevR, rightVec);
+		autoRouteWalls.push_back(Wall(prevR, rightVec, Settings::autoRouteWalls.color));
 		prevR = rightVec;
 	}
 
@@ -178,7 +203,6 @@ WayPoint Labyrinth::createWaypointsAroundCorner(const Vector2& corner, double an
 void Labyrinth::connectWaypoints(const Vector2& wp1, const Vector2& wp2) {
 	routes[wp1].push_back(wp2);
 	routes[wp2].push_back(wp1);
-	addAuxWall(wp1, wp2, Color3ub(0, 255, 0));
 }
 
 
@@ -277,11 +301,11 @@ void Labyrinth::testAllRoutes() {
 			}
 
 			if (!collision) {
-				//connectWaypoints(wp1.main, wp2.main);
 				testAllSubRoutes(wp1, wp2);
+				lvl1RouteWalls.push_back(Wall(wp1.main, wp2.main, Settings::lvl1RouteWalls.color));
 			}
 			else {
-				//addAuxWall(wp1.main, wp2.main, Color3ub(125, 125, 0));
+				lvl1DeniedRouteWalls.push_back(Wall(wp1.main, wp2.main, Settings::lvl1DeniedRouteWalls.color));
 			}
 		}
 	}
@@ -304,15 +328,15 @@ void Labyrinth::testAllSubRoutes(const WayPoint& wp1, const WayPoint& wp2) {
 				collision |= Collision::isColliding(point1, point2, wall);
 
 				// check collision with player body
-				collision |= Collision::findClosestDistance(point1, point2, wall) < Constants::PlayerRadius * 0.99;
+				collision |= Collision::findClosestDistance(point1, point2, wall) < Settings::PlayerRadius * 0.99;
 			}
 
 			if (!collision) {
 				connectWaypoints(point1, point2);
-				addAuxWall(point1, point2, Color3ub(125, 125, 0));
+				lvl2RouteWalls.push_back(Wall(point1, point2, Settings::lvl2RouteWalls.color));
 			}
 			else {
-				//addAuxWall(point1, point2, Color3ub(125, 125, 0));
+				lvl2DeniedRouteWalls.push_back(Wall(point1, point2, Settings::lvl2DeniedRouteWalls.color));
 			}
 		}
 	}

@@ -16,7 +16,6 @@ public:
 	Labyrinth();
 	void addWall(const Wall& wall);
 	void addWall(const Vector3& begin, const Vector3& end);
-	void addAuxWall(const Vector3& begin, const Vector3& end, const Color3ub& color);
 
 	void findWayPoints();
 	void testAllRoutes();
@@ -55,7 +54,13 @@ private:
 
 	// only for display
 	std::vector<Wall> walls;
-	std::vector<Wall> auxWalls;
+	std::vector<Wall> wayPointWalls;
+	std::vector<Wall> autoRouteWalls;
+	std::vector<Wall> lvl1RouteWalls;
+	std::vector<Wall> lvl1DeniedRouteWalls;
+	std::vector<Wall> lvl2RouteWalls;
+	std::vector<Wall> lvl2DeniedRouteWalls;
+
 
 	// keeping track of the min/max values to draw the floor with a fitting size
 	Vector2 lowCorner, highCorner;

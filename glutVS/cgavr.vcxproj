@@ -28,7 +28,9 @@
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\Histogram3D.cpp" />
     <ClCompile Include="src\Labyrinth.cpp" />
+    <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\Textures.cpp" />
+    <ClCompile Include="src\TopDownCamera.cpp" />
     <ClCompile Include="src\Wall.cpp" />
     <ClCompile Include="src\GlutWindow.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -38,7 +40,7 @@
   <ItemGroup>
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\Color3f.h" />
-    <ClInclude Include="src\Constants.h" />
+    <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Dijkstra.h" />
     <ClInclude Include="src\DijkstraPoint.h" />
@@ -50,6 +52,7 @@
     <ClInclude Include="src\Histogram3D.h" />
     <ClInclude Include="src\Labyrinth.h" />
     <ClInclude Include="src\Textures.h" />
+    <ClInclude Include="src\TopDownCamera.h" />
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\Wall.h" />
     <ClInclude Include="src\GlutWindow.h" />

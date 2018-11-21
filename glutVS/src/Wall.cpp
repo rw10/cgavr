@@ -16,7 +16,7 @@ Wall::Wall(const Vector2 begin, const Vector2 end, const GLuint texture, double 
 {}
 
 Wall::Wall() : 
-	begin(Vector2(0, 0)), end(0, 0), color(0, 0, 0), cornerPoints(begin, end, Constants::WallWidth), texture(0), width(Constants::WallWidth)
+	begin(Vector2(0, 0)), end(0, 0), color(0, 0, 0), cornerPoints(begin, end, Settings::WallWidth), texture(0), width(Settings::WallWidth)
 {}
 
 Wall::~Wall() 
@@ -26,7 +26,7 @@ void Wall::draw(void) {
 
 	// z dimension
 	GLfloat floor = 0;
-	GLfloat ceiling = Constants::WallHeight;
+	GLfloat ceiling = (GLfloat) Settings::WallHeight;
 
 	// TODO: normals dont fit anymore (only top/bottom)
 
@@ -96,8 +96,8 @@ void Wall::draw(void) {
 
 	}
 
-	GLfloat textureSizeX = (GLfloat)((end - begin).getLength() / Constants::TextureSizeMultiplier);
-	GLfloat textureSizeY = (GLfloat)((ceiling - floor) / Constants::TextureSizeMultiplier);
+	GLfloat textureSizeX = (GLfloat)((end - begin).getLength() / Settings::TextureSizeMultiplier);
+	GLfloat textureSizeY = (GLfloat)((ceiling - floor) / Settings::TextureSizeMultiplier);
 
 	// right
 	glNormal3f(1.0f, 0.0f, 0.0f);

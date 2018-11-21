@@ -44,12 +44,15 @@
     <ClCompile Include="src\Collision.cpp">
       <Filter>Model</Filter>
     </ClCompile>
+    <ClCompile Include="src\Settings.cpp" />
+    <ClCompile Include="src\TopDownCamera.cpp">
+      <Filter>GUI\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
       <Filter>VS</Filter>
     </ClInclude>
-    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Drawable.h">
       <Filter>GUI\Drawables</Filter>
     </ClInclude>
@@ -104,6 +107,10 @@
     </ClInclude>
     <ClInclude Include="src\Collision.h">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Settings.h" />
+    <ClInclude Include="src\TopDownCamera.h">
+      <Filter>GUI\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

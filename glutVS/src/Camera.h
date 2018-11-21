@@ -1,16 +1,13 @@
 #pragma once
 
 #include "Vector3.h"
+#include "Vector2.h"
 
 class Camera
 {
 public:
 	Camera();
 	~Camera();
-
-	Vector3 position;
-	Vector3 lookAtPoint;
-	Vector3 upDirection;
 
 	virtual void update();
 
@@ -26,13 +23,24 @@ public:
 	* ...
 	* inversion by negative distance is also possible
 	*/
-	void move(double distance, double degrees);
+	virtual void move(double distance, double degrees);
 
 	/**
 	* move the camera in z
 	* moveDown => negative value param
 	*/
 	void moveUp(double distance);
+
+	virtual void moveToPoint3D(const Vector3& point);
+	virtual void moveToPoint2D(const Vector3& point);
+
+protected:
+	Vector3 position;
+	Vector3 lookAtPoint;
+	Vector3 upDirection;
+
+	// auxiliary function to update other things besides position, called during moveToPoint
+	virtual void moveEnvironment(const Vector3&){}
 
 };
 

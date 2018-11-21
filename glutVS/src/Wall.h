@@ -5,7 +5,7 @@
 #include "Quad.h"
 #include "Vector2.h"
 #include "Color3ub.h"
-#include "Constants.h"
+#include "Settings.h"
 
 class Wall : public Drawable
 {
@@ -14,8 +14,8 @@ public:
 	~Wall();
 
 	// TODO: add textures
-	Wall(const Vector2 begin, const Vector2 end, const Color3ub color, double width = Constants::WallWidth);
-	Wall(const Vector2 begin, const Vector2 end, const GLuint texture, double width = Constants::WallWidth);
+	Wall(const Vector2 begin, const Vector2 end, const Color3ub color, double width = 0);
+	Wall(const Vector2 begin, const Vector2 end, const GLuint texture, double width = Settings::WallWidth);
 
 	double getLength() const {
 		return (begin - end).getLength();

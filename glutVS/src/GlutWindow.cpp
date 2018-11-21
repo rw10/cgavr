@@ -3,7 +3,7 @@
 #include <GL/glut.h>
 #include "GlutWindow.h"
 
-#include "Constants.h"
+#include "Settings.h"
 
 #include "Histogram3D.h"
 #include "Labyrinth.h"
@@ -11,6 +11,7 @@
 
 #include "FirstPersonCamera.h"
 #include "LookAtCamera.h"
+#include "TopDownCamera.h"
 
 #include "Color3f.h"
 
@@ -20,11 +21,12 @@ GlutWindow::GlutWindow()
 {
 	camera = std::shared_ptr<Camera>(new FirstPersonCamera());
 	camera = std::shared_ptr<Camera>(new LookAtCamera());
+	camera = std::shared_ptr<Camera>(new TopDownCamera());
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(50, 100);
-	glutCreateWindow(Constants::ProjectName.data());
+	glutCreateWindow(Settings::ProjectName.data());
 	initialize();
 }
 
@@ -109,15 +111,43 @@ void GlutWindow::keyboardFunc(unsigned char key, int , int ) {
 		//std::cout << "key '" << key << "' is already pressed" << std::endl;
 	}
 	else {
-		// set the flag for the touched key
+		// set the flag for the touched key -> action during idleFunc
 		keys[key] = true;
 
 		std::cout << "key '" << key << "' pressed" << std::endl;
 	}
 }
 void GlutWindow::keyboardUpFunc(unsigned char key, int , int ) {
-	// unset the flag for the touched key
+	// unset the flag for the touched key -> action during idleFunc
 	keys[key] = false;
+
+
+	// direct action
+	switch (key) {
+	case '1':
+		Settings::wayPointWalls.show = !Settings::wayPointWalls.show;
+		break;
+	case '2':
+		Settings::autoRouteWalls.show = !Settings::autoRouteWalls.show;
+		break;
+	case '3':
+		Settings::lvl1RouteWalls.show = !Settings::lvl1RouteWalls.show;
+		break;
+	case '4':
+		Settings::lvl1DeniedRouteWalls.show = !Settings::lvl1DeniedRouteWalls.show;
+		break;
+	case '5':
+		Settings::lvl2RouteWalls.show = !Settings::lvl2RouteWalls.show;
+		break;
+	case '6':
+		Settings::lvl2DeniedRouteWalls.show = !Settings::lvl2DeniedRouteWalls.show;
+		break;
+	default:
+		break;
+	}
+
+	// trigger redisplay
+	glutPostRedisplay();
 
 	std::cout << "key '" << key << "' released" << std::endl;
 }
@@ -232,7 +262,7 @@ void GlutWindow::initialize(void)
 	// nochmal...
 	for (int i = 0; i < pt; i++) {
 
-		if (i > 5) continue;
+		if (i > 3) continue;
 
 		lab->addWall(
 			Wall(
