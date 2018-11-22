@@ -12,13 +12,13 @@ public:
 
 	// singleton construction
 	static Textures& get() {
-		return INSTANCE[0];
+		return INSTANCES[0];
 	}
 
 	static void init() {
 		glEnable(GL_TEXTURE_2D);
 		glShadeModel(GL_SMOOTH);
-		INSTANCE.push_back(Textures());
+		INSTANCES.push_back(Textures());
 		// enable 2d textures
 	}
 
@@ -27,7 +27,7 @@ public:
 	GLuint groundTexture;
 
 private:
-	static std::vector<Textures> INSTANCE;
+	static std::vector<Textures> INSTANCES;
 
 	Textures();
 

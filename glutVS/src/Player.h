@@ -1,13 +1,13 @@
 #pragma once
 
-#include "FirstPersonCamera.h"
 #include <vector>
 #include "Vector2.h"
 
-class FollowPathCamera : public FirstPersonCamera {
+class Player {
 public:
-	FollowPathCamera(const std::vector<Vector2>& route);
-	~FollowPathCamera() {}
+
+	Player(const std::vector<Vector2>& route);
+	~Player() {}
 
 	virtual void update();
 
@@ -22,4 +22,9 @@ public:
 private:
 	void setForNextTarget();
 	void lerpLookingDirection();
+
+	Vector3 position;
+	Vector3 lookingDirection;
+
+
 };

@@ -50,9 +50,6 @@ private:
 
 	Axis axis;
 
-	// list of all drawn objects
-	std::vector<std::shared_ptr<Drawable> > drawables;
-
 	void initialize();
 
 	// previously: list of bools for each key, init with all false

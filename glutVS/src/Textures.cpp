@@ -7,7 +7,7 @@
 #include <SOIL.h>
 
 
-std::vector<Textures> Textures::INSTANCE = std::vector<Textures>();
+std::vector<Textures> Textures::INSTANCES = std::vector<Textures>();
 
 Textures::Textures()
 {

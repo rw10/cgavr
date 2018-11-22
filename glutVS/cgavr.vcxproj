@@ -34,6 +34,8 @@
     <ClCompile Include="src\Block.cpp" />
     <ClCompile Include="src\Histogram3D.cpp" />
     <ClCompile Include="src\Labyrinth.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\Textures.cpp" />
     <ClCompile Include="src\TopDownCamera.cpp" />
@@ -55,6 +57,8 @@
     <ClInclude Include="src\Cylinder.h" />
     <ClInclude Include="src\FollowPathCamera.h" />
     <ClInclude Include="src\LabyrinthBuilder.h" />
+    <ClInclude Include="src\Model.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Dijkstra.h" />

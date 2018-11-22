@@ -1,16 +1,15 @@
 #include "pch.h"
 
-#include <GL/glut.h>
 #include "GlutWindow.h"
+
+#include <GL/glut.h>
+#include <iostream>
 
 #include "Settings.h"
 #include "Dijkstra.h"
 
 // drawables
-#include "Histogram3D.h"
-#include "LabyrinthBuilder.h"
-#include "Cylinder.h"
-#include "Cone.h"
+#include "Model.h"
 
 // surfaces
 #include "Color3f.h"
@@ -52,7 +51,8 @@ void GlutWindow::display() {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (auto& drawable : drawables) {
+	const auto& drawables = Model::get().getDrawables();
+	for (const auto& drawable : drawables) {
 		drawable->draw();
 	}
 
@@ -202,15 +202,10 @@ void GlutWindow::mouseFunc(int , int , int , int ) {
 
 void GlutWindow::initialize(void)
 {
-	//keys = std::vector<bool>(256, false);
-	//specialkeys = std::vector<bool>(256, false);
-
 	// set the clear color
 	// glClearColor(0.0f, 0.1f, 0.5f, 1.0f);	// some dark blue
-	glClearColor(0.22f, 0.69f, 0.87f, 1.0f);				//SummerSky = color red 0.22 green 0.69 blue 0.87
-	//glClearColor();				//NewMidnightBlue = color red 0.00 green 0.00 blue 0.61
+	glClearColor(0.22f, 0.69f, 0.87f, 1.0f);	//SummerSky
 	
-
 	// Enable a single OpenGL light.
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
@@ -234,37 +229,6 @@ void GlutWindow::initialize(void)
 	);
 	glMatrixMode(GL_MODELVIEW);
 
-
-
-		// add labyrinth
-		std::shared_ptr<Labyrinth> lab = LabyrinthBuilder::build();
-		drawables.push_back(lab);
-		Dijkstra dijkstra = lab->calculateRoute(
-			Vector2(45, 5),
-			Vector2(95, 55)
-		);
-
-		// also use position of current cam as first part of the route
-		// effect: fall into labyrinth
-		// TODO: use point above start instead of camera-position
-		std::vector<Vector2> route;
-		route.reserve(1 + dijkstra.route.size()); // preallocate memory
-		route.push_back(camera->getPosition());
-		route.insert(route.end(), dijkstra.route.begin(), dijkstra.route.end());
-
-	if (index == 2) {
-		camera = std::shared_ptr<Camera>(new FollowPathCamera(route));
-	}
-	
-
-	// 3D Objects
-	//std::shared_ptr<ConeTop> c(new ConeTop(Vector3(0,0,0), 6, 30, Textures::get().wallTexture));
-	//drawables.push_back(c);
-
-	// 3D Histogram
-	//std::shared_ptr<Histogram3D> hist(new Histogram3D);
-	//drawables.push_back(hist);
-
 	// show both sides of objects
 	//glDisable(GL_CULL_FACE);
 
@@ -274,5 +238,8 @@ void GlutWindow::initialize(void)
 
 	//glEnable(GL_CLIP_DISTANCE0);
 
+	if (index == 2) {
+		camera = std::shared_ptr<Camera>(new FollowPathCamera(Model::get().getRoute()));
+	}
 	camera->update();
 }
