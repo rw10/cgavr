@@ -9,8 +9,6 @@
 
 #include "Labyrinth.h"
 
-#include "Dijkstra.h"
-
 #include <iostream>
 #include <cmath> 
 
@@ -160,7 +158,7 @@ void Labyrinth::initRouting() {
 }
 
 
-void Labyrinth::calculateRoute(const Vector2& start, const Vector2& end) {
+Dijkstra Labyrinth::calculateRoute(const Vector2& start, const Vector2& end) {
 	additionalRouteWalls.clear();
 	additionalDeniedRouteWalls.clear();
 	dijkstraRoute.clear();
@@ -182,4 +180,5 @@ void Labyrinth::calculateRoute(const Vector2& start, const Vector2& end) {
 		dijkstraRoute.push_back(Wall(pt1, pt2, Settings::dijkstraRoute.color));
 	}
 
+	return dijkstra;
 }

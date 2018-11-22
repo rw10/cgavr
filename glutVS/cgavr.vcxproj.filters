@@ -66,6 +66,9 @@
     <ClCompile Include="src\LabyrinthBuilder.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="src\FollowPathCamera.cpp">
+      <Filter>GUI\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="src\LabyrinthBuilder.h">
       <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FollowPathCamera.h">
+      <Filter>GUI\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,13 +11,23 @@
 class GlutWindow
 {
 public:
-	static void init() {
-		INSTANCE = new GlutWindow();
+	static void init(){
+		int i = INSTANCES.size() + 1;
+		INSTANCES.push_back(GlutWindow(i));
 	}
 
-	static GlutWindow& get() {
-		return *INSTANCE;
+	static GlutWindow& get(int index) {
+		return INSTANCES[index-1];
 	}
+
+	static void toggle() {
+		active++;
+		active %= INSTANCES.size();
+		glutSetWindow(active + 1);
+	}
+
+
+	~GlutWindow();
 
 	// glut triggered functions
 	void display();
@@ -29,10 +39,14 @@ public:
 	void mouseFunc(int button, int state, int x, int y);
 
 private:
-	static GlutWindow* INSTANCE;
+	static int active;
 
-	GlutWindow();
-	~GlutWindow();
+
+	static std::vector<GlutWindow> INSTANCES;
+
+	int index;
+
+	GlutWindow(int index);
 
 	Axis axis;
 

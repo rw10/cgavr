@@ -22,6 +22,7 @@ void Camera::update() {
 	);
 
 	// trigger repaint on next turn
+
 	glutPostRedisplay();
 }
 

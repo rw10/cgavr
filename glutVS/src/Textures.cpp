@@ -6,6 +6,9 @@
 #include <iostream>
 #include <SOIL.h>
 
+
+std::vector<Textures> Textures::INSTANCE = std::vector<Textures>();
+
 Textures::Textures()
 {
 	readTextureFile("img/wall.png", wallTexture);

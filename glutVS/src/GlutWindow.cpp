@@ -4,6 +4,7 @@
 #include "GlutWindow.h"
 
 #include "Settings.h"
+#include "Dijkstra.h"
 
 // drawables
 #include "Histogram3D.h"
@@ -19,13 +20,15 @@
 #include "FirstPersonCamera.h"
 #include "LookAtCamera.h"
 #include "TopDownCamera.h"
+#include "FollowPathCamera.h"
 
+std::vector<GlutWindow> GlutWindow::INSTANCES = std::vector<GlutWindow>();
+int GlutWindow::active = 0;
 
-
-GlutWindow* GlutWindow::INSTANCE = 0;
-
-GlutWindow::GlutWindow()
+GlutWindow::GlutWindow(int index)
 {
+	this->index = index;
+
 	camera = std::shared_ptr<Camera>(new FirstPersonCamera());
 	camera = std::shared_ptr<Camera>(new LookAtCamera());
 	camera = std::shared_ptr<Camera>(new TopDownCamera());
@@ -34,6 +37,9 @@ GlutWindow::GlutWindow()
 	glutInitWindowSize(800, 600);
 	glutInitWindowPosition(50, 100);
 	glutCreateWindow(Settings::ProjectName.data());
+
+	Textures::init();
+
 	initialize();
 }
 
@@ -42,6 +48,8 @@ GlutWindow::~GlutWindow()
 {}
 
 void GlutWindow::display() {
+	camera->update();
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (auto& drawable : drawables) {
@@ -105,6 +113,8 @@ void GlutWindow::idleFunc() {
 			break;
 		}
 	}
+
+	camera->update();
 }
 
 void GlutWindow::keyboardFunc(unsigned char key, int , int ) {
@@ -210,10 +220,6 @@ void GlutWindow::initialize(void)
 	// Use depth buffering for hidden surface elimination.
 	glEnable(GL_DEPTH_TEST);
 
-	// enable 2d textures
-	glEnable(GL_TEXTURE_2D);
-	glShadeModel(GL_SMOOTH); 
-
 	// Setup the view.
 	glMatrixMode(GL_PROJECTION);
 	gluPerspective(
@@ -228,13 +234,27 @@ void GlutWindow::initialize(void)
 	);
 	glMatrixMode(GL_MODELVIEW);
 
-	// add labyrinth
-	std::shared_ptr<Labyrinth> lab = LabyrinthBuilder::build();
-	drawables.push_back(lab);
-	lab->calculateRoute(
-		Vector2(45, 5),
-		Vector2(95, 5)
-	);
+
+
+		// add labyrinth
+		std::shared_ptr<Labyrinth> lab = LabyrinthBuilder::build();
+		drawables.push_back(lab);
+		Dijkstra dijkstra = lab->calculateRoute(
+			Vector2(45, 5),
+			Vector2(95, 55)
+		);
+
+		// also use position of current cam as first part of the route
+		// effect: fall into labyrinth
+		// TODO: use point above start instead of camera-position
+		std::vector<Vector2> route;
+		route.reserve(1 + dijkstra.route.size()); // preallocate memory
+		route.push_back(camera->getPosition());
+		route.insert(route.end(), dijkstra.route.begin(), dijkstra.route.end());
+
+	if (index == 2) {
+		camera = std::shared_ptr<Camera>(new FollowPathCamera(route));
+	}
 	
 
 	// 3D Objects

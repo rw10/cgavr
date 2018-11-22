@@ -11,6 +11,7 @@
 #include "Types.h"
 #include "WayPoint.h"
 #include "Wall.h"
+#include "Dijkstra.h"
 
 
 class Labyrinth : public Drawable {
@@ -25,7 +26,7 @@ public:
 
 
 	void initRouting();
-	void calculateRoute(const Vector2& start, const Vector2& end);
+	Dijkstra calculateRoute(const Vector2& start, const Vector2& end);
 private:
 	Vector2 startPoint;
 	Vector2 endPoint;

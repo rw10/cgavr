@@ -14,7 +14,7 @@ public:
 	virtual void rotateAroundY(double degrees);
 	virtual void rotateAroundZ(double degrees);
 
-private:
+protected:
 	Vector3 lookingDirection;
 
 };

@@ -34,6 +34,9 @@ public:
 	virtual void moveToPoint3D(const Vector3& point);
 	virtual void moveToPoint2D(const Vector3& point);
 
+	const Vector3& getPosition() const { return position; }
+	const Vector3& getLookAtPoint() const { return lookAtPoint; }
+
 protected:
 	Vector3 position;
 	Vector3 lookAtPoint;

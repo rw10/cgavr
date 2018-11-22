@@ -16,6 +16,8 @@ public:
 	static const double WallHeight;
 	static const double WallWidth;
 	static const double PlayerRadius;
+	static const double PlayerHeight;
+	static const double PlayerSpeed;
 	static const double TextureSizeMultiplier;
 	// how many points to use for drawing a full circle, should be a common divisor of 360
 	static const size_t CircleDrawPrecision;

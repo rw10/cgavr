@@ -74,6 +74,11 @@ double Vector3::getLength() const {
 	return sqrt(x * x + y * y + z * z);
 }
 
+double Vector3::getLengthXY() const {
+	return sqrt(x * x + y * y);
+}
+
+
 void Vector3::normalize(double targetLength) {
 	double length = getLength();
 	

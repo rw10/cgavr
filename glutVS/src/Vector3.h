@@ -41,6 +41,8 @@ public:
 	//static double calcAngleInYZ(Vector3 u, Vector3 v);
 
 	double getLength() const;
+	double getLengthXY() const;
+
 	void normalize(double targetLength = 1);
 
 	static double deg2rad(double degrees);

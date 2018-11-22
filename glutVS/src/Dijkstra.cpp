@@ -19,6 +19,10 @@ Dijkstra::Dijkstra(const ConnectedNetwork& routes, Vector2 start, Vector2 target
 			finished = true;
 			// assemble route by going backwards
 			assemble(closest);
+
+			// reverse the order, as the assembly goes from finish to start
+			// not needed anymore, assembly was changed
+			//std::reverse(route.begin(), route.end());
 		}
 		else {
 			// mark as visited
@@ -63,9 +67,11 @@ void Dijkstra::updateQueue() {
 }
 
 void Dijkstra::assemble(std::shared_ptr<DijkstraPoint> target) {
-	route.push_back(Vector2(target->position));
-
+	// recursion until arrival at first object
 	if (!target->isFirst()) {
 		assemble(target->predecessor);
 	}
+
+	// build route
+	route.push_back(Vector2(target->position));
 }

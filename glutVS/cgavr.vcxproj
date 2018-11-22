@@ -27,6 +27,7 @@
     <ClCompile Include="src\Cylinder.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
+    <ClCompile Include="src\FollowPathCamera.cpp" />
     <ClCompile Include="src\LabyrinthBuilder.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
     <ClCompile Include="src\Color3ub.cpp" />
@@ -52,6 +53,7 @@
     <ClInclude Include="src\ConeTop.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Cylinder.h" />
+    <ClInclude Include="src\FollowPathCamera.h" />
     <ClInclude Include="src\LabyrinthBuilder.h" />
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Camera.h" />
