@@ -34,7 +34,7 @@ Cylinder::~Cylinder() {
 	delete ceilingCircle;
 }
 
-void Cylinder::draw(void) {
+void Cylinder::draw(void) const {
 
 	// top and bottom
 	floorCircle->draw();

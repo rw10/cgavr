@@ -10,6 +10,23 @@ Collision::Collision()
 Collision::~Collision()
 {}
 
+bool Collision::isColliding(const Vector2& source, const Vector2& target, const std::vector<Wall>& walls, bool fullCheck) {
+	bool collision = false;
+
+	// test all walls (or until a collision is found)
+	for (size_t w = 0; !collision && w < walls.size(); w++) {
+		const auto& wall = walls[w];
+		// or connection -> one collision shall prevent the connection
+		collision |= isColliding(source, target, wall);
+
+		if (fullCheck) {
+			// check collision with player body
+			collision |= closestDistanceToWall(source, target, wall) < Settings::PlayerRadius * 0.99;
+		}
+	}
+	return collision;
+}
+
 bool Collision::isColliding(const Vector2& source, const Vector2& target, const Wall& wall){		//, double distanceToWall) {
 	// compare: https://en.wikipedia.org/wiki/Line–line_intersection
 
@@ -34,19 +51,6 @@ bool Collision::isColliding(const Vector2& source, const Vector2& target, const 
 		return false;
 	}
 
-	/*
-	// previous method
-	// calculate point of intersection of limitless lines
-	double term1 = (x1 * y2 - y1 * x2);
-	double term2 = (x3 * y4 - y3 * x4);
-	double px = (term1 * dx34 - dx12 * term2) / divisor;
-	double py = (term1 * dy34 - dy12 * term2) / divisor;
-	Vector2 intersection(px, py);
-	
-	// check by bounding box test
-	bool collision = isPointInBoundingBox(source, target, intersection) && isPointInBoundingBox(wall.begin, wall.end, intersection);
-	*/
-
 	double distanceL = 0;		// distanceToWall / (source - target).getLength();
 	double distanceU = 0;		// distanceToWall / wall.getLength();
 
@@ -67,6 +71,17 @@ bool Collision::isColliding(const Vector2& source, const Vector2& target, const 
 	double px = x1 + t * (x2 - x1);
 	double py = y1 + t * (y2 - y1);;
 	Vector2 intersection(px, py);
+
+	// previous method:
+	// calculate point of intersection of limitless lines
+	double term1 = (x1 * y2 - y1 * x2);
+	double term2 = (x3 * y4 - y3 * x4);
+	double px = (term1 * dx34 - dx12 * term2) / divisor;
+	double py = (term1 * dy34 - dy12 * term2) / divisor;
+	Vector2 intersection(px, py);
+
+	// check by bounding box test
+	bool collision = isPointInBoundingBox(source, target, intersection) && isPointInBoundingBox(wall.begin, wall.end, intersection);
 	*/
 }
 
@@ -82,10 +97,10 @@ bool Collision::isPointInBoundingBox(const Vector2& p1, const Vector2& p2, const
 }
 
 
-double Collision::findClosestDistance(const Vector2& source, const Vector2& target, const Wall& wall) {
+double Collision::closestDistanceToWall(const Vector2& source, const Vector2& target, const Wall& wall) {
 	return fmin(
-		findClosestDistance(source, target, wall.begin),
-		findClosestDistance(source, target, wall.end)
+		closestDistanceToPoint(source, target, wall.begin),
+		closestDistanceToPoint(source, target, wall.end)
 	);
 
 	/*
@@ -118,7 +133,7 @@ double Collision::findClosestDistance(const Vector2& source, const Vector2& targ
 	*/
 }
 
-double Collision::findClosestDistance(const Vector2& source, const Vector2& target, const Vector2& point) {
+double Collision::closestDistanceToPoint(const Vector2& source, const Vector2& target, const Vector2& point) {
 	return (
 		Vector2::getClosestPointOnLineSegment(source, target, point) - point
 	).getLength();

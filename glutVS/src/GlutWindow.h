@@ -6,7 +6,7 @@
 
 #include "Camera.h"
 #include "Drawable.h"
-#include "Block.h"
+#include "Axis.h"
 
 class GlutWindow
 {
@@ -34,12 +34,10 @@ private:
 	GlutWindow();
 	~GlutWindow();
 
+	Axis axis;
+
 	// list of all drawn objects
 	std::vector<std::shared_ptr<Drawable> > drawables;
-
-	bool showAxis;
-	void createAxis();
-	std::vector<Block> axis;
 
 	void initialize();
 

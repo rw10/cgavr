@@ -17,7 +17,7 @@ Circle::Circle(const Vector3& position, double radius, Color3ub color) :
 
 Circle::~Circle(){}
 
-void Circle::draw(void) {
+void Circle::draw(void) const {
 	if (texture != 0) {
 		// enable texture
 		glEnable(GL_TEXTURE_2D);

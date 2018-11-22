@@ -57,6 +57,15 @@
     <ClCompile Include="src\Cone.cpp">
       <Filter>GUI\Drawables</Filter>
     </ClCompile>
+    <ClCompile Include="src\WayPoint.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Axis.cpp">
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LabyrinthBuilder.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -134,6 +143,15 @@
     <ClInclude Include="src\Cone.h">
       <Filter>GUI\Drawables</Filter>
     </ClInclude>
+    <ClInclude Include="src\WayPoint.h">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Axis.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\LabyrinthBuilder.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="VS">
@@ -175,6 +193,9 @@
       <Filter>img</Filter>
     </Image>
     <Image Include="img\rockwall.jpg">
+      <Filter>img</Filter>
+    </Image>
+    <Image Include="img\sample_lab.jpg">
       <Filter>img</Filter>
     </Image>
   </ItemGroup>

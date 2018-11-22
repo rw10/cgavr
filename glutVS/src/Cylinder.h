@@ -14,7 +14,7 @@ public:
 	Cylinder(const Vector3& position, double radius, double height, Color3ub color);
 	~Cylinder();
 
-	virtual void draw(void);
+	virtual void draw(void) const;
 
 	Color3ub color;
 	GLuint texture;

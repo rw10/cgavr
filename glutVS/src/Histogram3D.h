@@ -21,7 +21,7 @@ private:
 	void loadImage(const std::string& file);
 	void viewImage();
 	void createList();
-	void draw(void);
+	void draw(void) const;
 
 	std::vector<Block> blocks;
 

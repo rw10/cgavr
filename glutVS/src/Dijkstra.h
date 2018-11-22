@@ -9,7 +9,7 @@
 class Dijkstra {
 public:
 
-	Dijkstra(const Connection& routes, Vector2 start, Vector2 target);
+	Dijkstra(const ConnectedNetwork& routes, Vector2 start, Vector2 target);
 
 	// result
 	std::vector<Vector2> route;
@@ -19,10 +19,16 @@ private:
 	void updateQueue();
 	void assemble(std::shared_ptr<DijkstraPoint> target);
 
-	Connection routes;
+	ConnectedNetwork routes;
 	std::vector<std::shared_ptr<DijkstraPoint>> queue;
 	std::set<Vector2> visited;
 
 	void addNextTargets(std::shared_ptr<DijkstraPoint>);
+
+
+	static bool sortByDistance(const std::shared_ptr<DijkstraPoint>& d1, const std::shared_ptr<DijkstraPoint>& d2)
+	{
+		return *d1 < *d2;
+	}
 
 };

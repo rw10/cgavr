@@ -36,7 +36,7 @@ Block::~Block(){
 }
 
 
-void Block::draw(void) {
+void Block::draw(void) const {
 
 	double deltaX = size.x / 2;
 	double deltaY = size.y / 2;

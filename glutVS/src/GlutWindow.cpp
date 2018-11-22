@@ -7,7 +7,7 @@
 
 // drawables
 #include "Histogram3D.h"
-#include "Labyrinth.h"
+#include "LabyrinthBuilder.h"
 #include "Cylinder.h"
 #include "Cone.h"
 
@@ -28,7 +28,7 @@ GlutWindow::GlutWindow()
 {
 	camera = std::shared_ptr<Camera>(new FirstPersonCamera());
 	camera = std::shared_ptr<Camera>(new LookAtCamera());
-	//camera = std::shared_ptr<Camera>(new TopDownCamera());
+	camera = std::shared_ptr<Camera>(new TopDownCamera());
 
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
@@ -49,9 +49,7 @@ void GlutWindow::display() {
 	}
 
 	// show axis
-	for (auto& drawable : axis) {
-		drawable.draw();
-	}
+	axis.draw();
 
 	// in double buffering, this needs to be called to switch toggle between the shown and hidden buffer
 	glutSwapBuffers();
@@ -145,6 +143,18 @@ void GlutWindow::keyboardUpFunc(unsigned char key, int , int ) {
 	case '6':
 		Settings::lvl2DeniedRouteWalls.show = !Settings::lvl2DeniedRouteWalls.show;
 		break;
+	case '7':
+		Settings::additionalRouteWalls.show = !Settings::additionalRouteWalls.show;
+		break;
+	case '8':
+		Settings::additionalDeniedRouteWalls.show = !Settings::additionalDeniedRouteWalls.show;
+		break;
+	case '9':
+		Settings::dijkstraRoute.show = !Settings::dijkstraRoute.show;
+		break;
+	case '0':
+		Settings::ShowAxis = !Settings::ShowAxis;
+		break;
 	default:
 		break;
 	}
@@ -218,83 +228,22 @@ void GlutWindow::initialize(void)
 	);
 	glMatrixMode(GL_MODELVIEW);
 
-	// show axis
-	createAxis();
-
 	// add labyrinth
-	std::shared_ptr<Labyrinth> lab(new Labyrinth);
-	//drawables.push_back(lab);
+	std::shared_ptr<Labyrinth> lab = LabyrinthBuilder::build();
+	drawables.push_back(lab);
+	lab->calculateRoute(
+		Vector2(45, 5),
+		Vector2(95, 5)
+	);
 	
-	/*
-	// some walls
-	double width = 0;
-	for (int i = 0; i < 10; i++) {
-		Wall wall(
-			Vector2(i*10, 5*(i%3)),
-			Vector2(i*10+20, 50+ 5*(i%3)),
-			Color(125, 10, 23),
-			width
-		);
-		lab->addWall(wall);
-	}
-	*/
 
-	/*
-	// sägezahn muster
-	for (int i = 0; i < 3; i++) {
-		lab->addWall(Vector2(10 * i, 0 * i), Vector2(10 * i, 10 * (i+1)));
-		lab->addWall(Vector2(10 * i, 10 * (i + 1)), Vector2(10 * (i + 1), 0 * (i + 1)));
-	}
-	*/
-
-	/*
-	// stern muster
-	int pt = 8;
-	double PI = 3.14159;
-	for (int i = 0; i < pt; i++) {
-
-		if (i > 5) continue;
-
-		lab->addWall(
-			Wall(
-				Vector2(0, 0),
-				Vector2(20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt)),
-				Textures::get().wallTexture
-			)
-		);
-	}
-
-	// nochmal...
-	for (int i = 0; i < pt; i++) {
-
-		if (i > 3) continue;
-
-		lab->addWall(
-			Wall(
-				Vector2(50, 0),
-				Vector2(50 + 20 * cos(2 * PI * i / pt), 20 * sin(2 * PI * i / pt)),
-				Textures::get().wallTexture
-			)
-		);
-	}
-
-	lab->findWayPoints();
-	lab->testAllRoutes();
-	*/
-
-
-	std::shared_ptr<ConeTop> c(new ConeTop(Vector3(0,0,0), 6, 30, Textures::get().wallTexture));
-	drawables.push_back(c);
-
-
+	// 3D Objects
+	//std::shared_ptr<ConeTop> c(new ConeTop(Vector3(0,0,0), 6, 30, Textures::get().wallTexture));
+	//drawables.push_back(c);
 
 	// 3D Histogram
 	//std::shared_ptr<Histogram3D> hist(new Histogram3D);
 	//drawables.push_back(hist);
-	
-	// Adjust cube position to be asthetic angle.
-	//glRotatef(60, 1.0, 0.0, 0.0);
-	//glRotatef(-20, 0.0, 0.0, 1.0);
 
 	// show both sides of objects
 	//glDisable(GL_CULL_FACE);
@@ -306,35 +255,4 @@ void GlutWindow::initialize(void)
 	//glEnable(GL_CLIP_DISTANCE0);
 
 	camera->update();
-}
-
-void GlutWindow::createAxis() {
-	double axisWidth = 1;
-
-	// x axis
-	axis.push_back(
-		Block::createByCorners(
-			Vector3(0, 0, 0),
-			Vector3(100, axisWidth, axisWidth),
-			Color3ub(255, 0, 0)
-		)
-	);
-
-	// y axis
-	axis.push_back(
-		Block::createByCorners(
-			Vector3(0, 0, 0),
-			Vector3(axisWidth, 100, axisWidth),
-			Color3ub(0, 255, 0)
-		)
-	);
-
-	// z axis
-	axis.push_back(
-		Block::createByCorners(
-			Vector3(0, 0, 0),
-			Vector3(axisWidth, axisWidth, 100),
-			Color3ub(0, 0, 255)
-		)
-	);
 }

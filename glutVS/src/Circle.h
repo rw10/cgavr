@@ -12,7 +12,7 @@ public:
 	Circle(const Vector3& position, double radius, Color3ub color);
 	~Circle();
 
-	virtual void draw(void);
+	virtual void draw(void) const;
 
 	Color3ub color;
 	GLuint texture;
@@ -20,11 +20,11 @@ public:
 	double radius;
 
 protected:
-	virtual GLfloat centerHeight() {
+	virtual GLfloat centerHeight() const {
 		return (GLfloat) pos.z;
 	}
 
-	virtual GLfloat circleHeight() {
+	virtual GLfloat circleHeight() const {
 		return (GLfloat) pos.z;
 	}
 

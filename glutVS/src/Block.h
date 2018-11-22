@@ -15,7 +15,7 @@ public:
 	static Block createByCorners(const Vector3& corner1, const Vector3& corner2, const Color3ub& color);
 	static Block createByCenterSize(const Vector3& center, const Vector3& size, const Color3ub& color);
 
-	void draw(void);
+	virtual void draw(void) const;
 
 	Color3ub color;
 	Vector3 pos;

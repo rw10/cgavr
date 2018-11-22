@@ -17,11 +17,11 @@ public:
 	double height;
 
 protected:
-	virtual GLfloat centerHeight() {
+	virtual GLfloat centerHeight() const {
 		return (GLfloat) height;
 	}
 
-	virtual GLfloat circleHeight() {
+	virtual GLfloat circleHeight() const {
 		return (GLfloat) pos.z;
 	}
 

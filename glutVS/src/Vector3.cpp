@@ -1,9 +1,8 @@
 #include "pch.h"
 #include "Vector3.h"
+#include "Constants.h"
 
 #include <cmath>
-
-const double PI = 3.14159265359;
 
 
 Vector3::Vector3(): x(0), y(0), z(0)
@@ -17,6 +16,22 @@ Vector3::Vector3(double x, double y, double z) : x(x), y(y), z(z)
 
 Vector3::~Vector3()
 {
+}
+
+double round(long double number, int precision) {
+	int decimals = (int) std::pow(10, precision);
+	return (double)((std::round(number * decimals)) / decimals);
+}
+
+
+bool Vector3::operator< (const Vector3& other) const {
+	return x != other.x ? x < other.x :
+		y != other.y ? y < other.y :
+		z < other.z;
+}
+
+bool Vector3::operator!= (const Vector3& other) const {
+	return x != other.x || y != other.y || z != other.z;
 }
 
 Vector3 Vector3::operator+(const Vector3& other) const
@@ -55,7 +70,7 @@ Vector3 Vector3::operator*(const double& multiplier) const
 	);
 }
 
-double Vector3::getLength() {
+double Vector3::getLength() const {
 	return sqrt(x * x + y * y + z * z);
 }
 
@@ -73,11 +88,11 @@ void Vector3::normalize(double targetLength) {
 }
 
 double Vector3::deg2rad(double degrees) {
-	return (degrees * PI) / 180.0;
+	return (degrees * Constants::PI) / 180.0;
 }
 
 double Vector3::rad2deg(double radians) {
-	return (radians * 180.0) / PI;
+	return (radians * 180.0) / Constants::PI;
 }
 
 double Vector3::dotProduct(const Vector3& u, const Vector3& v) {
@@ -96,9 +111,15 @@ double Vector3::calcAngleInXY(Vector3 u, Vector3 v) {
 	// this only gives result values between 0 and 180, we need 0 to 360
 	//return rad2deg(acos(dotProduct(u, v)));
 
-	return rad2deg(
+	double deg = rad2deg(
 		atan2(v.y, v.x) - atan2(u.y, u.x)
 	);
+
+	if (deg < 0.0) {
+		deg += 360;
+	}
+
+	return deg;
 }
 
 void Vector3::rotateAroundX(double degrees) {
@@ -113,8 +134,8 @@ void Vector3::rotateAroundX(double degrees) {
 	double _sin = sin(rad);
 	double _cos = cos(rad);
 
-	y = _y * _cos - _z * _sin;
-	z = _y * _sin + _z * _cos;
+	y = round(_y * _cos - _z * _sin, 4);
+	z = round(_y * _sin + _z * _cos, 4);
 }
 
 void Vector3::rotateAroundY(double degrees) {
@@ -129,8 +150,8 @@ void Vector3::rotateAroundY(double degrees) {
 	double _sin = sin(rad);
 	double _cos = cos(rad);
 
-	x = _x * _cos - _z * _sin;
-	z = _x * _sin + _z * _cos;
+	x = round(_x * _cos - _z * _sin, 4);
+	z = round(_x * _sin + _z * _cos, 4);
 }
 
 void Vector3::rotateAroundZ(double degrees) {
@@ -145,8 +166,8 @@ void Vector3::rotateAroundZ(double degrees) {
 	double _sin = sin(rad);
 	double _cos = cos(rad);
 
-	x = _x * _cos - _y * _sin;
-	y = _x * _sin + _y * _cos;
+	x = round(_x * _cos - _y * _sin, 4);
+	y = round(_x * _sin + _y * _cos, 4);
 }
 
 

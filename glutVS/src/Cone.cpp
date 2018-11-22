@@ -21,7 +21,7 @@ Cone::~Cone() {
 	delete coneTop;
 }
 
-void Cone::draw(void) {
+void Cone::draw(void) const{
 	// bottom and coneTop
 	floorCircle->draw();
 	coneTop->draw();

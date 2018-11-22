@@ -3,7 +3,7 @@
 
 #include <algorithm>
 
-Dijkstra::Dijkstra(const Connection& routes, Vector2 start, Vector2 target) : routes(routes)
+Dijkstra::Dijkstra(const ConnectedNetwork& routes, Vector2 start, Vector2 target) : routes(routes)
 {
 	// init
 	std::shared_ptr<DijkstraPoint> startNode = std::shared_ptr<DijkstraPoint>(new DijkstraPoint(start));
@@ -32,30 +32,34 @@ Dijkstra::Dijkstra(const Connection& routes, Vector2 start, Vector2 target) : ro
 }
 
 void Dijkstra::addNextTargets(std::shared_ptr<DijkstraPoint> currentPoint) {
-	for (auto& target : routes[currentPoint->position]) {
+	const auto& targets = routes[currentPoint->position];
+	for (const auto& target : targets) {
 		
 		// only unvisited
-		if (visited.count(target) != 0) {			
+		if (visited.count(target) == 0) {			
 			// add to queue
 			queue.push_back(std::shared_ptr<DijkstraPoint>(new DijkstraPoint(target, currentPoint)));
-
-			// remove already visited and sort
-			updateQueue();
 		}
 	}
+	// remove already visited and sort
+	updateQueue();
 }
 
 void Dijkstra::updateQueue() {
 	// remove visited
-	for (auto it = queue.begin(); it != queue.end(); it++) {
+	auto it = queue.begin();
+	while (it != queue.end()) {
 		auto& i = *it;
 		if (visited.count(i->position) != 0) {
 			it = queue.erase(it);
 		}
+		else {
+			it++;
+		}
 	}
 
 	// sort by distance
-	std::sort(queue.begin(), queue.end());
+	std::sort(queue.begin(), queue.end(), sortByDistance);
 }
 
 void Dijkstra::assemble(std::shared_ptr<DijkstraPoint> target) {

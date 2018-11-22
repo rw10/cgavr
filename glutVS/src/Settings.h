@@ -17,9 +17,9 @@ public:
 	static const double WallWidth;
 	static const double PlayerRadius;
 	static const double TextureSizeMultiplier;
-
 	// how many points to use for drawing a full circle, should be a common divisor of 360
 	static const size_t CircleDrawPrecision;
+	static bool ShowAxis;
 
 	static WallDisplay invisibleWalls;
 	static WallDisplay wayPointWalls;
@@ -28,4 +28,7 @@ public:
 	static WallDisplay lvl1DeniedRouteWalls;
 	static WallDisplay lvl2RouteWalls;
 	static WallDisplay lvl2DeniedRouteWalls;
+	static WallDisplay additionalRouteWalls;
+	static WallDisplay additionalDeniedRouteWalls;
+	static WallDisplay dijkstraRoute;
 };

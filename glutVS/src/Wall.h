@@ -21,7 +21,7 @@ public:
 		return (begin - end).getLength();
 	}
 
-	void draw(void);
+	void draw(void) const;
 
 	Color3ub color;
 	Vector2 begin;

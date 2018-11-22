@@ -22,7 +22,7 @@ Wall::Wall() :
 Wall::~Wall() 
 {}
 
-void Wall::draw(void) {
+void Wall::draw(void) const {
 
 	// z dimension
 	GLfloat floor = 0;

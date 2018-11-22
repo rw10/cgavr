@@ -9,26 +9,29 @@
 
 
 #include "Types.h"
+#include "WayPoint.h"
 #include "Wall.h"
+
 
 class Labyrinth : public Drawable {
 public:
 	Labyrinth();
+	~Labyrinth();
+
+	friend class WayPoint;
+
 	void addWall(const Wall& wall);
 	void addWall(const Vector3& begin, const Vector3& end);
 
-	void findWayPoints();
-	void testAllRoutes();
+
+	void initRouting();
+	void calculateRoute(const Vector2& start, const Vector2& end);
 private:
-	void draw(void);
-	void drawFloor(void);
+	Vector2 startPoint;
+	Vector2 endPoint;
 
-	//void findWayPoints();
-	//void testAllRoutes();
-	void testAllSubRoutes(const WayPoint& wp1, const WayPoint& wp2);
-
-	WayPoint createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, unsigned int count);
-	void connectWaypoints(const Vector2& wp1, const Vector2& wp2);
+	virtual void draw(void) const;
+	void drawFloor(void) const;
 
 	// for model
 	/*
@@ -36,7 +39,7 @@ private:
 	* the key is created by all points that serve as a corner (unique)
 	* each corner has list of all points it is connected to (which all are a corner-points themself)
 	*/
-	Connection corners;
+	ConnectedNetwork corners;
 
 	/*
 	* this vector contains the waypoints that were built around a corner point
@@ -50,7 +53,7 @@ private:
 	* the key is created by all points that could be reached by the player (unique)
 	* each point has list of all other reachable points it is connected to
 	*/
-	Connection routes;
+	ConnectedNetwork routes;
 
 	// only for display
 	std::vector<Wall> walls;
@@ -60,6 +63,9 @@ private:
 	std::vector<Wall> lvl1DeniedRouteWalls;
 	std::vector<Wall> lvl2RouteWalls;
 	std::vector<Wall> lvl2DeniedRouteWalls;
+	std::vector<Wall> additionalRouteWalls;
+	std::vector<Wall> additionalDeniedRouteWalls;
+	std::vector<Wall> dijkstraRoute;
 
 
 	// keeping track of the min/max values to draw the floor with a fitting size

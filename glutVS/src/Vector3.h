@@ -13,24 +13,19 @@ public:
 	double y;
 	double z;
 
-	GLfloat gl_x() {
+	GLfloat gl_x() const {
 		return (GLfloat)x;
 	}
-	GLfloat gl_y() {
+	GLfloat gl_y() const {
 		return (GLfloat)y;
 	}
-	GLfloat gl_z() {
+	GLfloat gl_z() const {
 		return (GLfloat)z;
 	}
 
 	// compare operator
-	bool operator< (const Vector3& other) {
-		return x == other.x ?
-			y == other.y ?
-			z < other.z :
-			y < other.y :
-			x < other.x;
-	}
+	bool operator< (const Vector3& other) const;
+	bool operator!= (const Vector3& other) const;
 
 	// overloaded operators
 	Vector3 operator+ (const Vector3& other) const;
@@ -38,13 +33,14 @@ public:
 	Vector3 operator*(const Vector3& other) const;		// cross product
 	Vector3 operator* (const double& multiplier) const;	// multiplication with scalar
 
+
 	static double dotProduct(const Vector3& u, const Vector3& v);
 	static double calcAngleInXY(Vector3 u, Vector3 v);
 	// not needed (yet)
 	//static double calcAngleInXZ(Vector3 u, Vector3 v);
 	//static double calcAngleInYZ(Vector3 u, Vector3 v);
 
-	double getLength();
+	double getLength() const;
 	void normalize(double targetLength = 1);
 
 	static double deg2rad(double degrees);

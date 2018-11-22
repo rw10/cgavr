@@ -4,8 +4,9 @@
 TopDownCamera::TopDownCamera() : LookAtCamera()
 {
 	// init camera settings
-	position = Vector3(0.0, -0.1, 80.0);
-	lookAtPoint = Vector3(0.0, 0.0, 0.0);
+	Vector3 delta = Vector3(0.0, -0.1, 200.0);
+	lookAtPoint = Vector3(50.0, 50.0, 0.0);
+	position = lookAtPoint + delta;
 }
 
 TopDownCamera::~TopDownCamera()

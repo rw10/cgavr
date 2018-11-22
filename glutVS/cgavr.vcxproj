@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Axis.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Circle.cpp" />
     <ClCompile Include="src\Collision.cpp" />
@@ -26,6 +27,7 @@
     <ClCompile Include="src\Cylinder.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
+    <ClCompile Include="src\LabyrinthBuilder.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
     <ClCompile Include="src\Color3ub.cpp" />
     <ClCompile Include="src\Block.cpp" />
@@ -39,8 +41,10 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Vector3.cpp" />
     <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\WayPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Axis.h" />
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\Collision.h" />
     <ClInclude Include="src\Color3f.h" />
@@ -48,6 +52,7 @@
     <ClInclude Include="src\ConeTop.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Cylinder.h" />
+    <ClInclude Include="src\LabyrinthBuilder.h" />
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Dijkstra.h" />
@@ -68,12 +73,14 @@
     <ClInclude Include="src\Vector2.h" />
     <ClInclude Include="src\Vector3.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\WayPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="img\grass.png" />
     <Image Include="img\ground.jpg" />
     <Image Include="img\ground2.jpg" />
     <Image Include="img\rockwall.jpg" />
+    <Image Include="img\sample_lab.jpg" />
     <Image Include="img\wall.jpg" />
     <Image Include="img\wall.png" />
   </ItemGroup>
