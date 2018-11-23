@@ -34,7 +34,7 @@ public:
 		return player;
 	}
 
-	virtual void update(double time);
+	virtual void update();
 
 private:
 	Model();

@@ -36,7 +36,7 @@ Player::Player(const std::vector<Vector2>& route) : route(route)
 	parts.push_back(cone);
 }
 
-void Player::update(double time) {
+void Player::update() {
 	if (currentRouteIndex < route.size() - 1) {
 		const Vector2& next = route[currentRouteIndex + 1];
 

@@ -52,13 +52,10 @@ double clockToMilliseconds(clock_t ticks) {
 }
 
 void GlutWindow::display() {
-	camera->update();
-
 	clock_t before = clock_ticks;
 	clock_ticks = clock();
 	double delta = clockToMilliseconds(clock_ticks - before);
-	double fps = 1000.0 / delta;
-
+	//double fps = 1000.0 / delta;
 	//std::cout << "ms: "<< delta << "\t fps:" << fps << std::endl;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -132,10 +129,7 @@ void GlutWindow::idleFunc() {
 		}
 	}
 
-	// measure time since last call
-	double time = 1;
-
-	Model::get().update(time);
+	Model::get().update();
 	camera->update();
 }
 

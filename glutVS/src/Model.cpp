@@ -62,6 +62,6 @@ Model::~Model()
 }
 
 
-void Model::update(double time) {
-	player->update(time);
+void Model::update() {
+	player->update();
 }

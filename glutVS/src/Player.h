@@ -15,7 +15,7 @@ public:
 	Player(const std::vector<Vector2>& route);
 	~Player() {}
 
-	virtual void update(double time);
+	virtual void update();
 
 	// TODO: change speed by using sin(time) -> creates a more natural, unsteady movement
 	double speed;
