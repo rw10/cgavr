@@ -1,12 +1,15 @@
 #pragma once
 
+#include "Updatable.h"
+
 #include <vector>
 #include <memory>
 #include "Labyrinth.h"
 #include "Player.h"
+#include "Cylinder.h"
 #include "Vector2.h"
 
-class Model
+class Model : public Updatable
 {
 public:
 	~Model();
@@ -27,10 +30,17 @@ public:
 		return route;
 	}
 
+	const std::shared_ptr<Player> getPlayer() const {
+		return player;
+	}
+
+	virtual void update(double time);
+
 private:
 	Model();
 
-	Player player;
+	std::shared_ptr<Player> player;
+	std::shared_ptr<Cylinder> finish;
 
 	// list of all drawable objects
 	std::vector<std::shared_ptr<Drawable> > drawables;

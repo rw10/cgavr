@@ -1,23 +1,20 @@
 #pragma once
 
-#include "Drawable.h"
+#include "Animation.h"
 
 #include "Color3ub.h"
 #include "Vector3.h"
 #include "Circle.h"
 
 
-class Cylinder : public Drawable
+class Cylinder : public Animation
 {
 public:
-	Cylinder(const Vector3& position, double radius, double height, GLuint texture);
+	Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures);
 	Cylinder(const Vector3& position, double radius, double height, Color3ub color);
 	~Cylinder();
 
 	virtual void draw(void) const;
-
-	Color3ub color;
-	GLuint texture;
 
 	// pos = bottom center
 	Vector3 pos;

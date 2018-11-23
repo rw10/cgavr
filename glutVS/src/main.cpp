@@ -7,7 +7,6 @@
 
 #include "pch.h"
 #include "GlutWindow.h"
-#include "Textures.h"
 
 void display() {
 	GlutWindow::get(1).display();

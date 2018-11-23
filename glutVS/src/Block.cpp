@@ -26,10 +26,11 @@ Block Block::createByCenterSize(const Vector3& center, const Vector3& size, cons
 }
 
 
-Block::Block(const Vector3 center, const Vector3 size, const Color3ub color) : pos(center), size(size), color(color)
+Block::Block(const Vector3 center, const Vector3 size, const Color3ub color) : 
+	Animation(color), pos(center), size(size)
 {}
 
-Block::Block() : pos(Vector3(0, 0, 0)), size(0, 0, 0), color(0, 0, 0)
+Block::Block() : Animation(Color3ub(0,0,0)), pos(Vector3(0, 0, 0)), size(0, 0, 0)
 {}
 
 Block::~Block(){

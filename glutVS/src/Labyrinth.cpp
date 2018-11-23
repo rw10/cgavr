@@ -12,7 +12,7 @@
 #include <iostream>
 #include <cmath> 
 
-#include "Textures.h"
+#include "TextureLoader.h"
 
 Labyrinth::Labyrinth() {
 	lowCorner = Vector2(0, 0);
@@ -41,76 +41,76 @@ void Labyrinth::addWall(const Wall& wall){
 }
 
 void Labyrinth::addWall(const Vector3& begin, const Vector3& end) {
-	addWall(Wall(begin, end, Textures::get().wallTexture));
+	addWall(Wall(begin, end, TextureLoader::get().wallTexture));
 }
 
-void Labyrinth::draw(void) const
+void Labyrinth::paint(double time)
 {
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	//glLoadIdentity();
 
-	drawFloor();
+	// TODO: make Floor an own class
+	// draw the floor
+	draw();
 
-	// TODO: draw start and end-point!!!
-
+	// draw the walls
 	for (auto& wall : walls) {
-		wall.draw();
+		wall.paint(time);
 	}
-
 
 	// draw auxiliary walls
 	if (Settings::wayPointWalls.show) {
 		for (auto& wall : wayPointWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::autoRouteWalls.show) {
 		for (auto& wall : autoRouteWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::lvl1RouteWalls.show) {
 		for (auto& wall : lvl1RouteWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::lvl1DeniedRouteWalls.show) {
 		for (auto& wall : lvl1DeniedRouteWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::lvl2RouteWalls.show) {
 		for (auto& wall : lvl2RouteWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::lvl2DeniedRouteWalls.show) {
 		for (auto& wall : lvl2DeniedRouteWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::additionalRouteWalls.show) {
 		for (auto& wall : additionalRouteWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::additionalDeniedRouteWalls.show) {
 		for (auto& wall : additionalDeniedRouteWalls) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 	if (Settings::dijkstraRoute.show) {
 		for (auto& wall : dijkstraRoute) {
-			wall.draw();
+			wall.paint(time);
 		}
 	}
 }
 
-void Labyrinth::drawFloor() const {
+void Labyrinth::draw(void) const {
+
+	// draw the floor
 
 	// enable texture
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, Textures::get().groundTexture);
+	glBindTexture(GL_TEXTURE_2D, TextureLoader::get().groundTexture[0]);
 	// use repeat mode for wrapping
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

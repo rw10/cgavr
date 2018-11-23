@@ -35,9 +35,6 @@
     <ClCompile Include="src\Dijkstra.cpp">
       <Filter>Model</Filter>
     </ClCompile>
-    <ClCompile Include="src\Textures.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="src\Color3ub.cpp">
       <Filter>GUI\Color</Filter>
     </ClCompile>
@@ -66,14 +63,20 @@
     <ClCompile Include="src\LabyrinthBuilder.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
-    <ClCompile Include="src\FollowPathCamera.cpp">
-      <Filter>GUI\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="src\Model.cpp">
       <Filter>Model</Filter>
     </ClCompile>
     <ClCompile Include="src\Player.cpp">
-      <Filter>Model</Filter>
+      <Filter>GUI\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerViewCamera.cpp">
+      <Filter>GUI\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TextureLoader.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Animation.cpp">
+      <Filter>GUI\Drawables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +126,6 @@
     <ClInclude Include="src\DijkstraPoint.h">
       <Filter>Model</Filter>
     </ClInclude>
-    <ClInclude Include="src\Textures.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
     <ClInclude Include="src\Color3f.h">
       <Filter>GUI\Color</Filter>
     </ClInclude>
@@ -161,14 +161,23 @@
     <ClInclude Include="src\LabyrinthBuilder.h">
       <Filter>GUI</Filter>
     </ClInclude>
-    <ClInclude Include="src\FollowPathCamera.h">
-      <Filter>GUI\Camera</Filter>
-    </ClInclude>
     <ClInclude Include="src\Model.h">
       <Filter>Model</Filter>
     </ClInclude>
     <ClInclude Include="src\Player.h">
+      <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Updatable.h">
       <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PlayerViewCamera.h">
+      <Filter>GUI\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TextureLoader.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Animation.h">
+      <Filter>GUI\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

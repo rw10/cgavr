@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include <memory>
+#include <ctime>
 
 #include "Camera.h"
 #include "Drawable.h"
@@ -12,7 +13,7 @@ class GlutWindow
 {
 public:
 	static void init(){
-		int i = INSTANCES.size() + 1;
+		int i = (int)INSTANCES.size() + 1;
 		INSTANCES.push_back(GlutWindow(i));
 	}
 
@@ -51,6 +52,7 @@ private:
 	Axis axis;
 
 	void initialize();
+	clock_t clock_ticks;
 
 	// previously: list of bools for each key, init with all false
 	// replaced with set of keys with 'true' value

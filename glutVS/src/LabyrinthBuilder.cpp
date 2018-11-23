@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "LabyrinthBuilder.h"
-#include "Textures.h"
+#include "TextureLoader.h"
 #include "Color3ub.h"
 #include "Constants.h"
 #include <cmath>
@@ -61,7 +61,7 @@ void LabyrinthBuilder::star(std::shared_ptr<Labyrinth> lab, size_t parts, size_t
 			Wall(
 				Vector2(offset.x, offset.y),
 				Vector2(offset.x + size * cos(2 * PI * i / parts), offset.y + size * sin(2 * PI * i / parts)),
-				Textures::get().wallTexture
+				TextureLoader::get().wallTexture
 			)
 		);
 	}

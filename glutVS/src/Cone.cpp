@@ -2,15 +2,15 @@
 
 #include "Cone.h"
 
-Cone::Cone(const Vector3& position, double radius, double height, GLuint texture) :
-	pos(position), radius(radius), height(height), texture(texture), color(255, 255, 255)
+Cone::Cone(const Vector3& position, double radius, double height, AnimationTextures textures) :
+	Animation(textures), pos(position), radius(radius), height(height)
 {
-	floorCircle = new Circle(pos, radius, texture);
-	coneTop = new ConeTop(pos, radius, height, texture);
+	floorCircle = new Circle(pos, radius, textures);
+	coneTop = new ConeTop(pos, radius, height, textures);
 }
 
 Cone::Cone(const Vector3& position, double radius, double height, Color3ub color) :
-	pos(position), radius(radius), height(height), texture(0), color(color)
+	Animation(color), pos(position), radius(radius), height(height)
 {
 	floorCircle = new Circle(pos, radius, color);
 	coneTop = new ConeTop(pos, radius, height, color);

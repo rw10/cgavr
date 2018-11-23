@@ -1,41 +1,37 @@
 #pragma once
 
-#include "Drawable.h"
+#include "Animation.h"
 
 #include "Quad.h"
 #include "Vector2.h"
 #include "Color3ub.h"
 #include "Settings.h"
 
-class Wall : public Drawable
+class Wall : public Animation
 {
 public:
 	Wall();
 	~Wall();
 
-	// TODO: add textures
-	Wall(const Vector2 begin, const Vector2 end, const Color3ub color, double width = 0);
-	Wall(const Vector2 begin, const Vector2 end, const GLuint texture, double width = Settings::WallWidth);
+	Wall(const Vector2& begin, const Vector2& end, AnimationTextures textures, double width = Settings::WallWidth) :
+		Animation(textures), begin(begin), end(end), cornerPoints(begin, end, width), width(width)
+	{}
+
+	Wall(const Vector2& begin, const Vector2& end, Color3ub color, double width = 0) :
+		Animation(color), begin(begin), end(end), cornerPoints(begin, end, width), width(width)
+	{}
 
 	double getLength() const {
 		return (begin - end).getLength();
 	}
 
-	void draw(void) const;
-
-	Color3ub color;
 	Vector2 begin;
 	Vector2 end;
-	GLuint texture;
 	double width;
 
 	Quad cornerPoints;
 
-	// TODO:
-	//Vector3 getLowCorner();
-	//Vector3 getHighCorner();
-	//void rotate(double angle, Vector3 axis);
-
-private:
+protected:
+	virtual void draw(void) const;
 };
 

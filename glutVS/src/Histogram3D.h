@@ -17,11 +17,13 @@ public:
 
 	Histogram3D(std::string file = "D:\\image.jpg");
 
+protected:
+	virtual void draw(void) const;
+
 private:
 	void loadImage(const std::string& file);
 	void viewImage();
 	void createList();
-	void draw(void) const;
 
 	std::vector<Block> blocks;
 

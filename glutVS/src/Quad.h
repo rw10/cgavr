@@ -7,6 +7,7 @@ class Quad {
 public:
 
 	Quad(Vector2 point1, Vector2 point2, double width) {
+		
 		Vector3 rv = Vector3::getRichtungsVector(point1, point2);
 		rv.rotateAroundZ(90);
 		rv.normalize(width);

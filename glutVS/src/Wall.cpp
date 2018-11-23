@@ -5,46 +5,23 @@
 
 #include "Wall.h"
 
-#include "Textures.h"
+#include "TextureLoader.h"
 
-Wall::Wall(const Vector2 begin, const Vector2 end, const Color3ub color, double width) :
-	begin(begin), end(end), color(color), cornerPoints(begin, end, width), texture(0), width(width)
-{}
-
-Wall::Wall(const Vector2 begin, const Vector2 end, const GLuint texture, double width) :
-	begin(begin), end(end), texture(texture), color(0, 0, 0), cornerPoints(begin, end, width), width(width)
-{}
 
 Wall::Wall() : 
-	begin(Vector2(0, 0)), end(0, 0), color(0, 0, 0), cornerPoints(begin, end, Settings::WallWidth), texture(0), width(Settings::WallWidth)
+	Animation(Color3ub(0,0,0)), begin(Vector2(0, 0)), end(0, 0), cornerPoints(begin, end, Settings::WallWidth), width(Settings::WallWidth)
 {}
 
 Wall::~Wall() 
 {}
 
 void Wall::draw(void) const {
-
 	// z dimension
 	GLfloat floor = 0;
 	GLfloat ceiling = (GLfloat) Settings::WallHeight;
 
 	// TODO: normals dont fit anymore (only top/bottom)
-
-	if (texture != 0) {
-		// enable texture
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		// use repeat mode for wrapping
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		glColor3f(1.0f, 1.0f, 1.0f);
-	}
-	else {
-		glDisable(GL_TEXTURE_2D);
-		glColor3ub(color.r, color.g, color.b);
-	}
-
+	
 	glBegin(GL_QUADS);
 	
 	// if no width, only show the sides

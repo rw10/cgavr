@@ -3,24 +3,24 @@
 #include "Cylinder.h"
 
 #include "GL/glut.h"
-#include "Textures.h"
+#include "TextureLoader.h"
 #include "Settings.h"
 #include "Constants.h"
 
 #include <cmath>
 
-Cylinder::Cylinder(const Vector3& position, double radius, double height, GLuint texture) :
-	pos(position), radius(radius), height(height), texture(texture), color(255, 255, 255)
+Cylinder::Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures) :
+	Animation(textures), pos(position), radius(radius), height(height)
 {
-	floorCircle = new Circle(pos, radius, texture);
+	floorCircle = new Circle(pos, radius, textures);
 
 	Vector3 cPos = pos;
 	cPos.z += height;
-	ceilingCircle = new Circle(cPos, radius, texture);
+	ceilingCircle = new Circle(cPos, radius, textures);
 }
 
 Cylinder::Cylinder(const Vector3& position, double radius, double height, Color3ub color) :
-	pos(position), radius(radius), height(height), texture(0), color(color)
+	Animation(color), pos(position), radius(radius), height(height)
 {
 	floorCircle = new Circle(pos, radius, color);
 
@@ -35,35 +35,11 @@ Cylinder::~Cylinder() {
 }
 
 void Cylinder::draw(void) const {
-
-	// top and bottom
-	floorCircle->draw();
-	ceilingCircle->draw();
-
-
 	// --- draw the side ---
-
-
 	// z dimension
 	GLfloat floor = (GLfloat)pos.z;
 	GLfloat ceiling = (GLfloat)(floor + height);
-
-	if (texture != 0) {
-		// enable texture
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		// use repeat mode for wrapping
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		glColor3f(1.0f, 1.0f, 1.0f);
-	}
-	else {
-		glDisable(GL_TEXTURE_2D);
-		glColor3ub(color.r, color.g, color.b);
-	}
-
-
+	 
 	// flag to toggle texture left/right orientation
 	// used when repeated texturing
 	//bool lr_flag = false;
@@ -91,4 +67,8 @@ void Cylinder::draw(void) const {
 	}
 
 	glEnd();
+
+	// top and bottom
+	floorCircle->draw();
+	ceilingCircle->draw();
 }

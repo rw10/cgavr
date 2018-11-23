@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Animation.cpp" />
     <ClCompile Include="src\Axis.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\Circle.cpp" />
@@ -27,7 +28,7 @@
     <ClCompile Include="src\Cylinder.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
-    <ClCompile Include="src\FollowPathCamera.cpp" />
+    <ClCompile Include="src\PlayerViewCamera.cpp" />
     <ClCompile Include="src\LabyrinthBuilder.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
     <ClCompile Include="src\Color3ub.cpp" />
@@ -37,7 +38,7 @@
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Settings.cpp" />
-    <ClCompile Include="src\Textures.cpp" />
+    <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TopDownCamera.cpp" />
     <ClCompile Include="src\Wall.cpp" />
     <ClCompile Include="src\GlutWindow.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="src\WayPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Animation.h" />
     <ClInclude Include="src\Axis.h" />
     <ClInclude Include="src\Circle.h" />
     <ClInclude Include="src\Collision.h" />
@@ -55,7 +57,7 @@
     <ClInclude Include="src\ConeTop.h" />
     <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Cylinder.h" />
-    <ClInclude Include="src\FollowPathCamera.h" />
+    <ClInclude Include="src\PlayerViewCamera.h" />
     <ClInclude Include="src\LabyrinthBuilder.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Player.h" />
@@ -70,9 +72,10 @@
     <ClInclude Include="src\Drawable.h" />
     <ClInclude Include="src\Histogram3D.h" />
     <ClInclude Include="src\Labyrinth.h" />
-    <ClInclude Include="src\Textures.h" />
+    <ClInclude Include="src\TextureLoader.h" />
     <ClInclude Include="src\TopDownCamera.h" />
     <ClInclude Include="src\Types.h" />
+    <ClInclude Include="src\Updatable.h" />
     <ClInclude Include="src\Wall.h" />
     <ClInclude Include="src\GlutWindow.h" />
     <ClInclude Include="src\Quad.h" />

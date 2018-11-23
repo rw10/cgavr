@@ -3,9 +3,9 @@
 #include "Color3ub.h"
 #include "Vector3.h"
 
-#include "Drawable.h"
+#include "Animation.h"
 
-class Block : public Drawable
+class Block : public Animation
 {
 public:
 	Block();
@@ -17,7 +17,6 @@ public:
 
 	virtual void draw(void) const;
 
-	Color3ub color;
 	Vector3 pos;
 	Vector3 size;
 

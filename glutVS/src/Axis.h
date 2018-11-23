@@ -9,6 +9,9 @@ public:
 	Axis();
 	~Axis();
 
+	virtual void paint(double time);
+
+protected:
 	virtual void draw(void) const;
 
 

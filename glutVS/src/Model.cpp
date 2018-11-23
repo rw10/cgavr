@@ -20,6 +20,20 @@ Model::Model()
 	);
 	route = dijkstra.route;
 
+	player = std::shared_ptr<Player>(new Player(route));
+	drawables.push_back(player);
+
+	Vector2 end = *route.rbegin();
+	finish = std::shared_ptr<Cylinder>(
+		new Cylinder(
+			end,			// last position of route
+			Settings::PlayerRadius,
+			Settings::PlayerHeight,
+			Color3ub(212, 175, 55)		// gold
+		)
+	);
+	drawables.push_back(finish);
+
 
 	/*
 	if (dijkstra.route.size() != 0) {
@@ -45,4 +59,9 @@ Model::Model()
 
 Model::~Model()
 {
+}
+
+
+void Model::update(double time) {
+	player->update(time);
 }

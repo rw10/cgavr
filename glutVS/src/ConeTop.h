@@ -5,8 +5,8 @@
 class ConeTop : public Circle
 {
 public:
-	ConeTop(const Vector3& position, double radius, double height, GLuint texture) :
-		Circle(position, radius, texture), height(height)
+	ConeTop(const Vector3& position, double radius, double height, AnimationTextures textures) :
+		Circle(position, radius, textures), height(height)
 	{}
 	ConeTop(const Vector3& position, double radius, double height, Color3ub color) :
 		Circle(position, radius, color), height(height)
@@ -18,7 +18,7 @@ public:
 
 protected:
 	virtual GLfloat centerHeight() const {
-		return (GLfloat) height;
+		return (GLfloat) (pos.z + height);
 	}
 
 	virtual GLfloat circleHeight() const {

@@ -13,13 +13,13 @@
 
 // surfaces
 #include "Color3f.h"
-#include "Textures.h"
+#include "TextureLoader.h"
 
 // cameras
 #include "FirstPersonCamera.h"
 #include "LookAtCamera.h"
 #include "TopDownCamera.h"
-#include "FollowPathCamera.h"
+#include "PlayerViewCamera.h"
 
 std::vector<GlutWindow> GlutWindow::INSTANCES = std::vector<GlutWindow>();
 int GlutWindow::active = 0;
@@ -37,27 +37,39 @@ GlutWindow::GlutWindow(int index)
 	glutInitWindowPosition(50, 100);
 	glutCreateWindow(Settings::ProjectName.data());
 
-	Textures::init();
+	TextureLoader::init();
 
 	initialize();
+	clock_ticks = clock();
 }
 
 
 GlutWindow::~GlutWindow()
 {}
 
+double clockToMilliseconds(clock_t ticks) {
+	return (ticks / double(CLOCKS_PER_SEC)) * 1000.0;
+}
+
 void GlutWindow::display() {
 	camera->update();
+
+	clock_t before = clock_ticks;
+	clock_ticks = clock();
+	double delta = clockToMilliseconds(clock_ticks - before);
+	double fps = 1000.0 / delta;
+
+	//std::cout << "ms: "<< delta << "\t fps:" << fps << std::endl;
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	const auto& drawables = Model::get().getDrawables();
 	for (const auto& drawable : drawables) {
-		drawable->draw();
+		drawable->paint(delta);
 	}
 
 	// show axis
-	axis.draw();
+	axis.paint(delta);
 
 	// in double buffering, this needs to be called to switch toggle between the shown and hidden buffer
 	glutSwapBuffers();
@@ -87,6 +99,12 @@ void GlutWindow::idleFunc() {
 		case 'd':		// right
 			camera->move(1, -90);
 			break;
+		case '+':
+			Settings::PlayerSpeed *= 1.01;
+			break;
+		case '-':
+			Settings::PlayerSpeed /= 1.01;
+			break;
 		default:
 			break;
 		}
@@ -114,6 +132,10 @@ void GlutWindow::idleFunc() {
 		}
 	}
 
+	// measure time since last call
+	double time = 1;
+
+	Model::get().update(time);
 	camera->update();
 }
 
@@ -239,7 +261,7 @@ void GlutWindow::initialize(void)
 	//glEnable(GL_CLIP_DISTANCE0);
 
 	if (index == 2) {
-		camera = std::shared_ptr<Camera>(new FollowPathCamera(Model::get().getRoute()));
+		camera = std::shared_ptr<Camera>(new PlayerViewCamera(Model::get().getPlayer()));
 	}
 	camera->update();
 }

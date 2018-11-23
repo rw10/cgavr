@@ -4,35 +4,20 @@
 
 #include "GL/glut.h"
 #include <cmath> 
-#include "Textures.h"
+#include "TextureLoader.h"
 #include "Settings.h"
 
-Circle::Circle(const Vector3& position, double radius, GLuint texture) :
-	pos(position), radius(radius), texture(texture), color(255, 255, 255)
+Circle::Circle(const Vector3& position, double radius, AnimationTextures textures) :
+	Animation(textures), pos(position), radius(radius)
 {}
 
 Circle::Circle(const Vector3& position, double radius, Color3ub color) :
-	pos(position), radius(radius), texture(0), color(color)
+	Animation(color), pos(position), radius(radius)
 {}
 
 Circle::~Circle(){}
 
 void Circle::draw(void) const {
-	if (texture != 0) {
-		// enable texture
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D, texture);
-		// use repeat mode for wrapping
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		glColor3f(1.0f, 1.0f, 1.0f);
-	}
-	else {
-		glDisable(GL_TEXTURE_2D);
-		glColor3ub(color.r, color.g, color.b);
-	}
-
 	// used full, stretched texture for circle instead of real world sizes
 	//GLfloat textureSize = (GLfloat)(2 * radius / Settings::TextureSizeMultiplier);
 

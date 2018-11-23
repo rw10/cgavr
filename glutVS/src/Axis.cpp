@@ -36,10 +36,15 @@ Axis::Axis() {
 
 Axis::~Axis(){}
 
-void Axis::draw(void) const {
-	if (Settings::ShowAxis){
-		for (const auto& a : axis) {
-			a.draw();
+void Axis::paint(double time) {
+	if (Settings::ShowAxis) {
+		for (auto& a : axis) {
+			a.paint(time);
 		}
 	}
+}
+
+void Axis::draw(void) const {
+	// nothing to do
+	// painting axis is done by calling the 3 parts
 }

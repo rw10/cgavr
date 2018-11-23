@@ -7,12 +7,10 @@
 
 #pragma once
 
-
 #include "Types.h"
 #include "WayPoint.h"
 #include "Wall.h"
 #include "Dijkstra.h"
-
 
 class Labyrinth : public Drawable {
 public:
@@ -24,15 +22,17 @@ public:
 	void addWall(const Wall& wall);
 	void addWall(const Vector3& begin, const Vector3& end);
 
-
 	void initRouting();
 	Dijkstra calculateRoute(const Vector2& start, const Vector2& end);
+
+	virtual void paint(double time);
+
+protected:
+	virtual void draw(void) const;
+
 private:
 	Vector2 startPoint;
 	Vector2 endPoint;
-
-	virtual void draw(void) const;
-	void drawFloor(void) const;
 
 	// for model
 	/*
