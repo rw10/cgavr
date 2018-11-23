@@ -9,8 +9,8 @@
 
 #include <cmath>
 
-Cylinder::Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures) :
-	Animation(textures), pos(position), radius(radius), height(height)
+Cylinder::Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures, double animationDuration) :
+	Animation(textures, animationDuration), pos(position), radius(radius), height(height)
 {
 	floorCircle = new Circle(pos, radius, textures);
 

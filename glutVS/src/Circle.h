@@ -8,7 +8,7 @@
 class Circle : public Animation
 {
 public:
-	Circle(const Vector3& position, double radius, AnimationTextures textures);
+	Circle(const Vector3& position, double radius, AnimationTextures textures, double animationDuration = 1000.0);
 	Circle(const Vector3& position, double radius, Color3ub color);
 	~Circle();
 

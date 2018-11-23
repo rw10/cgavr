@@ -52,6 +52,8 @@ double clockToMilliseconds(clock_t ticks) {
 }
 
 void GlutWindow::display() {
+	camera->update();
+
 	clock_t before = clock_ticks;
 	clock_ticks = clock();
 	double delta = clockToMilliseconds(clock_ticks - before);
@@ -130,7 +132,6 @@ void GlutWindow::idleFunc() {
 	}
 
 	Model::get().update();
-	camera->update();
 }
 
 void GlutWindow::keyboardFunc(unsigned char key, int , int ) {
@@ -257,5 +258,4 @@ void GlutWindow::initialize(void)
 	if (index == 2) {
 		camera = std::shared_ptr<Camera>(new PlayerViewCamera(Model::get().getPlayer()));
 	}
-	camera->update();
 }

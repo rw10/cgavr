@@ -15,7 +15,6 @@ void display2() {
 	GlutWindow::get(2).display();
 }
 
-
 void idleFunc() {
 	GlutWindow::get(1).idleFunc();
 
@@ -50,7 +49,6 @@ int main(int argc, char** argv) {
 
 	glutDisplayFunc(display);
 	glutIdleFunc(idleFunc);
-
 	glutKeyboardFunc(keyboardFunc);
 	glutKeyboardUpFunc(keyboardUpFunc);
 	glutSpecialFunc(specialFunc);
@@ -59,9 +57,10 @@ int main(int argc, char** argv) {
 
 	GlutWindow::init();
 
+	// only the display will be different on window2, all actions will be sent to window1
 	glutDisplayFunc(display2);
-	glutIdleFunc(idleFunc);
 
+	glutIdleFunc(idleFunc);
 	glutKeyboardFunc(keyboardFunc);
 	glutKeyboardUpFunc(keyboardUpFunc);
 	glutSpecialFunc(specialFunc);

@@ -2,8 +2,8 @@
 
 #include "Cone.h"
 
-Cone::Cone(const Vector3& position, double radius, double height, AnimationTextures textures) :
-	Animation(textures), pos(position), radius(radius), height(height)
+Cone::Cone(const Vector3& position, double radius, double height, AnimationTextures textures, double animationDuration = 1000.0) :
+	Animation(textures, animationDuration), pos(position), radius(radius), height(height)
 {
 	floorCircle = new Circle(pos, radius, textures);
 	coneTop = new ConeTop(pos, radius, height, textures);

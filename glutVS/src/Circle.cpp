@@ -7,8 +7,8 @@
 #include "TextureLoader.h"
 #include "Settings.h"
 
-Circle::Circle(const Vector3& position, double radius, AnimationTextures textures) :
-	Animation(textures), pos(position), radius(radius)
+Circle::Circle(const Vector3& position, double radius, AnimationTextures textures, double animationDuration) :
+	Animation(textures, animationDuration), pos(position), radius(radius)
 {}
 
 Circle::Circle(const Vector3& position, double radius, Color3ub color) :

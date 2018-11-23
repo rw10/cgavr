@@ -10,7 +10,7 @@
 class Cylinder : public Animation
 {
 public:
-	Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures);
+	Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures, double animationDuration = 1000.0);
 	Cylinder(const Vector3& position, double radius, double height, Color3ub color);
 	~Cylinder();
 

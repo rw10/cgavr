@@ -5,7 +5,7 @@
 class Cone : public Animation
 {
 public:
-	Cone(const Vector3& position, double radius, double height, AnimationTextures textures);
+	Cone(const Vector3& position, double radius, double height, AnimationTextures textures, double animationDuration);
 	Cone(const Vector3& position, double radius, double height, Color3ub color);
 	~Cone();
 

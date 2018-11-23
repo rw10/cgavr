@@ -13,8 +13,8 @@ public:
 	Wall();
 	~Wall();
 
-	Wall(const Vector2& begin, const Vector2& end, AnimationTextures textures, double width = Settings::WallWidth) :
-		Animation(textures), begin(begin), end(end), cornerPoints(begin, end, width), width(width)
+	Wall(const Vector2& begin, const Vector2& end, AnimationTextures textures, double animationDuration = 1000.0, double width = Settings::WallWidth) :
+		Animation(textures, animationDuration), begin(begin), end(end), cornerPoints(begin, end, width), width(width)
 	{}
 
 	Wall(const Vector2& begin, const Vector2& end, Color3ub color, double width = 0) :
