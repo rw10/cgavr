@@ -8,23 +8,27 @@
 #include "Camera.h"
 #include "Drawable.h"
 #include "Axis.h"
+#include "ViewSettings.h"
+
+enum WindowType {
+	TOPDOWN = 0, PLAYERVIEW = 1
+};
 
 class GlutWindow
 {
 public:
 	static void init(){
-		int i = (int)INSTANCES.size() + 1;
-		INSTANCES.push_back(GlutWindow(i));
+		INSTANCES.push_back(GlutWindow(INSTANCES.size()));
 	}
 
-	static GlutWindow& get(int index) {
-		return INSTANCES[index-1];
+	static GlutWindow& get(size_t index = 0) {
+		return INSTANCES[index];
 	}
 
 	static void toggle() {
-		active++;
-		active %= INSTANCES.size();
-		glutSetWindow(active + 1);
+		activeWindow++;
+		activeWindow %= INSTANCES.size();
+		glutSetWindow(activeWindow + 1);
 	}
 
 
@@ -39,19 +43,20 @@ public:
 	void specialUpFunc(unsigned char key, int x, int y);
 	void mouseFunc(int button, int state, int x, int y);
 
+
+	const ViewSettings& getViewSettings() {
+		return viewSettings;
+	}
 private:
-	static int active;
-
-
 	static std::vector<GlutWindow> INSTANCES;
-
-	int index;
-
-	GlutWindow(int index);
-
-	Axis axis;
-
 	void initialize();
+	GlutWindow(size_t index);
+	static int activeWindow;
+	WindowType windowType;
+	std::string windowTitle;
+
+	ViewSettings viewSettings;
+	
 	clock_t clock_ticks;
 
 	// previously: list of bools for each key, init with all false
@@ -60,5 +65,7 @@ private:
 	std::set<unsigned char> specialkeys;
 
 	std::shared_ptr<Camera> camera;
+
+	Axis axis;
 };
 

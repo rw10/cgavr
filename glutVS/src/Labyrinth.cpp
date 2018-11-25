@@ -13,6 +13,8 @@
 #include <cmath> 
 
 #include "TextureLoader.h"
+#include "ViewSettings.h"
+#include "GlutWindow.h"
 
 Labyrinth::Labyrinth() {
 	lowCorner = Vector2(0, 0);
@@ -44,7 +46,45 @@ void Labyrinth::addWall(const Vector3& begin, const Vector3& end) {
 	addWall(Wall(begin, end, TextureLoader::get().wallTexture));
 }
 
-void Labyrinth::paint(double time)
+void Labyrinth::addHelperLine(const Vector3& begin, const Vector3& end, WallType type) {
+	const ViewSettings& vs = GlutWindow::get().getViewSettings();
+	switch (type) {
+	case WallType::ADDITIONAL:
+		additionalRouteWalls.push_back(Wall(begin, end, vs.additionalRouteWalls.color));
+		break;
+	case WallType::ADDITIONALDENIED:
+		additionalDeniedRouteWalls.push_back(Wall(begin, end, vs.additionalDeniedRouteWalls.color));
+		break;
+	case WallType::AUTO:
+		autoRouteWalls.push_back(Wall(begin, end, vs.autoRouteWalls.color));
+		break;
+	case WallType::DIJKSTRA:
+		dijkstraRoute.push_back(Wall(begin, end, vs.dijkstraRoute.color));
+		break;
+	case WallType::LVL1:
+		lvl1RouteWalls.push_back(Wall(begin, end, vs.lvl1RouteWalls.color));
+		break;
+	case WallType::LVL1DENIED:
+		lvl1DeniedRouteWalls.push_back(Wall(begin, end, vs.lvl1DeniedRouteWalls.color));
+		break;
+	case WallType::LVL2:
+		lvl2RouteWalls.push_back(Wall(begin, end, vs.lvl2RouteWalls.color));
+		break;
+	case WallType::LVL2DENIED:
+		lvl2DeniedRouteWalls.push_back(Wall(begin, end, vs.lvl2DeniedRouteWalls.color));
+		break;
+	case WallType::MAINWAYPOINT:
+		wayPointWalls.push_back(Wall(begin, end, vs.wayPointWalls.color));
+		break;
+	case WallType::WAYPOINT:
+		wayPointWalls.push_back(Wall(begin, end, vs.wayPointWalls.color * 2));
+		break;
+	default:
+		break;
+	}
+}
+
+void Labyrinth::show(const double time, const ViewSettings& viewSettings)
 {
 
 	// TODO: make Floor an own class
@@ -53,55 +93,60 @@ void Labyrinth::paint(double time)
 
 	// draw the walls
 	for (auto& wall : walls) {
-		wall.paint(time);
+		wall.animate(time);
 	}
 
 	// draw auxiliary walls
-	if (Settings::wayPointWalls.show) {
+	if (viewSettings.wayPointWalls.show) {
 		for (auto& wall : wayPointWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::autoRouteWalls.show) {
+	if (viewSettings.autoRouteWalls.show) {
 		for (auto& wall : autoRouteWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::lvl1RouteWalls.show) {
+	if (viewSettings.lvl1RouteWalls.show) {
 		for (auto& wall : lvl1RouteWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::lvl1DeniedRouteWalls.show) {
+	if (viewSettings.lvl1DeniedRouteWalls.show) {
 		for (auto& wall : lvl1DeniedRouteWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::lvl2RouteWalls.show) {
+	if (viewSettings.lvl2RouteWalls.show) {
 		for (auto& wall : lvl2RouteWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::lvl2DeniedRouteWalls.show) {
+	if (viewSettings.lvl2DeniedRouteWalls.show) {
 		for (auto& wall : lvl2DeniedRouteWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::additionalRouteWalls.show) {
+	if (viewSettings.additionalRouteWalls.show) {
 		for (auto& wall : additionalRouteWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::additionalDeniedRouteWalls.show) {
+	if (viewSettings.additionalDeniedRouteWalls.show) {
 		for (auto& wall : additionalDeniedRouteWalls) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
-	if (Settings::dijkstraRoute.show) {
+	if (viewSettings.dijkstraRoute.show) {
 		for (auto& wall : dijkstraRoute) {
-			wall.paint(time);
+			wall.animate(time);
 		}
 	}
+}
+
+
+void Labyrinth::animate(const double ) {
+	draw();
 }
 
 void Labyrinth::draw(void) const {
@@ -172,12 +217,13 @@ Dijkstra Labyrinth::calculateRoute(const Vector2& start, const Vector2& end) {
 	ConnectedNetwork fullRoutes = WayPoint::connectPointsToNetwork(addPoints, routes, *this);
 	Dijkstra dijkstra(fullRoutes, start, end);
 
+	const ViewSettings& vs = GlutWindow::get().getViewSettings();
 
 	// if dijkstra.route is empty, there is no connection between the points
 	for (size_t i = 1; i < dijkstra.route.size(); i++) {
 		const auto& pt1 = dijkstra.route[i - 1];
 		const auto& pt2 = dijkstra.route[i];
-		dijkstraRoute.push_back(Wall(pt1, pt2, Settings::dijkstraRoute.color));
+		dijkstraRoute.push_back(Wall(pt1, pt2, vs.dijkstraRoute.color));
 	}
 
 	return dijkstra;

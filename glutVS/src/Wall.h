@@ -27,11 +27,13 @@ public:
 
 	Vector2 begin;
 	Vector2 end;
-	double width;
-
-	Quad cornerPoints;
 
 protected:
 	virtual void draw(void) const;
+
+private:
+	double width;
+
+	Quad cornerPoints;
 };
 

@@ -14,8 +14,6 @@ public:
 
 	~ConeTop(){}
 
-	double height;
-
 protected:
 	virtual GLfloat centerHeight() const {
 		return (GLfloat) (pos.z + height);
@@ -24,6 +22,9 @@ protected:
 	virtual GLfloat circleHeight() const {
 		return (GLfloat) pos.z;
 	}
+
+private:
+	double height;
 
 };
 

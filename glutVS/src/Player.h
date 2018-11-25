@@ -17,18 +17,15 @@ public:
 
 	virtual void update();
 
-	// TODO: change speed by using sin(time) -> creates a more natural, unsteady movement
-	double speed;
-	Vector3 movement;
-
 	int currentRouteIndex;
 	std::vector<Vector2> route;
 
 	Vector3 position;
 	Vector3 lookingDirection;
 
+	virtual void animate(const double time);
+
 protected:
-	virtual void paint(double time);
 	virtual void draw(void) const;
 
 private:
@@ -37,5 +34,9 @@ private:
 
 	void setForNextTarget();
 	void lerpLookingDirection();
+
+	// TODO: change speed by using sin(time) -> creates a more natural, unsteady movement
+	double speed;
+	Vector3 movement;
 
 };

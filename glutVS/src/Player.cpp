@@ -89,9 +89,9 @@ void Player::lerpLookingDirection() {
 	lookingDirection = lookingDirection * (1 - turnSpeed) + (movement - lookingDirection) * turnSpeed;
 }
 
-void Player::paint(double time) {
+void Player::animate(const double time) {
 	for (const auto& part : parts) {
-		part->paint(time);
+		part->animate(time);
 	}
 }
 

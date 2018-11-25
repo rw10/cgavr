@@ -78,6 +78,9 @@
     <ClCompile Include="src\Animation.cpp">
       <Filter>GUI\Drawables</Filter>
     </ClCompile>
+    <ClCompile Include="src\ViewSettings.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -178,6 +181,9 @@
     </ClInclude>
     <ClInclude Include="src\Animation.h">
       <Filter>GUI\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ViewSettings.h">
+      <Filter>GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

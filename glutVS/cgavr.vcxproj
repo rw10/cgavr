@@ -40,6 +40,7 @@
     <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TopDownCamera.cpp" />
+    <ClCompile Include="src\ViewSettings.cpp" />
     <ClCompile Include="src\Wall.cpp" />
     <ClCompile Include="src\GlutWindow.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -76,6 +77,7 @@
     <ClInclude Include="src\TopDownCamera.h" />
     <ClInclude Include="src\Types.h" />
     <ClInclude Include="src\Updatable.h" />
+    <ClInclude Include="src\ViewSettings.h" />
     <ClInclude Include="src\Wall.h" />
     <ClInclude Include="src\GlutWindow.h" />
     <ClInclude Include="src\Quad.h" />

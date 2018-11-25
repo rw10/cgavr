@@ -21,8 +21,16 @@ Cone::~Cone() {
 	delete coneTop;
 }
 
-void Cone::draw(void) const{
+
+void Cone::animate(const double time) {
 	// bottom and coneTop
-	floorCircle->draw();
-	coneTop->draw();
+	floorCircle->animate(time);
+	coneTop->animate(time);
+
+	Animation::animate(time);
+}
+
+void Cone::draw(void) const{
+	// nothing to do
+	// is drawn by parts
 }

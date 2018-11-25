@@ -36,11 +36,15 @@ Axis::Axis() {
 
 Axis::~Axis(){}
 
-void Axis::paint(double time) {
-	if (Settings::ShowAxis) {
-		for (auto& a : axis) {
-			a.paint(time);
-		}
+void Axis::show(const double time, const ViewSettings& viewSettings) {
+	if (viewSettings.ShowAxis){
+		animate(time);
+	}
+}
+
+void Axis::animate(const double time) {
+	for (auto& a : axis) {
+		a.animate(time);
 	}
 }
 

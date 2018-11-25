@@ -1,9 +1,17 @@
 #pragma once
 
+#include "ViewSettings.h"
 
 class Drawable {
 public:
-	virtual void paint(double) = 0;
+
+	// viewSettings are only for hiding elements
+	// usually not needed
+	virtual void show(const double time, const ViewSettings& ) {
+		animate(time);
+	}
+
+	virtual void animate(const double time) = 0;
 
 protected:
 	virtual void draw(void) const = 0;

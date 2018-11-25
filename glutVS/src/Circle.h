@@ -12,12 +12,12 @@ public:
 	Circle(const Vector3& position, double radius, Color3ub color);
 	~Circle();
 
-	virtual void draw(void) const;
-
 	Vector3 pos;
 	double radius;
 
 protected:
+	virtual void draw(void) const;
+
 	virtual GLfloat centerHeight() const {
 		return (GLfloat) pos.z;
 	}

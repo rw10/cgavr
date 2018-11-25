@@ -17,6 +17,8 @@ public:
 
 	Histogram3D(std::string file = "D:\\image.jpg");
 
+	void animate(const double time);
+
 protected:
 	virtual void draw(void) const;
 

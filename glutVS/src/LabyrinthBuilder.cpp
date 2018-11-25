@@ -31,15 +31,11 @@ std::shared_ptr<Labyrinth> LabyrinthBuilder::build() {
 
 void LabyrinthBuilder::someWalls(std::shared_ptr<Labyrinth> lab) {
 	// some walls
-	double width = 0;
 	for (int i = 0; i < 10; i++) {
-		Wall wall(
+		lab->addWall(
 			Vector2(i * 10, 5 * (i % 3)),
-			Vector2(i * 10 + 20, 50 + 5 * (i % 3)),
-			Color3ub(125, 10, 23),
-			width
+			Vector2(i * 10 + 20, 50 + 5 * (i % 3))
 		);
-		lab->addWall(wall);
 	}
 }
 
@@ -58,11 +54,8 @@ void LabyrinthBuilder::star(std::shared_ptr<Labyrinth> lab, size_t parts, size_t
 
 	for (int i = 0; i < limit; i++) {
 		lab->addWall(
-			Wall(
-				Vector2(offset.x, offset.y),
-				Vector2(offset.x + size * cos(2 * PI * i / parts), offset.y + size * sin(2 * PI * i / parts)),
-				TextureLoader::get().wallTexture
-			)
+			Vector2(offset.x, offset.y),
+			Vector2(offset.x + size * cos(2 * PI * i / parts), offset.y + size * sin(2 * PI * i / parts))
 		);
 	}
 }

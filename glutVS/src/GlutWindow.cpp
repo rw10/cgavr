@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include "Settings.h"
+#include "ViewSettings.h"
 #include "Dijkstra.h"
 
 // drawables
@@ -22,25 +23,22 @@
 #include "PlayerViewCamera.h"
 
 std::vector<GlutWindow> GlutWindow::INSTANCES = std::vector<GlutWindow>();
-int GlutWindow::active = 0;
+int GlutWindow::activeWindow = 0;
 
-GlutWindow::GlutWindow(int index)
+
+GlutWindow::GlutWindow(size_t index) : windowType((WindowType)(index))
 {
-	this->index = index;
-
-	camera = std::shared_ptr<Camera>(new FirstPersonCamera());
-	camera = std::shared_ptr<Camera>(new LookAtCamera());
-	camera = std::shared_ptr<Camera>(new TopDownCamera());
-
+	// create window
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(800, 600);
-	glutInitWindowPosition(50, 100);
+	glutInitWindowPosition(0 + (int)index * 800, 100);
 	glutCreateWindow(Settings::ProjectName.data());
 
+	// load textures
 	TextureLoader::init();
 
+	// init window settings
 	initialize();
-	clock_ticks = clock();
 }
 
 
@@ -64,11 +62,11 @@ void GlutWindow::display() {
 
 	const auto& drawables = Model::get().getDrawables();
 	for (const auto& drawable : drawables) {
-		drawable->paint(delta);
+		drawable->show(delta, viewSettings);
 	}
 
 	// show axis
-	axis.paint(delta);
+	axis.show(delta, viewSettings);
 
 	// in double buffering, this needs to be called to switch toggle between the shown and hidden buffer
 	glutSwapBuffers();
@@ -149,38 +147,37 @@ void GlutWindow::keyboardUpFunc(unsigned char key, int , int ) {
 	// unset the flag for the touched key -> action during idleFunc
 	keys.erase(key);
 
-
 	// direct action
 	switch (key) {
 	case '1':
-		Settings::wayPointWalls.show = !Settings::wayPointWalls.show;
+		viewSettings.wayPointWalls.show = !viewSettings.wayPointWalls.show;
 		break;
 	case '2':
-		Settings::autoRouteWalls.show = !Settings::autoRouteWalls.show;
+		viewSettings.autoRouteWalls.show = !viewSettings.autoRouteWalls.show;
 		break;
 	case '3':
-		Settings::lvl1RouteWalls.show = !Settings::lvl1RouteWalls.show;
+		viewSettings.lvl1RouteWalls.show = !viewSettings.lvl1RouteWalls.show;
 		break;
 	case '4':
-		Settings::lvl1DeniedRouteWalls.show = !Settings::lvl1DeniedRouteWalls.show;
+		viewSettings.lvl1DeniedRouteWalls.show = !viewSettings.lvl1DeniedRouteWalls.show;
 		break;
 	case '5':
-		Settings::lvl2RouteWalls.show = !Settings::lvl2RouteWalls.show;
+		viewSettings.lvl2RouteWalls.show = !viewSettings.lvl2RouteWalls.show;
 		break;
 	case '6':
-		Settings::lvl2DeniedRouteWalls.show = !Settings::lvl2DeniedRouteWalls.show;
+		viewSettings.lvl2DeniedRouteWalls.show = !viewSettings.lvl2DeniedRouteWalls.show;
 		break;
 	case '7':
-		Settings::additionalRouteWalls.show = !Settings::additionalRouteWalls.show;
+		viewSettings.additionalRouteWalls.show = !viewSettings.additionalRouteWalls.show;
 		break;
 	case '8':
-		Settings::additionalDeniedRouteWalls.show = !Settings::additionalDeniedRouteWalls.show;
+		viewSettings.additionalDeniedRouteWalls.show = !viewSettings.additionalDeniedRouteWalls.show;
 		break;
 	case '9':
-		Settings::dijkstraRoute.show = !Settings::dijkstraRoute.show;
+		viewSettings.dijkstraRoute.show = !viewSettings.dijkstraRoute.show;
 		break;
 	case '0':
-		Settings::ShowAxis = !Settings::ShowAxis;
+		viewSettings.ShowAxis = !viewSettings.ShowAxis;
 		break;
 	default:
 		break;
@@ -222,29 +219,15 @@ void GlutWindow::initialize(void)
 	// set the clear color
 	// glClearColor(0.0f, 0.1f, 0.5f, 1.0f);	// some dark blue
 	glClearColor(0.22f, 0.69f, 0.87f, 1.0f);	//SummerSky
+
+	// Use depth buffering for hidden surface elimination.
+	glEnable(GL_DEPTH_TEST);
 	
 	// Enable a single OpenGL light.
 	//glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
 	//glLightfv(GL_LIGHT0, GL_POSITION, light_position);
 	//glEnable(GL_LIGHT0);
 	//glEnable(GL_LIGHTING);
-
-	// Use depth buffering for hidden surface elimination.
-	glEnable(GL_DEPTH_TEST);
-
-	// Setup the view.
-	glMatrixMode(GL_PROJECTION);
-	gluPerspective(
-		// field of view in degree
-		40.0,
-		// aspect ratio
-		1.0,
-		// Z near
-		1.0,
-		// Z far
-		1000.0
-	);
-	glMatrixMode(GL_MODELVIEW);
 
 	// show both sides of objects
 	//glDisable(GL_CULL_FACE);
@@ -255,7 +238,23 @@ void GlutWindow::initialize(void)
 
 	//glEnable(GL_CLIP_DISTANCE0);
 
-	if (index == 2) {
-		camera = std::shared_ptr<Camera>(new PlayerViewCamera(Model::get().getPlayer()));
+
+	// window title
+	windowTitle = Settings::ProjectName + ": ";
+	switch (windowType) {
+	case WindowType::PLAYERVIEW:
+		windowTitle += "Player View";
+		camera = std::shared_ptr<Camera>(new PlayerViewCamera());
+		break;
+	case WindowType::TOPDOWN:
+		windowTitle += "Top-Down View";
+		camera = std::shared_ptr<Camera>(new TopDownCamera());
+		break;
+	default:
+		windowTitle += "undefined";
+		break;
 	}
+	glutSetWindowTitle(windowTitle.data());
+
+	clock_ticks = clock();
 }

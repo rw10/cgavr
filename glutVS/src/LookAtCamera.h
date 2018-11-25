@@ -12,5 +12,8 @@ public:
 	virtual void rotateAroundY(double degrees);
 	virtual void rotateAroundZ(double degrees);
 
+protected:
+	virtual void initPerspective();
+
 };
 

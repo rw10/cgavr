@@ -16,5 +16,6 @@ public:
 
 protected:
 	Vector3 lookingDirection;
+	virtual void initPerspective();
 
 };

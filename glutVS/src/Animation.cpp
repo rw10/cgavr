@@ -19,7 +19,7 @@ Animation::Animation(Color3ub color) : color(color)
 
 Animation::~Animation() {}
 
-void Animation::paint(double time) {
+void Animation::animate(const double time) {
 
 	// enable texture
 	if (textures.size() != 0) {

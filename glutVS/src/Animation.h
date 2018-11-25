@@ -14,12 +14,13 @@ public:
 	Animation(Color3ub color);
 	~Animation();
 
-	// paint() can be overwritten:
+	// animate() can be overwritten:
 	// if taking over texture handling manually
 	// or if only calling children
-	virtual void paint(double time);
+	virtual void animate(const double time);
 
 protected:
+	
 	AnimationTextures textures;
 	Color3ub color;
 	size_t index;

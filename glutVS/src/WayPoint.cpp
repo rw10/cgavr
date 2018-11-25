@@ -18,7 +18,7 @@
 WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, unsigned int nrPointsOnEitherSide, Labyrinth& lab) {
 
 	bool left = angle > 180;
-	directionVector.normalize(Settings::PlayerRadius);
+	directionVector.normalize(Settings::PlayerRadius + Settings::WallWidth);
 
 	if (left) {
 		angle = 360 - angle;
@@ -42,7 +42,7 @@ WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double ang
 
 	// add a waypoint in the middle
 	Vector2 middleVector = corner + directionVector;
-	lab.wayPointWalls.push_back(Wall(corner, middleVector, Settings::wayPointWalls.color));
+	lab.addHelperLine(corner, middleVector, WallType::MAINWAYPOINT);
 	wp.main = middleVector;
 
 	Vector2 prevL = middleVector;
@@ -56,13 +56,13 @@ WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double ang
 		Vector2 leftVec = directionVector;
 		leftVec.rotateAroundZ(-step);
 		leftVec = Vector2(corner + leftVec);
-		lab.wayPointWalls.push_back(Wall(corner, leftVec, Settings::wayPointWalls.color * 2));
+		lab.addHelperLine(corner, leftVec, WallType::WAYPOINT);
 
 		// add a waypoint to the right
 		Vector2 rightVec = directionVector;
 		rightVec.rotateAroundZ(step);
 		rightVec = Vector2(corner + rightVec);
-		lab.wayPointWalls.push_back(Wall(corner, rightVec, Settings::wayPointWalls.color * 2));
+		lab.addHelperLine(corner, rightVec, WallType::WAYPOINT);
 
 		// add to corner-waypoint
 		wp.others.push_back(leftVec);
@@ -70,10 +70,10 @@ WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double ang
 
 		// connect the waypoints that are next to each other
 		createRoute(prevL, leftVec, lab.routes);
-		lab.autoRouteWalls.push_back(Wall(prevL, leftVec, Settings::autoRouteWalls.color));
+		lab.addHelperLine(prevL, leftVec, WallType::AUTO);
 		prevL = leftVec;
 		createRoute(prevR, rightVec, lab.routes);
-		lab.autoRouteWalls.push_back(Wall(prevR, rightVec, Settings::autoRouteWalls.color));
+		lab.addHelperLine(prevR, rightVec, WallType::AUTO);
 		prevR = rightVec;
 	}
 
@@ -173,10 +173,10 @@ void WayPoint::testAllRoutes(Labyrinth& lab) {
 
 			if (!collision) {
 				testAllSubRoutes(wp1, wp2, lab);
-				lab.lvl1RouteWalls.push_back(Wall(wp1.main, wp2.main, Settings::lvl1RouteWalls.color));
+				lab.addHelperLine(wp1.main, wp2.main, WallType::LVL1);
 			}
 			else {
-				lab.lvl1DeniedRouteWalls.push_back(Wall(wp1.main, wp2.main, Settings::lvl1DeniedRouteWalls.color));
+				lab.addHelperLine(wp1.main, wp2.main, WallType::LVL1DENIED);
 			}
 		}
 	}
@@ -193,10 +193,10 @@ void WayPoint::testAllSubRoutes(const WayPoint& wp1, const WayPoint& wp2, Labyri
 
 			if (!collision) {
 				createRoute(point1, point2, lab.routes);
-				lab.lvl2RouteWalls.push_back(Wall(point1, point2, Settings::lvl2RouteWalls.color));
+				lab.addHelperLine(point1, point2, WallType::LVL2);
 			}
 			else {
-				lab.lvl2DeniedRouteWalls.push_back(Wall(point1, point2, Settings::lvl2DeniedRouteWalls.color));
+				lab.addHelperLine(point1, point2, WallType::LVL2DENIED);
 			}
 		}
 	}
@@ -224,10 +224,10 @@ ConnectedNetwork WayPoint::connectPointsToNetwork(const std::vector<Vector2>& po
 					// proper collision check with all points of waypoint that may be reachable
 					if (!Collision::isColliding(point, point2, lab.walls, true)) {
 						createRoute(point, point2, routes);
-						lab.additionalRouteWalls.push_back(Wall(point, point2, Settings::additionalRouteWalls.color));
+						lab.addHelperLine(point, point2, WallType::ADDITIONAL);
 					}
 					else {
-						lab.additionalDeniedRouteWalls.push_back(Wall(point, point2, Settings::additionalDeniedRouteWalls.color));
+						lab.addHelperLine(point, point2, WallType::ADDITIONALDENIED);
 					}
 				}
 			}

@@ -14,8 +14,12 @@ public:
 	Cylinder(const Vector3& position, double radius, double height, Color3ub color);
 	~Cylinder();
 
+	virtual void animate(const double time);
+
+protected:
 	virtual void draw(void) const;
 
+private:
 	// pos = bottom center
 	Vector3 pos;
 	double radius;

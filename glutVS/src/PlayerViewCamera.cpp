@@ -1,12 +1,18 @@
 #include "pch.h"
 
 #include "PlayerViewCamera.h"
+#include "Model.h"
 
-PlayerViewCamera::PlayerViewCamera(std::shared_ptr<Player> player) : player(player)
+PlayerViewCamera::PlayerViewCamera(std::shared_ptr<Player> player) : player(player), fixedPlayer(true)
+{}
+
+PlayerViewCamera::PlayerViewCamera() : fixedPlayer(false)
 {}
 
 void PlayerViewCamera::update() {
-	position = player->position;
-	lookingDirection = player->lookingDirection;
+	const std::shared_ptr<Player>& p = fixedPlayer? player : Model::get().getPlayer();
+		
+	position = p->position;
+	lookingDirection = p->lookingDirection;
 	FirstPersonCamera::update();
 }

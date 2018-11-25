@@ -34,6 +34,14 @@ Cylinder::~Cylinder() {
 	delete ceilingCircle;
 }
 
+void Cylinder::animate(const double time) {
+	// top and bottom
+	floorCircle->animate(time);
+	ceilingCircle->animate(time);
+
+	Animation::animate(time);
+}
+
 void Cylinder::draw(void) const {
 	// --- draw the side ---
 	// z dimension
@@ -67,8 +75,4 @@ void Cylinder::draw(void) const {
 	}
 
 	glEnd();
-
-	// top and bottom
-	floorCircle->draw();
-	ceilingCircle->draw();
 }

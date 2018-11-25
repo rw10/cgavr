@@ -12,6 +12,10 @@
 #include "Wall.h"
 #include "Dijkstra.h"
 
+enum WallType {
+	MAINWAYPOINT, WAYPOINT, AUTO, LVL1, LVL1DENIED, LVL2, LVL2DENIED, ADDITIONAL, ADDITIONALDENIED, DIJKSTRA
+};
+
 class Labyrinth : public Drawable {
 public:
 	Labyrinth();
@@ -19,18 +23,22 @@ public:
 
 	friend class WayPoint;
 
-	void addWall(const Wall& wall);
 	void addWall(const Vector3& begin, const Vector3& end);
+	void addHelperLine(const Vector3& begin, const Vector3& end, WallType type);
 
 	void initRouting();
 	Dijkstra calculateRoute(const Vector2& start, const Vector2& end);
 
-	virtual void paint(double time);
+	virtual void show(const double time, const ViewSettings& viewSettings);
+	virtual void animate(const double time);
 
 protected:
 	virtual void draw(void) const;
 
 private:
+	void addWall(const Wall& wall);
+
+	// dijkstra start and end point
 	Vector2 startPoint;
 	Vector2 endPoint;
 

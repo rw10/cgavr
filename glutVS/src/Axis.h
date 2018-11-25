@@ -9,7 +9,8 @@ public:
 	Axis();
 	~Axis();
 
-	virtual void paint(double time);
+	virtual void show(const double time, const ViewSettings& viewSettings);
+	virtual void animate(const double time);
 
 protected:
 	virtual void draw(void) const;

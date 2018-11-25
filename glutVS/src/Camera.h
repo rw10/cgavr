@@ -24,7 +24,7 @@ public:
 	* inversion by negative distance is also possible
 	*/
 	virtual void move(double distance, double degrees);
-
+	 
 	/**
 	* move the camera in z
 	* moveDown => negative value param
@@ -44,6 +44,8 @@ protected:
 
 	// auxiliary function to update other things besides position, called during moveToPoint
 	virtual void moveEnvironment(const Vector3&){}
+
+	virtual void initPerspective(void) = 0;
 
 };
 
