@@ -10,6 +10,7 @@
 #include "Types.h"
 #include "WayPoint.h"
 #include "Wall.h"
+#include "Cylinder.h"
 #include "Dijkstra.h"
 
 enum WallType {
@@ -63,6 +64,8 @@ private:
 	* each point has list of all other reachable points it is connected to
 	*/
 	ConnectedNetwork routes;
+
+	std::map<Vector2, Cylinder> roundCorners;
 
 	// only for display
 	std::vector<Wall> walls;

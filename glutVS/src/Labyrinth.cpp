@@ -31,6 +31,10 @@ void Labyrinth::addWall(const Wall& wall){
 	corners[wall.begin].push_back(wall.end);
 	corners[wall.end].push_back(wall.begin);
 
+	// add a cylinder to make the corners round
+	roundCorners[wall.begin] = Cylinder(wall.begin, Settings::WallWidth, Settings::WallHeight, TextureLoader::get().wallTexture);
+	roundCorners[wall.end] = Cylinder(wall.end, Settings::WallWidth, Settings::WallHeight, TextureLoader::get().wallTexture);
+
 	// keep size up to date
 	lowCorner.x = fmin(lowCorner.x, wall.begin.x);
 	lowCorner.x = fmin(lowCorner.x, wall.end.x);
@@ -94,6 +98,11 @@ void Labyrinth::show(const double time, const ViewSettings& viewSettings)
 	// draw the walls
 	for (auto& wall : walls) {
 		wall.animate(time);
+	}
+
+	// draw the "round corners"
+	for (auto& corner : roundCorners) {
+		corner.second.animate(time);
 	}
 
 	// draw auxiliary walls

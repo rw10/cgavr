@@ -12,27 +12,24 @@
 Cylinder::Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures, double animationDuration) :
 	Animation(textures, animationDuration), pos(position), radius(radius), height(height)
 {
-	floorCircle = new Circle(pos, radius, textures);
+	floorCircle = std::shared_ptr<Circle> (new Circle(pos, radius, textures));
 
 	Vector3 cPos = pos;
 	cPos.z += height;
-	ceilingCircle = new Circle(cPos, radius, textures);
+	ceilingCircle = std::shared_ptr<Circle>(new Circle(cPos, radius, textures));
 }
 
 Cylinder::Cylinder(const Vector3& position, double radius, double height, Color3ub color) :
 	Animation(color), pos(position), radius(radius), height(height)
 {
-	floorCircle = new Circle(pos, radius, color);
+	floorCircle = std::shared_ptr<Circle>(new Circle(pos, radius, color));
 
 	Vector3 cPos = pos;
 	cPos.z += height;
-	ceilingCircle = new Circle(cPos, radius, color);
+	ceilingCircle = std::shared_ptr<Circle>(new Circle(cPos, radius, color));
 }
 
-Cylinder::~Cylinder() {
-	delete floorCircle;
-	delete ceilingCircle;
-}
+Cylinder::~Cylinder() {}
 
 void Cylinder::animate(const double time) {
 	// top and bottom

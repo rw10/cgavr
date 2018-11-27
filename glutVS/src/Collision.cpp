@@ -21,7 +21,7 @@ bool Collision::isColliding(const Vector2& source, const Vector2& target, const 
 
 		if (fullCheck) {
 			// check collision with player body
-			collision |= closestDistanceToWall(source, target, wall) < Settings::PlayerRadius * 0.99;
+			collision |= closestDistanceToWall(source, target, wall) < (Settings::PlayerRadius+Settings::WallWidth) * 0.99;
 		}
 	}
 	return collision;

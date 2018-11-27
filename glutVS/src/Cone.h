@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ConeTop.h"
+#include <memory>
 
 class Cone : public Animation
 {
@@ -15,8 +16,8 @@ protected:
 	virtual void draw(void) const;
 
 private:
-	Circle* floorCircle;
-	ConeTop* coneTop;
+	std::shared_ptr<Circle> floorCircle;
+	std::shared_ptr<ConeTop> coneTop;
 
 	// pos = bottom center
 	Vector3 pos;

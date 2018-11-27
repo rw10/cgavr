@@ -19,6 +19,11 @@ public:
 	// or if only calling children
 	virtual void animate(const double time);
 
+
+	// TODO: change Textures and Color during runtime!!
+
+
+
 protected:
 	
 	AnimationTextures textures;
