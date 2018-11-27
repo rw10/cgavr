@@ -12,7 +12,9 @@ public:
 	~Block();
 
 	// factories
+	static Block createByCorners(const Vector3& corner1, const Vector3& corner2, AnimationTextures textures, double animationDuration = 1000.0);
 	static Block createByCorners(const Vector3& corner1, const Vector3& corner2, const Color3ub& color);
+	static Block createByCenterSize(const Vector3& center, const Vector3& size, AnimationTextures textures, double animationDuration = 1000.0);
 	static Block createByCenterSize(const Vector3& center, const Vector3& size, const Color3ub& color);
 
 
@@ -24,5 +26,6 @@ protected:
 
 private:
 	Block(const Vector3 center, const Vector3 size, const Color3ub color);
+	Block(const Vector3 center, const Vector3 size, AnimationTextures textures, double animationDuration = 1000.0);
 };
 

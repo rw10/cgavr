@@ -38,27 +38,36 @@ Player::Player(const std::vector<Vector2>& route) : route(route)
 
 void Player::update() {
 	if (currentRouteIndex < route.size() - 1) {
-		const Vector2& next = route[currentRouteIndex + 1];
+		double distanceToGo = Settings::PlayerSpeed;
 
-		// if speed value has changed, update the movement vector
-		if (speed != Settings::PlayerSpeed) {
-			speed = Settings::PlayerSpeed;
+		do {
+			// calc movement
+			const Vector2& next = route[currentRouteIndex + 1];
 			const Vector2& last = route[currentRouteIndex];
 			movement = next - last;
-			movement.normalize(speed);
-		}
+			movement.normalize(distanceToGo);
 
-		double distanceLeft = (next - position).getLengthXY();
+			// calculate if the movement step is enough to reach the next point
+			double distanceToNextPoint = (next - position).getLengthXY();
+			distanceToGo -= distanceToNextPoint;
 
+			// if there is distanceToGo left, the next point was reached prematurely
+			if (distanceToGo > 0) {
+				// set next point of the route as target
+				setForNextTarget();
+			}
+			else {
+				// move towards target
+				position = position + movement;
+			}
+
+		// move again, if distance left
+		} while (distanceToGo > 0);
+
+		// lerp the looking direction to fit movement direction
 		lerpLookingDirection();
 
-		// update to follow next part of the route
-		if (speed >= distanceLeft) {
-			setForNextTarget();
-		}
-		else {
-			position = position + movement;
-		}
+		// update the position of the player model
 		cone->pos = position;
 		cone->pos.z = 0;
 	}
@@ -68,14 +77,7 @@ void Player::setForNextTarget() {
 	currentRouteIndex++;
 	position = route[currentRouteIndex];
 
-	if (currentRouteIndex < route.size() - 1) {
-		const Vector2& last = route[currentRouteIndex];
-		const Vector2& next = route[currentRouteIndex + 1];
-
-		movement = next - last;
-		movement.normalize(speed);
-	}
-	else {
+	if (currentRouteIndex == route.size() - 1) {
 		// reset on arrival...
 		currentRouteIndex = -1;
 		setForNextTarget();

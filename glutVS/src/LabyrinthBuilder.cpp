@@ -225,7 +225,6 @@ void LabyrinthBuilder::staticLab(std::shared_ptr<Labyrinth> lab) {
 		Vector2(60, 30)
 	);
 
-
 	//triangle90(lab, 10, 0, Vector2(80, 40));
 	//triangle90(lab, 10, 180, Vector2(80, 60));
 

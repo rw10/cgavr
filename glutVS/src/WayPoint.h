@@ -31,7 +31,7 @@ public:
 private:
 	// step 1: find waypoints on the corners
 	static void findWayPoints(Labyrinth& lab);
-	static WayPoint createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, unsigned int count, Labyrinth& lab);
+	static WayPoint createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, size_t detail, Labyrinth& lab);
 
 	// step2: create Routes by connecting the waypoints
 	static void testAllRoutes(Labyrinth& lab);

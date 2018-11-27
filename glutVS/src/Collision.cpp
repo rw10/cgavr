@@ -2,7 +2,7 @@
 
 #include "Collision.h"
 
-#include <cmath> 
+#include <cmath>
 
 Collision::Collision()
 {}
@@ -10,7 +10,7 @@ Collision::Collision()
 Collision::~Collision()
 {}
 
-bool Collision::isColliding(const Vector2& source, const Vector2& target, const std::vector<Wall>& walls, bool fullCheck) {
+bool Collision::isColliding(const Vector2& source, const Vector2& target, const std::vector<Wall>& walls, CollisionTestType type) {
 	bool collision = false;
 
 	// test all walls (or until a collision is found)
@@ -19,9 +19,16 @@ bool Collision::isColliding(const Vector2& source, const Vector2& target, const 
 		// or connection -> one collision shall prevent the connection
 		collision |= isColliding(source, target, wall);
 
-		if (fullCheck) {
-			// check collision with player body
-			collision |= closestDistanceToWall(source, target, wall) < (Settings::PlayerRadius+Settings::WallWidth) * 0.99;
+		if (!VISIBILITY) {
+			double maxDistanceAllowed = 
+				(type == FULL_CHECK)? 
+				Settings::PlayerRadius + Settings::WallWidth :
+				Settings::WallWidth;
+
+			maxDistanceAllowed *= Settings::CollisionPrecision;
+
+			// check collision with closest distance of player and wall (using wall width and player body radius)
+			collision |= closestDistanceToWall(source, target, wall) < maxDistanceAllowed;
 		}
 	}
 	return collision;

@@ -11,6 +11,15 @@ public:
 	static const double PlayerHeight;
 	static double PlayerSpeed;
 	static const double TextureSizeMultiplier;
+
+	static const double CollisionPrecision;
+	
 	// how many points to use for drawing a full circle, should be a common divisor of 360
 	static const size_t CircleDrawPrecision;
+
+	// how many points to use for a waypoint
+	// 0 = 3 points around corner
+	// 1 = 5 points around corner
+	// 2 = 7 ....
+	static const size_t WayPointDetail;
 };

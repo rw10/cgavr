@@ -19,10 +19,13 @@ public:
 	// or if only calling children
 	virtual void animate(const double time);
 
+	void setAnimationTextures(AnimationTextures animationTextures) {
+		textures = animationTextures;
+	}
 
-	// TODO: change Textures and Color during runtime!!
-
-
+	void setColor(Color3ub objectColor) {
+		color = objectColor;
+	}
 
 protected:
 	

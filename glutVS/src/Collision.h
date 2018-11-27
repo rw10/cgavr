@@ -3,10 +3,14 @@
 #include "Wall.h"
 #include <vector>
 
+enum CollisionTestType {
+	VISIBILITY, WALL_WIDTH_ONLY, FULL_CHECK
+};
+
 class Collision
 {
 public:
-	static bool isColliding(const Vector2& source, const Vector2& target, const std::vector<Wall>& walls, bool fullCheck);
+	static bool isColliding(const Vector2& source, const Vector2& target, const std::vector<Wall>& walls, CollisionTestType type);
 
 private:
 	static bool isColliding(const Vector2& source, const Vector2& target, const Wall& wall);

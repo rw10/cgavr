@@ -15,7 +15,9 @@
 #include <algorithm>
 
 
-WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, unsigned int nrPointsOnEitherSide, Labyrinth& lab) {
+WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double angle, Vector2 directionVector, size_t detail, Labyrinth& lab) {
+
+	size_t nrPointsOnEitherSide = 1 + detail;
 
 	bool left = angle > 180;
 	directionVector.normalize(Settings::PlayerRadius + Settings::WallWidth);
@@ -96,9 +98,9 @@ void WayPoint::findWayPoints(Labyrinth& lab) {
 			Vector2 direction = connectedCorners[0] - corner;
 
 			// call 2 times -> 45° points have to be main point in Waypoint structure
-			WayPoint wp1 = createWaypointsAroundCorner(corner, 90, direction, 1, lab);
+			WayPoint wp1 = createWaypointsAroundCorner(corner, 90, direction, Settings::WayPointDetail, lab);
 			lab.waypoints.push_back(wp1);
-			WayPoint wp2 = createWaypointsAroundCorner(corner, 270, direction, 1, lab);
+			WayPoint wp2 = createWaypointsAroundCorner(corner, 270, direction, Settings::WayPointDetail, lab);
 			lab.waypoints.push_back(wp2);
 
 			// TODO:
@@ -117,7 +119,7 @@ void WayPoint::findWayPoints(Labyrinth& lab) {
 			Vector2 direction2 = connectedCorners[1] - corner;
 
 			double angle = Vector3::calcAngleInXY(direction1, direction2);
-			WayPoint wp = createWaypointsAroundCorner(corner, angle, direction2, 1, lab);
+			WayPoint wp = createWaypointsAroundCorner(corner, angle, direction2, Settings::WayPointDetail, lab);
 			lab.waypoints.push_back(wp);
 		}
 		else {
@@ -150,7 +152,7 @@ void WayPoint::findWayPoints(Labyrinth& lab) {
 
 				// use 0.01 as buffer for inaccuracy in calculation
 				if (angles[0] > 180.01) {
-					WayPoint wp = createWaypointsAroundCorner(corner, 360 - angles[0], direction1, 1, lab);
+					WayPoint wp = createWaypointsAroundCorner(corner, 360 - angles[0], direction1, Settings::WayPointDetail, lab);
 					lab.waypoints.push_back(wp);
 				}
 			}
@@ -169,7 +171,9 @@ void WayPoint::testAllRoutes(Labyrinth& lab) {
 		for (size_t j = i; j < lab.waypoints.size(); j++) {
 			const auto& wp2 = lab.waypoints[j];
 
-			bool collision = Collision::isColliding(wp1.main, wp2.main, lab.walls, false);
+			// check points for visibility
+			// an additional collision test using distance to wall may not be used here!!
+			bool collision = Collision::isColliding(wp1.main, wp2.main, lab.walls, CollisionTestType::VISIBILITY);
 
 			if (!collision) {
 				testAllSubRoutes(wp1, wp2, lab);
@@ -189,7 +193,7 @@ void WayPoint::testAllSubRoutes(const WayPoint& wp1, const WayPoint& wp2, Labyri
 	for (const auto& point1 : list1) {
 		for (const auto& point2 : list2) {
 
-			bool collision = Collision::isColliding(point1, point2, lab.walls, true);
+			bool collision = Collision::isColliding(point1, point2, lab.walls, CollisionTestType::FULL_CHECK);
 
 			if (!collision) {
 				createRoute(point1, point2, lab.routes);
@@ -218,11 +222,11 @@ ConnectedNetwork WayPoint::connectPointsToNetwork(const std::vector<Vector2>& po
 			const auto& wp = lab.waypoints[i];
 			
 			// fast collision check with main-point of waypoint
-			if (!Collision::isColliding(wp.main, point, lab.walls, false)) {
+			if (!Collision::isColliding(wp.main, point, lab.walls, CollisionTestType::VISIBILITY)) {
 				for (const auto& point2 : wp.getAll()) {
 
 					// proper collision check with all points of waypoint that may be reachable
-					if (!Collision::isColliding(point, point2, lab.walls, true)) {
+					if (!Collision::isColliding(point, point2, lab.walls, CollisionTestType::FULL_CHECK)) {
 						createRoute(point, point2, routes);
 						lab.addHelperLine(point, point2, WallType::ADDITIONAL);
 					}
