@@ -175,7 +175,6 @@ void Labyrinth::draw(void) const {
 	// draw floor
 	glBegin(GL_QUADS);
 	glColor3b(50, 50, 50);		//grey
-	glNormal3f(0.0f, 0.0f, 1.0f);		// view from further up
 
 	// bottom left
 	glTexCoord2f(0, 0);
@@ -193,15 +192,16 @@ void Labyrinth::draw(void) const {
 	glTexCoord2f(0, textureSizeY);
 	glVertex3f(lowCorner.gl_x(), highCorner.gl_y(), lowCorner.gl_z());
 
-	/*
+	
 	// draw ceiling
-	GLfloat height = (GLfloat) (highCorner.z + Constants::WallHeight);
-	glNormal3f(0.0f, 0.0f, -1.0f);		// view from below
+	/*
+	GLfloat height = (GLfloat) (highCorner.z + Settings::WallHeight);
 	glVertex3f(lowCorner.gl_x(), lowCorner.gl_y(), height);
 	glVertex3f(lowCorner.gl_x(), highCorner.gl_y(), height);
 	glVertex3f(highCorner.gl_x(), highCorner.gl_y(), height);
 	glVertex3f(highCorner.gl_x(), lowCorner.gl_y(), height);
 	*/
+	
 	glEnd();
 }
 

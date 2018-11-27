@@ -28,18 +28,17 @@ void Wall::draw(void) const {
 	if (width > 0) {
 
 		// top
-		glNormal3f(0.0f, 0.0f, 1.0f);
-		glTexCoord2f(0.0f, 0.0f);
+		//glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(cornerPoints.p11.gl_x(), cornerPoints.p11.gl_y(), ceiling);
-		glTexCoord2f(1.0f, 0.0f);
+		//glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(cornerPoints.p12.gl_x(), cornerPoints.p12.gl_y(), ceiling);
-		glTexCoord2f(1.0f, 1.0f);
+		//glTexCoord2f(1.0f, 1.0f);
 		glVertex3f(cornerPoints.p22.gl_x(), cornerPoints.p22.gl_y(), ceiling);
-		glTexCoord2f(0.0f, 1.0f);
+		//glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(cornerPoints.p21.gl_x(), cornerPoints.p21.gl_y(), ceiling);
 
 		// bottom
-		glNormal3f(0.0f, 0.0f, -1.0f);
+		/*
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(cornerPoints.p11.gl_x(), cornerPoints.p11.gl_y(), floor);
 		glTexCoord2f(1.0f, 0.0f);
@@ -48,9 +47,9 @@ void Wall::draw(void) const {
 		glVertex3f(cornerPoints.p22.gl_x(), cornerPoints.p22.gl_y(), floor);
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(cornerPoints.p21.gl_x(), cornerPoints.p21.gl_y(), floor);
+		*/
 
 		// front
-		glNormal3f(0.0f, -1.0f, 0.0f);
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(cornerPoints.p11.gl_x(), cornerPoints.p11.gl_y(), floor);
 		glTexCoord2f(0.0f, 1.0f);
@@ -61,7 +60,6 @@ void Wall::draw(void) const {
 		glVertex3f(cornerPoints.p12.gl_x(), cornerPoints.p12.gl_y(), floor);
 
 		// back
-		glNormal3f(0.0f, 1.0f, 0.0f);
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(cornerPoints.p21.gl_x(), cornerPoints.p21.gl_y(), floor);
 		glTexCoord2f(0.0f, 1.0f);
@@ -77,7 +75,6 @@ void Wall::draw(void) const {
 	GLfloat textureSizeY = (GLfloat)((ceiling - floor) / Settings::TextureSizeMultiplier);
 
 	// right
-	glNormal3f(1.0f, 0.0f, 0.0f);
 	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(cornerPoints.p11.gl_x(), cornerPoints.p11.gl_y(), floor);
 	glTexCoord2f(0.0f, textureSizeY);
@@ -88,7 +85,6 @@ void Wall::draw(void) const {
 	glVertex3f(cornerPoints.p21.gl_x(), cornerPoints.p21.gl_y(), floor);
 
 	// left
-	glNormal3f(-1.0f, 0.0f, 0.0f);
 	glTexCoord2f(0.0f, 0.0f);
 	glVertex3f(cornerPoints.p12.gl_x(), cornerPoints.p12.gl_y(), floor);
 	glTexCoord2f(0.0f, textureSizeY);

@@ -76,42 +76,36 @@ void Block::draw(void) const {
 	glBegin(GL_QUADS);
 	// top
 	glColor3ub(color.r, color.g, color.b);
-	glNormal3f(0.0f, 0.0f, 1.0f);
 	glVertex3f(low.gl_x(), low.gl_y(), high.gl_z());
 	glVertex3f(high.gl_x(), low.gl_y(), high.gl_z());
 	glVertex3f(high.gl_x(), high.gl_y(), high.gl_z());
 	glVertex3f(low.gl_x(), high.gl_y(), high.gl_z());
 
 	// bottom
-	glNormal3f(0.0f, 0.0f, -1.0f);
 	glVertex3f(low.gl_x(), low.gl_y(), low.gl_z());
 	glVertex3f(high.gl_x(), low.gl_y(), low.gl_z());
 	glVertex3f(high.gl_x(), high.gl_y(), low.gl_z());
 	glVertex3f(low.gl_x(), high.gl_y(), low.gl_z());
 
 	// front
-	glNormal3f(0.0f, -1.0f, 0.0f);
 	glVertex3f(high.gl_x(), low.gl_y(), low.gl_z());
 	glVertex3f(high.gl_x(), low.gl_y(), high.gl_z());
 	glVertex3f(low.gl_x(), low.gl_y(), high.gl_z());
 	glVertex3f(low.gl_x(), low.gl_y(), low.gl_z());
 
 	// back
-	glNormal3f(0.0f, 1.0f, 0.0f);
 	glVertex3f(low.gl_x(), high.gl_y(), low.gl_z());
 	glVertex3f(low.gl_x(), high.gl_y(), high.gl_z());
 	glVertex3f(high.gl_x(), high.gl_y(), high.gl_z());
 	glVertex3f(high.gl_x(), high.gl_y(), low.gl_z());
 
 	// right
-	glNormal3f(1.0f, 0.0f, 0.0f);
 	glVertex3f(high.gl_x(), high.gl_y(), low.gl_z());
 	glVertex3f(high.gl_x(), high.gl_y(), high.gl_z());
 	glVertex3f(high.gl_x(), low.gl_y(), high.gl_z());
 	glVertex3f(high.gl_x(), low.gl_y(), low.gl_z());
 
 	// left
-	glNormal3f(-1.0f, 0.0f, 0.0f);
 	glVertex3f(low.gl_x(), high.gl_y(), low.gl_z());
 	glVertex3f(low.gl_x(), high.gl_y(), high.gl_z());
 	glVertex3f(low.gl_x(), low.gl_y(), high.gl_z());
