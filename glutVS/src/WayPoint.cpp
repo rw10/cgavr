@@ -218,6 +218,28 @@ ConnectedNetwork WayPoint::connectPointsToNetwork(const std::vector<Vector2>& po
 	// copy network that contains all routes besides the new points
 	ConnectedNetwork routes = routeNetwork;
 
+	// connect points to each other
+	for (size_t i = 0; i < points.size(); i++) {
+		for (size_t j = 0; j < points.size(); j++) {
+			if (i != j) {
+				const Vector2& p1 = points[i];
+				const Vector2& p2 = points[j];
+
+				// proper collision check
+				if (!Collision::isColliding(p1, p2, lab.walls, CollisionTestType::FULL_CHECK)) {
+					createRoute(p1, p2, routes);
+					lab.addHelperLine(p1, p2, WallType::ADDITIONAL);
+				}
+				else {
+					lab.addHelperLine(p1, p2, WallType::ADDITIONALDENIED);
+				}
+			}
+		}
+	}
+
+
+
+	// connect points to network
 	for (const auto& point : points) {
 		for (size_t i = 0; i < lab.waypoints.size(); i++) {
 			const auto& wp = lab.waypoints[i];
