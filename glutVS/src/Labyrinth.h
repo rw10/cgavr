@@ -38,6 +38,7 @@ protected:
 
 private:
 	void addWall(const Wall& wall);
+	void createRoundCorner(const Vector2& corner);
 
 	// dijkstra start and end point
 	Vector2 startPoint;

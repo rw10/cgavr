@@ -15,8 +15,18 @@ public:
 	Vector3 pos;
 	double radius;
 
+	void setStartAngle(int angle) {
+		startAngle = angle;
+	}
+	void setEndAngle(int angle) {
+		endAngle = angle;
+	}
+
 protected:
 	virtual void draw(void) const;
+
+	int startAngle = 0;
+	int endAngle = 90;
 
 	virtual GLfloat centerHeight() const {
 		return (GLfloat) pos.z;
@@ -25,5 +35,8 @@ protected:
 	virtual GLfloat circleHeight() const {
 		return (GLfloat) pos.z;
 	}
+
+private:
+	void createVertex(int angle) const;
 };
 

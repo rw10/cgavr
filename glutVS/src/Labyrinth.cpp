@@ -10,6 +10,7 @@
 #include "Labyrinth.h"
 
 #include <iostream>
+#include <algorithm>
 #include <cmath> 
 
 #include "TextureLoader.h"
@@ -32,8 +33,8 @@ void Labyrinth::addWall(const Wall& wall){
 	corners[wall.end].push_back(wall.begin);
 
 	// add a cylinder to make the corners round
-	roundCorners[wall.begin] = Cylinder(wall.begin, Settings::WallWidth, Settings::WallHeight, TextureLoader::get().wallTexture);
-	roundCorners[wall.end] = Cylinder(wall.end, Settings::WallWidth, Settings::WallHeight, TextureLoader::get().wallTexture);
+	createRoundCorner(wall.begin);
+	createRoundCorner(wall.end);
 
 	// keep size up to date
 	lowCorner.x = fmin(lowCorner.x, wall.begin.x);
@@ -236,4 +237,81 @@ Dijkstra Labyrinth::calculateRoute(const Vector2& start, const Vector2& end) {
 	}
 
 	return dijkstra;
+}
+
+
+
+void Labyrinth::createRoundCorner(const Vector2& corner) {
+	// create the drawable object
+	if (roundCorners.count(corner) == 0) {
+		roundCorners[corner] = Cylinder(corner, Settings::WallWidth * 2, Settings::WallHeight, TextureLoader::get().wallTexture);
+	}
+
+	const std::vector<Vector2>& connectedCorners = corners[corner];
+	const size_t size = connectedCorners.size();
+
+	if (size == 1) {
+		// = end of a line
+		// put 2 waypoint with 45° on opposite side
+		Vector2 direction = connectedCorners[0] - corner;
+
+		int angle = (int) round(450 - Vector3::calcAngleInXY(direction, Vector3(1, 0, 0)));
+		roundCorners[corner].setStartAngle(angle);
+		roundCorners[corner].setEndAngle(angle + 180);
+	}
+	else if (size == 2) {
+		// find the angle greater than 180° and put waypoints on that side
+		// angle = half the given angle, dist = Constants::PlayerRadius
+
+		Vector2 direction1 = connectedCorners[0] - corner;
+		Vector2 direction2 = connectedCorners[1] - corner;
+
+		int angle = (int)round(450 - Vector3::calcAngleInXY(direction1, Vector3(1, 0, 0)));
+		double angle2 = Vector3::calcAngleInXY(direction1, direction2);
+
+		bool left = angle2 < 180;
+		if (left) {
+			angle = (int)round(450 - Vector3::calcAngleInXY(direction2, Vector3(1, 0, 0)));
+			angle2 = round(360 - angle2);
+		}
+
+		roundCorners[corner].setStartAngle(angle);
+		roundCorners[corner].setEndAngle(angle + (int) angle2 - 180);
+	}
+	else {
+		bool found = false;
+
+		for (int i = 0; !found && i < connectedCorners.size(); i++) {
+			std::vector<double> angles;
+			Vector2 direction1 = connectedCorners[i] - corner;
+			for (int j = 0; j < connectedCorners.size(); j++) {
+				if (i != j) {
+					Vector2 direction2 = connectedCorners[j] - corner;
+					double angle = Vector3::calcAngleInXY(direction1, direction2);
+					if (angle < 0) {
+						angle += 360;
+					}
+
+					angles.push_back(angle);
+				}
+			}
+
+			std::sort(angles.begin(), angles.end());
+
+			// use 0.01 as buffer for inaccuracy in calculation
+			if (angles[0] > 180.01) {
+				found = true;
+
+				int angle = (int)round(450 - Vector3::calcAngleInXY(direction1, Vector3(1, 0, 0)));
+				int angle2 = (int) angles[0] - 180;
+
+				roundCorners[corner].setStartAngle(angle);
+				roundCorners[corner].setEndAngle(angle + angle2);
+			}
+		}
+		if (!found) {
+			// no round corner needed -> remove the drawable
+			roundCorners.erase(corner);
+		}
+	}
 }

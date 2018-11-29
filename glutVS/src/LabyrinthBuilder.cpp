@@ -13,12 +13,33 @@ std::shared_ptr<Labyrinth> LabyrinthBuilder::build() {
 	std::shared_ptr<Labyrinth> lab(new Labyrinth);
 
 	// add walls
-	boundaries(lab, 100);
-	   
-	staticLab(lab);
+	//boundaries(lab, 100);
+	//staticLab(lab);
 
-	//star(lab, 8, 8, 20, Vector2(0,0));
-	//star(lab, 8, 4, 20, Vector2(50, 0));
+
+
+	lab->addWall(
+		Vector2(0, 0),
+		Vector2(0, 10)
+	);
+
+	lab->addWall(
+		Vector2(0, 0),
+		Vector2(10, 1)
+	);
+
+	lab->addWall(
+		Vector2(0, 0),
+		Vector2(-10, 1)
+	);
+
+
+	//sawtooth(lab);
+
+	//triangle90(lab, 5, 0, Vector2());
+
+	//star(lab, 8, 3, 20, Vector2(0,0));
+	//star(lab, 8, 2, 20, Vector2(50, 0));
 	//star(lab, 8, 8, 20, Vector2(50, 50));
 	//star(lab, 8, 8, 20, Vector2(0, 50));
 

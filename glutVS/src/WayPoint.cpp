@@ -136,7 +136,7 @@ void WayPoint::findWayPoints(Labyrinth& lab) {
 			for (int i = 0; !found && i < connectedCorners.size(); i++) {
 				std::vector<double> angles;
 				Vector2 direction1 = connectedCorners[i] - corner;
-				for (int j = 0; !found && j < connectedCorners.size(); j++) {
+				for (int j = 0; j < connectedCorners.size(); j++) {
 					if (i != j) {
 						Vector2 direction2 = connectedCorners[j] - corner;
 						double angle = Vector3::calcAngleInXY(direction1, direction2);
@@ -152,6 +152,7 @@ void WayPoint::findWayPoints(Labyrinth& lab) {
 
 				// use 0.01 as buffer for inaccuracy in calculation
 				if (angles[0] > 180.01) {
+					found = true;
 					WayPoint wp = createWaypointsAroundCorner(corner, 360 - angles[0], direction1, Settings::WayPointDetail, lab);
 					lab.waypoints.push_back(wp);
 				}

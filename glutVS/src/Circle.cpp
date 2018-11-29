@@ -22,19 +22,25 @@ void Circle::draw(void) const {
 	//GLfloat textureSize = (GLfloat)(2 * radius / Settings::TextureSizeMultiplier);
 
 	// bottom
-	size_t step = 360 / Settings::CircleDrawPrecision;
+	int step = 360 / Settings::CircleDrawPrecision;
 	glBegin(GL_TRIANGLE_FAN);
 	// center
 	glTexCoord2f(0.5f, 0.5f);
 	glVertex3f((GLfloat) pos.x, (GLfloat) pos.y, centerHeight());
-	for (size_t i = 0; i <= 360; i+=step)
+	for (int i = startAngle; i < endAngle; i+=step)
 	{
 		// points around center
-		double degree = Vector3::deg2rad((double) i);
-		double dx = cos(degree);
-		double dy = sin(degree);
-		glTexCoord2f((GLfloat)(dx/2 + 0.5f), (GLfloat)(dy/2 + 0.5f));
-		glVertex3f((GLfloat)(pos.x + dx * radius), (GLfloat)(pos.y + dy * radius), circleHeight());
+		createVertex(i);
 	}
+	// final point with endAngle
+	createVertex(endAngle);
 	glEnd();
+}
+
+void Circle::createVertex(int angle) const {
+	double degree = Vector3::deg2rad((double)angle);
+	double dx = cos(degree);
+	double dy = sin(degree);
+	glTexCoord2f((GLfloat)(dx / 2 + 0.5f), (GLfloat)(dy / 2 + 0.5f));
+	glVertex3f((GLfloat)(pos.x + dx * radius), (GLfloat)(pos.y + dy * radius), circleHeight());
 }
