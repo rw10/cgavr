@@ -7,15 +7,21 @@
 #include "ConeTop.h"
 
 
-Player::Player(const std::vector<Vector2>& route) : route(route)
+Player::Player(const std::vector<Vector2>& dijkstraRoute)		// : route(route)
 {
+	// duplicate start and finish with altered height
+	route.push_back(dijkstraRoute[0]);
+	route.insert(route.end(), dijkstraRoute.begin(), dijkstraRoute.end());
+	route.push_back(dijkstraRoute[dijkstraRoute.size()-1]);
+
+	for (auto& r : route) {
+		r.z = Settings::PlayerHeight;
+	}
+	route[0].z = Settings::WallHeight + Settings::PlayerHeight;
+	route[route.size()-1].z = Settings::WallHeight + Settings::PlayerHeight;
+
 	// set speed
 	speed = Settings::PlayerSpeed;
-
-	// set height over ground
-	for (auto& pt : this->route) {
-		pt.z = fmax(pt.z, Settings::PlayerHeight);
-	}
 
 	// init the route
 	currentRouteIndex = -1;
@@ -37,51 +43,47 @@ Player::Player(const std::vector<Vector2>& route) : route(route)
 }
 
 void Player::update() {
-	if (currentRouteIndex < route.size() - 1) {
-		double distanceToGo = Settings::PlayerSpeed;
+	double distanceToGo = Settings::PlayerSpeed;
 
-		do {
-			// calc movement
-			const Vector2& next = route[currentRouteIndex + 1];
-			const Vector2& last = route[currentRouteIndex];
-			movement = next - last;
-			movement.normalize(distanceToGo);
+	int nextRouteIndex;
+	do {
+		// calc movement
+		nextRouteIndex = (currentRouteIndex + 1) % route.size();
+		const Vector2& next = route[nextRouteIndex];
+		const Vector2& last = route[currentRouteIndex];
+		movement = next - last;
+		movement.normalize(distanceToGo);
 
-			// calculate if the movement step is enough to reach the next point
-			double distanceToNextPoint = (next - position).getLengthXY();
-			distanceToGo -= distanceToNextPoint;
+		// calculate if the movement step is enough to reach the next point
+		double distanceToNextPoint = (next - position).getLength();	//.getLengthXY();
+		distanceToGo -= distanceToNextPoint;
 
-			// if there is distanceToGo left, the next point was reached prematurely
-			if (distanceToGo > 0) {
-				// set next point of the route as target
-				setForNextTarget();
-			}
-			else {
-				// move towards target
-				position = position + movement;
-			}
+		// if there is distanceToGo left, the next point was reached prematurely
+		if (distanceToGo > 0) {
+			// set next point of the route as target
+			setForNextTarget();
+		}
+		else {
+			// move towards target
+			position = position + movement;
+		}
 
-		// move again, if distance left
-		} while (distanceToGo > 0);
+	// move again, if distance left
+	} while (distanceToGo > 0);
 
-		// lerp the looking direction to fit movement direction
-		lerpLookingDirection();
+	// lerp the looking direction to fit movement direction
+	lerpLookingDirection();
 
-		// update the position of the player model
-		cone->pos = position;
-		cone->pos.z = 0;
-	}
+	// update the position of the player model
+	cone->pos = position;
+	cone->pos.z -= Settings::PlayerHeight;
 }
 
 void Player::setForNextTarget() {
 	currentRouteIndex++;
+	// reset on arrival
+	currentRouteIndex %= route.size();
 	position = route[currentRouteIndex];
-
-	if (currentRouteIndex == route.size() - 1) {
-		// reset on arrival...
-		currentRouteIndex = -1;
-		setForNextTarget();
-	}
 }
 
 

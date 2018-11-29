@@ -3,7 +3,7 @@
 #include "Settings.h"
 
 const std::string Settings::ProjectName = std::string("GLUT Project");
-const double Settings::WallHeight = 5;
+const double Settings::WallHeight = 20;
 const double Settings::WallWidth = 1.15;
 const double Settings::PlayerRadius = 2;
 const double Settings::PlayerHeight = 3;

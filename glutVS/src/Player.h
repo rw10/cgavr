@@ -18,7 +18,7 @@ public:
 	virtual void update();
 
 	int currentRouteIndex;
-	std::vector<Vector2> route;
+	std::vector<Vector3> route;
 
 	Vector3 position;
 	Vector3 lookingDirection;
