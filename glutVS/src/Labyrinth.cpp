@@ -244,7 +244,7 @@ Dijkstra Labyrinth::calculateRoute(const Vector2& start, const Vector2& end) {
 void Labyrinth::createRoundCorner(const Vector2& corner) {
 	// create the drawable object
 	if (roundCorners.count(corner) == 0) {
-		roundCorners[corner] = Cylinder(corner, Settings::WallWidth * 2, Settings::WallHeight, TextureLoader::get().wallTexture);
+		roundCorners[corner] = Cylinder(corner, Settings::WallWidth, Settings::WallHeight, TextureLoader::get().wallTexture);
 	}
 
 	const std::vector<Vector2>& connectedCorners = corners[corner];

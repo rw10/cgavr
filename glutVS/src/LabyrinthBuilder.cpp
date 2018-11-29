@@ -14,10 +14,10 @@ std::shared_ptr<Labyrinth> LabyrinthBuilder::build() {
 
 	// add walls
 	//boundaries(lab, 100);
-	//staticLab(lab);
+	staticLab(lab);
 
 
-
+	/*
 	lab->addWall(
 		Vector2(0, 0),
 		Vector2(0, 10)
@@ -32,7 +32,7 @@ std::shared_ptr<Labyrinth> LabyrinthBuilder::build() {
 		Vector2(0, 0),
 		Vector2(-10, 1)
 	);
-
+	*/
 
 	//sawtooth(lab);
 

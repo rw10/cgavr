@@ -26,7 +26,7 @@ protected:
 	virtual void draw(void) const;
 
 	int startAngle = 0;
-	int endAngle = 90;
+	int endAngle = 360;
 
 	virtual GLfloat centerHeight() const {
 		return (GLfloat) pos.z;

@@ -37,14 +37,15 @@ Cylinder::~Cylinder() {
 
 void Cylinder::animate(const double time) {
 	// top and bottom
-	//floorCircle->animate(time);
-	//ceilingCircle->animate(time);
+	floorCircle->animate(time);
+	ceilingCircle->animate(time);
 
 	Animation::animate(time);
 }
 
 void Cylinder::draw(void) const {
 	// --- draw the side ---
+	bool fullCircle = endAngle - startAngle == 360;
 	 
 	// flag to toggle texture left/right orientation
 	// used when repeated texturing
@@ -53,7 +54,7 @@ void Cylinder::draw(void) const {
 	int step = 360 / Settings::CircleDrawPrecision;
 	glBegin(GL_QUAD_STRIP);
 	// center point is the start
-	createCenterVertex(startAngle);
+	if (!fullCircle) createCenterVertex(startAngle);
 	for (int i = startAngle; i < endAngle; i += step)
 	{
 		// points around center with radius-distance
@@ -62,7 +63,7 @@ void Cylinder::draw(void) const {
 	// final point with (exactly) endAngle
 	createVertex(endAngle);
 	// center point is the end
-	createCenterVertex(endAngle);
+	if (!fullCircle) createCenterVertex(endAngle);
 
 
 	glEnd();
