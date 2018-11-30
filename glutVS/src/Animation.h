@@ -27,6 +27,9 @@ public:
 		color = objectColor;
 	}
 
+	Vector3 rotation;
+	Vector3 rotationCenter;
+
 protected:
 	
 	AnimationTextures textures;

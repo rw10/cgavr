@@ -22,7 +22,7 @@ void Circle::draw(void) const {
 	//GLfloat textureSize = (GLfloat)(2 * radius / Settings::TextureSizeMultiplier);
 
 	// bottom
-	int step = 360 / Settings::CircleDrawPrecision;
+	int step = 360 / (int) Settings::CircleDrawPrecision;
 	glBegin(GL_TRIANGLE_FAN);
 	// center
 	glTexCoord2f(0.5f, 0.5f);

@@ -12,6 +12,7 @@ std::vector<TextureLoader> TextureLoader::INSTANCES = std::vector<TextureLoader>
 TextureLoader::TextureLoader()
 {
 	readTextureFile("img/wall.png", wallTexture);
+	readTextureFile("img/arrow.png", arrowTexture);
 	readTextureFile("img/ground2.jpg", groundTexture);
 
 	std::vector<std::string> imgs;

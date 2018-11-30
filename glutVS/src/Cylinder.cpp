@@ -51,7 +51,7 @@ void Cylinder::draw(void) const {
 	// used when repeated texturing
 	//bool lr_flag = false;
 
-	int step = 360 / Settings::CircleDrawPrecision;
+	int step = 360 / (int) Settings::CircleDrawPrecision;
 	glBegin(GL_QUAD_STRIP);
 	// center point is the start
 	if (!fullCircle) createCenterVertex(startAngle);

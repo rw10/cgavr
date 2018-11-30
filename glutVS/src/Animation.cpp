@@ -49,5 +49,29 @@ void Animation::animate(const double time) {
 		glColor3ub(color.r, color.g, color.b);
 	}
 
-	draw();
+
+	// enable rotation
+	if (rotation.getLength() != 0) {
+		glPushMatrix();
+		glMatrixMode(GL_MODELVIEW);
+		glTranslatef(rotationCenter.gl_x(), rotationCenter.gl_y(), rotationCenter.gl_z());
+		if (rotation.x != 0) {
+			glRotatef(rotation.gl_x(), 1, 0, 0);
+		}
+		if (rotation.y != 0) {
+			glRotatef(rotation.gl_y(), 0, 1, 0);
+		}
+		if (rotation.z != 0) {
+			glRotatef(rotation.gl_z(), 0, 0, 1);
+		}
+		glTranslatef(-rotationCenter.gl_x(), -rotationCenter.gl_y(), -rotationCenter.gl_z());
+
+		draw();
+
+		// pop matrix to reset the rotation
+		glPopMatrix();
+	}
+	else {
+		draw();
+	}
 }

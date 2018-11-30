@@ -19,7 +19,7 @@ bool Collision::isColliding(const Vector2& source, const Vector2& target, const 
 		// or connection -> one collision shall prevent the connection
 		collision |= isColliding(source, target, wall);
 
-		if (!VISIBILITY) {
+		if (type != VISIBILITY) {
 			double maxDistanceAllowed = 
 				(type == FULL_CHECK)? 
 				Settings::PlayerRadius + Settings::WallWidth :

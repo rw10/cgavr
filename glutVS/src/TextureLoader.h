@@ -26,6 +26,7 @@ public:
 	AnimationTextures wallTexture;
 	AnimationTextures groundTexture;
 	AnimationTextures playerTexture;
+	AnimationTextures arrowTexture;
 
 private:
 	static std::vector<TextureLoader> INSTANCES;

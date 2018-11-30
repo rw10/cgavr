@@ -34,6 +34,8 @@ private:
 
 	void setForNextTarget();
 	void lerpLookingDirection();
+	void move();
+	void updateModel();
 
 	// TODO: change speed by using sin(time) -> creates a more natural, unsteady movement
 	double speed;

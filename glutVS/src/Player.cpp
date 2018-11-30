@@ -2,6 +2,7 @@
 
 #include "Player.h"
 #include "Settings.h"
+#include "Constants.h"
 #include <cmath>
 #include "TextureLoader.h"
 #include "ConeTop.h"
@@ -36,13 +37,25 @@ Player::Player(const std::vector<Vector2>& dijkstraRoute)		// : route(route)
 			Vector2(position), 
 			Settings::PlayerRadius, 
 			Settings::PlayerHeight, 
-			TextureLoader::get().playerTexture
+			//TextureLoader::get().playerTexture
+			TextureLoader::get().arrowTexture
 		)
 	);
 	parts.push_back(cone);
 }
 
 void Player::update() {
+
+	move();
+
+	// lerp the looking direction to fit movement direction
+	lerpLookingDirection();
+
+	updateModel();
+}
+
+void Player::move() {
+
 	double distanceToGo = Settings::PlayerSpeed;
 
 	int nextRouteIndex;
@@ -68,11 +81,15 @@ void Player::update() {
 			position = position + movement;
 		}
 
-	// move again, if distance left
+		// move again, if distance left
 	} while (distanceToGo > 0);
+}
 
-	// lerp the looking direction to fit movement direction
-	lerpLookingDirection();
+void Player::updateModel() {
+	// rotate the model to face in the direction the player looks...
+	double angle = 360 - Vector3::calcAngleInXY(lookingDirection, Constants::yUp);
+	cone->rotation.z = angle;
+	cone->rotationCenter = position;
 
 	// update the position of the player model
 	cone->pos = position;
