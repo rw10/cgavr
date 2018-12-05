@@ -10,6 +10,7 @@
 #include "Axis.h"
 #include "ViewSettings.h"
 
+
 enum WindowType {
 	TOPDOWN = 0, PLAYERVIEW = 1
 };

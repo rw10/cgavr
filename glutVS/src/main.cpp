@@ -5,8 +5,9 @@
  *      Author: rene
  */
 
-#include "pch.h"
 #include "GlutWindow.h"
+#include "Receiver.h"
+#include "Sender.h"
 
 void display() {
 	GlutWindow::get(0).display();
@@ -62,6 +63,9 @@ int main(int argc, char** argv) {
 	// only the display will be different on window2, all events will be sent to window1
 	glutDisplayFunc(display2);
 	connectCallbacks();
+
+	Receiver::init();
+	Sender::init();
 
 	glutMainLoop();
 

@@ -5,7 +5,7 @@
  *      Author: rene
  */
 
-#include "pch.h"
+
 
 #include "WayPoint.h"
 
@@ -89,7 +89,7 @@ WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double ang
 void WayPoint::findWayPoints(Labyrinth& lab) {
 	for (const auto& c : lab.corners) {
 		const Vector2& corner = c.first;
-		const std::vector<Vector2>& connectedCorners = c.second;
+		const auto& connectedCorners = c.second;
 		const size_t size = connectedCorners.size();
 
 		if (size == 1) {

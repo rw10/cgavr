@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "GL/glut.h"
 
 #include <cmath> 

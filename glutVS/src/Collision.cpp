@@ -1,8 +1,9 @@
-#include "pch.h"
+
 
 #include "Collision.h"
 
 #include <cmath>
+#include <algorithm>
 
 Collision::Collision()
 {}
@@ -12,12 +13,13 @@ Collision::~Collision()
 
 bool Collision::isColliding(const Vector2& source, const Vector2& target, const std::vector<Wall>& walls, CollisionTestType type) {
 	bool collision = false;
+	Vector2 intersection;
 
 	// test all walls (or until a collision is found)
 	for (size_t w = 0; !collision && w < walls.size(); w++) {
 		const auto& wall = walls[w];
 		// or connection -> one collision shall prevent the connection
-		collision |= isColliding(source, target, wall);
+		collision |= isColliding(source, target, wall, intersection);
 
 		if (type != VISIBILITY) {
 			double maxDistanceAllowed = 
@@ -34,7 +36,7 @@ bool Collision::isColliding(const Vector2& source, const Vector2& target, const 
 	return collision;
 }
 
-bool Collision::isColliding(const Vector2& source, const Vector2& target, const Wall& wall){		//, double distanceToWall) {
+bool Collision::isColliding(const Vector2& source, const Vector2& target, const Wall& wall, Vector2& intersection){		//, double distanceToWall) {
 	// compare: https://en.wikipedia.org/wiki/Line–line_intersection
 
 	// use shorter identifiers
@@ -70,15 +72,14 @@ bool Collision::isColliding(const Vector2& source, const Vector2& target, const 
 		u >= -distanceU && 
 		u <= 1+distanceU;
 
+	if (collision) {
+		// calculation of intersection point
+		intersection.x = x1 + t * (x2 - x1);
+		intersection.y = y1 + t * (y2 - y1);
+	}
 	return collision;
 
-
 	/*
-	// calculation of intersection point
-	double px = x1 + t * (x2 - x1);
-	double py = y1 + t * (y2 - y1);;
-	Vector2 intersection(px, py);
-
 	// previous method:
 	// calculate point of intersection of limitless lines
 	double term1 = (x1 * y2 - y1 * x2);
@@ -145,4 +146,33 @@ double Collision::closestDistanceToPoint(const Vector2& source, const Vector2& t
 		Vector2::getClosestPointOnLineSegment(source, target, point) - point
 	).getLength();
 }
+
+void Collision::addConnections(const Wall& newWall, ConnectedNetwork& network) {
+	// add direct connection
+	network[newWall.begin].push_back(newWall.end);
+	network[newWall.end].push_back(newWall.begin);
+
+	// add connection points on each intersection with other walls
+	for (auto& c : network) {
+		const auto& corner = c.first;
+		auto& targets = c.second;
+		for (const auto& target : targets) {
+
+			// sharing an end point is ok, not viewed as a collision
+			if (corner != newWall.begin && corner != newWall.end &&
+				target != newWall.begin && target != newWall.end) {
+
+				Vector2 intersection;
+				if (isColliding(corner, target, newWall, intersection)) {
+					// add new point with connections to the 4 end points
+					network[intersection].push_back(newWall.begin);
+					network[intersection].push_back(newWall.end);
+					network[intersection].push_back(target);
+					network[intersection].push_back(corner);
+				}
+			}
+		}
+	}
+}
+
 

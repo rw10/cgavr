@@ -11,13 +11,12 @@ class Collision
 {
 public:
 	static bool isColliding(const Vector2& source, const Vector2& target, const std::vector<Wall>& walls, CollisionTestType type);
+	static void addConnections(const Wall& newWall, ConnectedNetwork& network);
 
 private:
-	static bool isColliding(const Vector2& source, const Vector2& target, const Wall& wall);
-
+	static bool isColliding(const Vector2& source, const Vector2& target, const Wall& wall, Vector2& intersection);
 	static double closestDistanceToWall(const Vector2& source, const Vector2& target, const Wall& wall);
 	static double closestDistanceToPoint(const Vector2& p1, const Vector2& p2, const Vector2& point);
-
 	static bool isPointInBoundingBox(const Vector2& source, const Vector2& target, const Vector2& point);
 
 	Collision();

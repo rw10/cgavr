@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "Color3ub.h"
 
 #include <cmath> 

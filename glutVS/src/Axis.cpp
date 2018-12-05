@@ -1,4 +1,4 @@
-#include "pch.h"
+
 
 #include "Axis.h"
 #include "Settings.h"

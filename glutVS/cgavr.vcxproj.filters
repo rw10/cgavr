@@ -81,6 +81,18 @@
     <ClCompile Include="src\ViewSettings.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="src\Receiver.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Sender.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\moc_Receiver.cpp">
+      <Filter>Qt-Generated</Filter>
+    </ClCompile>
+    <ClCompile Include="src\moc_Sender.cpp">
+      <Filter>Qt-Generated</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\pch.h">
@@ -208,6 +220,12 @@
     <Filter Include="img">
       <UniqueIdentifier>{46154eb1-b628-4986-b13d-d758b56fbadd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{3bbe528d-0617-4893-9ee8-ac8cf31aa1b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Qt-Generated">
+      <UniqueIdentifier>{5699d9a0-405e-42e0-afb8-8bf96563b815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Image Include="img\wall.jpg">
@@ -231,5 +249,13 @@
     <Image Include="img\sample_lab.jpg">
       <Filter>img</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="src\Sender.h">
+      <Filter>Network</Filter>
+    </CustomBuild>
+    <CustomBuild Include="src\Receiver.h">
+      <Filter>Network</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

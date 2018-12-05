@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "TopDownCamera.h"
 
 TopDownCamera::TopDownCamera() : LookAtCamera()

@@ -1,4 +1,4 @@
-#include "pch.h"
+
 
 #include "GlutWindow.h"
 
@@ -8,6 +8,10 @@
 #include "Settings.h"
 #include "ViewSettings.h"
 #include "Dijkstra.h"
+
+
+#include "Receiver.h"
+#include "Sender.h"
 
 // drawables
 #include "Model.h"

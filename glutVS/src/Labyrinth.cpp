@@ -5,7 +5,7 @@
  *      Author: rene
  */
 
-#include "pch.h"
+
 
 #include "Labyrinth.h"
 
@@ -16,6 +16,7 @@
 #include "TextureLoader.h"
 #include "ViewSettings.h"
 #include "GlutWindow.h"
+#include "Collision.h"
 
 Labyrinth::Labyrinth() {
 	lowCorner = Vector2(0, 0);
@@ -27,10 +28,9 @@ Labyrinth::~Labyrinth() {}
 void Labyrinth::addWall(const Wall& wall){
 	// add drawable wall
 	walls.push_back(wall);
-
-	// add connections
-	corners[wall.begin].push_back(wall.end);
-	corners[wall.end].push_back(wall.begin);
+	
+	// add points whereever the wall intersects with another wall
+	Collision::addConnections(wall, corners);
 
 	// add a cylinder to make the corners round
 	createRoundCorner(wall.begin);
@@ -247,7 +247,7 @@ void Labyrinth::createRoundCorner(const Vector2& corner) {
 		roundCorners[corner] = Cylinder(corner, Settings::WallWidth, Settings::WallHeight, TextureLoader::get().wallTexture);
 	}
 
-	const std::vector<Vector2>& connectedCorners = corners[corner];
+	const auto& connectedCorners = corners[corner];
 	const size_t size = connectedCorners.size();
 
 	if (size == 1) {

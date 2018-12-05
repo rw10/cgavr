@@ -1,5 +1,3 @@
-#include "pch.h"
-
 #include "Settings.h"
 
 const std::string Settings::ProjectName = std::string("GLUT Project");

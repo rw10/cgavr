@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "FirstPersonCamera.h"
 
 FirstPersonCamera::FirstPersonCamera() : Camera()

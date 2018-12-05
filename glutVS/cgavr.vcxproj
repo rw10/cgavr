@@ -28,6 +28,8 @@
     <ClCompile Include="src\Cylinder.cpp" />
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
+    <ClCompile Include="src\moc_Receiver.cpp" />
+    <ClCompile Include="src\moc_Sender.cpp" />
     <ClCompile Include="src\PlayerViewCamera.cpp" />
     <ClCompile Include="src\LabyrinthBuilder.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
@@ -37,6 +39,8 @@
     <ClCompile Include="src\Labyrinth.cpp" />
     <ClCompile Include="src\Model.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Receiver.cpp" />
+    <ClCompile Include="src\Sender.cpp" />
     <ClCompile Include="src\Settings.cpp" />
     <ClCompile Include="src\TextureLoader.cpp" />
     <ClCompile Include="src\TopDownCamera.cpp" />
@@ -62,6 +66,22 @@
     <ClInclude Include="src\LabyrinthBuilder.h" />
     <ClInclude Include="src\Model.h" />
     <ClInclude Include="src\Player.h" />
+    <CustomBuild Include="src\Receiver.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)moc_%(Filename).cpp"</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename).%(Extension) using MOC</Message>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename).%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="src\Sender.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename).%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)moc_%(Filename).cpp"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename).%(Extension) using MOC</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
+    </CustomBuild>
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Dijkstra.h" />
@@ -180,21 +200,21 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;$(GLUT)\include;$(SOIL)\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;$(GLUT)\include;$(SOIL)\src;$(QTDIR)\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>opencv_world343d.lib;freeglut.lib;libSOIL64d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib;$(GLUT)\lib\x64;$(SOIL)\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world343d.lib;freeglut.lib;libSOIL64d.lib;qtmaind.lib;Qt5Cored.lib;Qt5Networkd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib;$(GLUT)\lib\x64;$(SOIL)\lib\;$(QTDIR)\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -218,7 +238,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -227,7 +247,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;$(GLUT)\include;$(SOIL)\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(OPENCV_DIR)\include;$(GLUT)\include;$(SOIL)\src;$(QTDIR)\include</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4505</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -235,8 +255,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib;$(GLUT)\lib\x64;$(SOIL)\lib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opencv_world343.lib;freeglut.lib;libSOIL64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OPENCV_DIR)\x64\vc15\lib;$(GLUT)\lib\x64;$(SOIL)\lib\;$(QTDIR)\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_world343.lib;freeglut.lib;libSOIL64.lib;qtmain.lib;Qt5Core.lib;Qt5Network.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

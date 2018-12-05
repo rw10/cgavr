@@ -1,4 +1,4 @@
-#include "pch.h"
+
 #include "LookAtCamera.h"
 
 LookAtCamera::LookAtCamera() : Camera()
