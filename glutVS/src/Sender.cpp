@@ -1,8 +1,5 @@
 #include "sender.h"
 
-#include <chrono>
-#include <thread>
-
 Sender::Sender()
 {
 	udpSocket = new QUdpSocket(this);

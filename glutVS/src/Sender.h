@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QtNetwork/qudpsocket.h>
-#include <vector>
 
 class Sender : public QObject
 {

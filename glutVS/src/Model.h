@@ -41,8 +41,13 @@ public:
 	void setEnd(double x, double y);
 	void calculateRoute();
 
+	bool isInitialized() {
+		return initialized;
+	}
 
 private:
+	bool initialized;
+
 	Model();
 
 	std::vector<std::shared_ptr<Drawable> > drawables;

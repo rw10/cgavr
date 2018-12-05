@@ -10,9 +10,11 @@ PlayerViewCamera::PlayerViewCamera() : fixedPlayer(false)
 {}
 
 void PlayerViewCamera::update() {
-	const std::shared_ptr<Player>& p = fixedPlayer? player : Model::get().getPlayer();
+	if (fixedPlayer || Model::get().isInitialized()) {
+		const std::shared_ptr<Player>& p = fixedPlayer? player : Model::get().getPlayer();
 		
-	position = p->position;
-	lookingDirection = p->lookingDirection;
-	FirstPersonCamera::update();
+		position = p->position;
+		lookingDirection = p->lookingDirection;
+		FirstPersonCamera::update();
+	}
 }

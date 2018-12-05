@@ -6,8 +6,9 @@
 
 std::vector<Model> Model::INSTANCES = std::vector<Model>();
 
-Model::Model()
+Model::Model() : initialized(false)
 {
+	/*
 	Sender s;
 	s.callNewLab();
 	s.callStart(0, 0);
@@ -15,7 +16,7 @@ Model::Model()
 	s.callWall(100, 0, 0, 100);
 	s.callWall(100, 0, 120, 150);
 	s.callApply();
-
+	*/
 
 	/*
 	// add labyrinth
@@ -86,9 +87,13 @@ void Model::calculateRoute() {
 	player = std::shared_ptr<Player>(new Player(route));
 
 	rebuildDrawables();
+
+	initialized = true;
 }
 
 
 void Model::update() {
-	player->update();
+	if (initialized) {
+		player->update();
+	}
 }
