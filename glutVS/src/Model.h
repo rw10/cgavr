@@ -36,16 +36,32 @@ public:
 
 	virtual void update();
 
+	void setLab(std::shared_ptr<Labyrinth> labyrinth);
+	void setStart(double x, double y);
+	void setEnd(double x, double y);
+	void calculateRoute();
+
+
 private:
 	Model();
 
-	std::shared_ptr<Player> player;
-	std::shared_ptr<Cylinder> finish;
-
-	// list of all drawable objects
 	std::vector<std::shared_ptr<Drawable> > drawables;
+	void rebuildDrawables() {
+		drawables.clear();
+		drawables.push_back(lab);
+		drawables.push_back(player);
+		drawables.push_back(begin);
+		drawables.push_back(finish);
+	}
 
+	Vector2 start;
+	Vector2 end;
+
+	std::shared_ptr<Cylinder> finish;
+	std::shared_ptr<Cylinder> begin;
+	std::shared_ptr<Player> player;
 	std::shared_ptr<Labyrinth> lab;
+
 	std::vector<Vector2> route;
 
 	static std::vector<Model> INSTANCES;

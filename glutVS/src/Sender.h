@@ -5,21 +5,17 @@
 
 class Sender : public QObject
 {
-	Q_OBJECT
-
 public:
 	Sender();
 
-	static void init();
-
-
-private slots:
-	//void broadcastDatagram();
+	void callApply();
+	void callNewLab();
+	void callWall(double x1, double y1, double x2, double y2);
+	void callStart(double x, double y);
+	void callEnd(double x, double y);
 
 private:
-	static void start();
-	void broadcastDatagram();
+	void broadcastDatagram(const std::string& message);
 
 	QUdpSocket *udpSocket = nullptr;
-	int messageNo = 1;
 };

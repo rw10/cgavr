@@ -47,7 +47,7 @@ void Labyrinth::addWall(const Wall& wall){
 	highCorner.y = fmax(highCorner.y, wall.end.y);
 }
 
-void Labyrinth::addWall(const Vector3& begin, const Vector3& end) {
+void Labyrinth::addWall(const Vector2& begin, const Vector2& end) {
 	addWall(Wall(begin, end, TextureLoader::get().wallTexture));
 }
 

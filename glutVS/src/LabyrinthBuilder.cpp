@@ -81,7 +81,6 @@ void LabyrinthBuilder::star(std::shared_ptr<Labyrinth> lab, size_t parts, size_t
 	}
 }
 
-
 void LabyrinthBuilder::boundaries(std::shared_ptr<Labyrinth> lab, double size) {
 	Vector2 bl(0, 0);
 	Vector2 tl(size, 0);

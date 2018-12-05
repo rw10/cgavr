@@ -1,5 +1,3 @@
-
-
 #include "sender.h"
 
 #include <chrono>
@@ -8,27 +6,44 @@
 Sender::Sender()
 {
 	udpSocket = new QUdpSocket(this);
-	//connect(&timer, &QTimer::timeout, this, &Sender::broadcastDatagram);
-	//timer.start(1000);
 }
 
-void Sender::init() {
-	std::thread th(Sender::start);
-	th.detach();
-}
-
-void Sender::start() {
-	Sender s;
-	s.broadcastDatagram();
-}
-
-void Sender::broadcastDatagram()
+void Sender::broadcastDatagram(const std::string& message)
 {
-	while (true) {
-		QByteArray datagram = "Broadcast message " + QByteArray::number(messageNo);
-		udpSocket->writeDatagram(datagram, QHostAddress::Broadcast, 45454);
-		++messageNo;
+	QByteArray datagram = message.data();
+	udpSocket->writeDatagram(datagram, QHostAddress::Broadcast, 45454);
+}
 
-		std::this_thread::sleep_for(std::chrono::microseconds(2));
-	}
+void Sender::callApply() {
+	broadcastDatagram("APPLY");
+}
+
+void Sender::callNewLab() {
+	broadcastDatagram("NEWLAB");
+}
+
+void Sender::callWall(double x1, double y1, double x2, double y2) {
+	broadcastDatagram(
+		"WALL " +
+		std::to_string(x1) + " " +
+		std::to_string(y1) + " " +
+		std::to_string(x2) + " " +
+		std::to_string(y2)
+	);
+}
+
+void Sender::callStart(double x, double y) {
+	broadcastDatagram(
+		"START " +
+		std::to_string(x) + " " +
+		std::to_string(y)
+	);
+}
+
+void Sender::callEnd(double x, double y) {
+	broadcastDatagram(
+		"END " +
+		std::to_string(x) + " " +
+		std::to_string(y)
+	);
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QtNetwork/qudpsocket.h>
+#include <memory>
+#include "Labyrinth.h"
 
 class Receiver : public QObject
 {
@@ -15,7 +17,14 @@ private slots:
 	void processPendingDatagrams();
 
 private:
-	static void start();
+	Vector2 start;
+	Vector2 end;
+
+	static void startReceiving();
+	std::vector<double> getNumbers(const std::string& line);
+	bool startsWith(const std::string& line, const std::string& find);
+
+	std::shared_ptr<Labyrinth> lab;
 
 	QUdpSocket *udpSocket = nullptr;
 };

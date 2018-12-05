@@ -24,7 +24,7 @@ public:
 
 	friend class WayPoint;
 
-	void addWall(const Vector3& begin, const Vector3& end);
+	void addWall(const Vector2& begin, const Vector2& end);
 	void addHelperLine(const Vector3& begin, const Vector3& end, WallType type);
 
 	void initRouting();

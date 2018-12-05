@@ -7,7 +7,6 @@
 
 #include "GlutWindow.h"
 #include "Receiver.h"
-#include "Sender.h"
 
 void display() {
 	GlutWindow::get(0).display();
@@ -65,7 +64,6 @@ int main(int argc, char** argv) {
 	connectCallbacks();
 
 	Receiver::init();
-	Sender::init();
 
 	glutMainLoop();
 
