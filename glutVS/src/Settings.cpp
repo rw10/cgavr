@@ -5,8 +5,10 @@ const double Settings::WallHeight = 20;
 const double Settings::WallWidth = 1.15;
 const double Settings::PlayerRadius = 2;
 const double Settings::PlayerHeight = 3;
-double Settings::PlayerSpeed = 0.3;
+double Settings::PlayerSpeed = 0.05;
 const double Settings::TextureSizeMultiplier = 10;
+size_t Settings::UpdateInterval = 5;
+size_t Settings::DrawInterval = 16;
 
 const size_t Settings::CircleDrawPrecision = 90;
 const size_t Settings::WayPointDetail = 3;

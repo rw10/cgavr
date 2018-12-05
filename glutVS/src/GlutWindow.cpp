@@ -54,23 +54,33 @@ double clockToMilliseconds(clock_t ticks) {
 }
 
 void GlutWindow::display() {
-	camera->update();
 
-	clock_t before = clock_ticks;
-	clock_ticks = clock();
-	double delta = clockToMilliseconds(clock_ticks - before);
-	//double fps = 1000.0 / delta;
-	//std::cout << "ms: "<< delta << "\t fps:" << fps << std::endl;
+	// limit fps
+	clock_t now = clock();
+	drawDelta += clockToMilliseconds(now - clock_ticks_draw);
+	clock_ticks_draw = now;
+	if (drawDelta < Settings::DrawInterval) {
+		//std::cout << "ms since last: " << drawDelta << "skipped" << std::endl;
+		// postpone redraw
+		glutPostRedisplay();
+		return;
+	} else {
+		//double fps = 1000.0 / drawDelta;
+		//std::cout << "ms since last: "<< drawDelta << "\t fps:" << fps << std::endl;
+
+		// draw now
+		drawDelta %= Settings::DrawInterval;
+	}
+
+	camera->update();
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	const auto& drawables = Model::get().getDrawables();
-	for (const auto& drawable : drawables) {
-		drawable->show(delta, viewSettings);
-	}
+	// show model
+	Model::get().show(Settings::DrawInterval, viewSettings);
 
 	// show axis
-	axis.show(delta, viewSettings);
+	axis.show(Settings::DrawInterval, viewSettings);
 
 	// in double buffering, this needs to be called to switch toggle between the shown and hidden buffer
 	glutSwapBuffers();
@@ -133,7 +143,15 @@ void GlutWindow::idleFunc() {
 		}
 	}
 
-	Model::get().update();
+	// limit update calls to fixed count 
+	// otherwise the movement speed is determined by the speed at which the program runs
+	clock_t now = clock();
+	updateDelta += clockToMilliseconds(now - clock_ticks_update);
+	clock_ticks_update = now;
+	while (updateDelta >= Settings::UpdateInterval) {
+		Model::get().update();
+		updateDelta -= Settings::UpdateInterval;
+	}
 }
 
 void GlutWindow::keyboardFunc(unsigned char key, int , int ) {
@@ -260,5 +278,8 @@ void GlutWindow::initialize(void)
 	}
 	glutSetWindowTitle(windowTitle.data());
 
-	clock_ticks = clock();
+	clock_ticks_draw = clock();
+	clock_ticks_update = clock();
+	drawDelta = 0;
+	updateDelta = 0;
 }

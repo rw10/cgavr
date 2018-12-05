@@ -1,23 +1,11 @@
 #include "Model.h"
 #include "LabyrinthBuilder.h"
 
-#include "Sender.h"
-
-
 std::vector<Model> Model::INSTANCES = std::vector<Model>();
+std::mutex Model::dataMutex;
 
 Model::Model() : initialized(false)
 {
-	/*
-	Sender s;
-	s.callNewLab();
-	s.callStart(0, 0);
-	s.callEnd(100, 100);
-	s.callWall(100, 0, 0, 100);
-	s.callWall(100, 0, 120, 150);
-	s.callApply();
-	*/
-
 	/*
 	// add labyrinth
 	setLab(LabyrinthBuilder::build());
@@ -84,11 +72,11 @@ void Model::calculateRoute() {
 	);
 	route = dijkstra.route;
 
-	player = std::shared_ptr<Player>(new Player(route));
+	if (route.size() > 1) {
+		player = std::shared_ptr<Player>(new Player(route));
+	}
 
 	rebuildDrawables();
-
-	initialized = true;
 }
 
 
@@ -96,4 +84,27 @@ void Model::update() {
 	if (initialized) {
 		player->update();
 	}
+}
+
+void Model::rebuildDrawables() {
+	dataMutex.lock();
+	drawables.clear();
+	drawables.push_back(lab);
+	drawables.push_back(begin);
+	drawables.push_back(finish);
+
+	initialized = (route.size() > 1);
+	if (initialized) {
+		drawables.push_back(player);
+	}
+
+	dataMutex.unlock();
+}
+
+void Model::show(const double time, const ViewSettings& vs) {
+	dataMutex.lock();
+	for (const auto& drawable : drawables) {
+		drawable->show(time, vs);
+	}
+	dataMutex.unlock();
 }

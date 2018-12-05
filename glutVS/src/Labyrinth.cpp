@@ -48,7 +48,8 @@ void Labyrinth::addWall(const Wall& wall){
 }
 
 void Labyrinth::addWall(const Vector2& begin, const Vector2& end) {
-	addWall(Wall(begin, end, TextureLoader::get().wallTexture));
+	AnimationTextures textures = TextureLoader::get().wallTexture;
+	addWall(Wall(begin, end, textures));
 }
 
 void Labyrinth::addHelperLine(const Vector3& begin, const Vector3& end, WallType type) {
@@ -91,7 +92,6 @@ void Labyrinth::addHelperLine(const Vector3& begin, const Vector3& end, WallType
 
 void Labyrinth::show(const double time, const ViewSettings& viewSettings)
 {
-
 	// TODO: make Floor an own class
 	// draw the floor
 	draw();

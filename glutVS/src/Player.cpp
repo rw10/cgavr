@@ -22,7 +22,7 @@ Player::Player(const std::vector<Vector2>& dijkstraRoute)		// : route(route)
 	route[route.size()-1].z = Settings::WallHeight + Settings::PlayerHeight;
 
 	// set speed
-	speed = Settings::PlayerSpeed;
+	speed = Settings::PlayerSpeed * Settings::UpdateInterval;
 
 	// init the route
 	currentRouteIndex = -1;
@@ -46,6 +46,8 @@ Player::Player(const std::vector<Vector2>& dijkstraRoute)		// : route(route)
 
 void Player::update() {
 
+	speed = Settings::PlayerSpeed * Settings::UpdateInterval;
+
 	move();
 
 	// lerp the looking direction to fit movement direction
@@ -56,7 +58,7 @@ void Player::update() {
 
 void Player::move() {
 
-	double distanceToGo = Settings::PlayerSpeed;
+	double distanceToGo = speed;
 
 	int nextRouteIndex;
 	do {

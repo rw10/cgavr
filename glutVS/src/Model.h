@@ -1,15 +1,17 @@
 #pragma once
 
 #include "Updatable.h"
+#include "Drawable.h"
 
 #include <vector>
+#include <mutex>
 #include <memory>
 #include "Labyrinth.h"
 #include "Player.h"
 #include "Cylinder.h"
 #include "Vector2.h"
 
-class Model : public Updatable
+class Model : public Updatable, public Drawable
 {
 public:
 	~Model();
@@ -20,10 +22,6 @@ public:
 			INSTANCES.push_back(Model());
 		}
 		return INSTANCES[0];
-	}
-
-	const std::vector<std::shared_ptr<Drawable> >& getDrawables() const {
-		return drawables;
 	}
 
 	const std::vector<Vector2>& getRoute() const {
@@ -45,19 +43,21 @@ public:
 		return initialized;
 	}
 
+	virtual void show(const double time, const ViewSettings& vs);
+	virtual void animate(const double) {}
+
+protected:
+	virtual void draw(void) const{}
+
 private:
 	bool initialized;
+	static std::mutex dataMutex;
 
 	Model();
 
 	std::vector<std::shared_ptr<Drawable> > drawables;
-	void rebuildDrawables() {
-		drawables.clear();
-		drawables.push_back(lab);
-		drawables.push_back(player);
-		drawables.push_back(begin);
-		drawables.push_back(finish);
-	}
+
+	void rebuildDrawables();
 
 	Vector2 start;
 	Vector2 end;
@@ -70,5 +70,4 @@ private:
 	std::vector<Vector2> route;
 
 	static std::vector<Model> INSTANCES;
-
 };

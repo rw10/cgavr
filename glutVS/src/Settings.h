@@ -13,6 +13,8 @@ public:
 	static const double PlayerHeight;
 	static double PlayerSpeed;
 	static const double TextureSizeMultiplier;
+	static size_t UpdateInterval;
+	static size_t DrawInterval;
 
 	static const double CollisionPrecision;
 	

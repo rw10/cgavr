@@ -58,7 +58,10 @@ private:
 
 	ViewSettings viewSettings;
 	
-	clock_t clock_ticks;
+	clock_t clock_ticks_draw;
+	size_t drawDelta;
+	clock_t clock_ticks_update;
+	size_t updateDelta;
 
 	// previously: list of bools for each key, init with all false
 	// replaced with set of keys with 'true' value
