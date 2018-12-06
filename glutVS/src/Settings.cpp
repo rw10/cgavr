@@ -1,6 +1,6 @@
 #include "Settings.h"
 
-const std::string Settings::ProjectName = std::string("GLUT Project");
+const std::string Settings::ProjectName = std::string("Maze Racer");
 const double Settings::WallHeight = 20;
 const double Settings::WallWidth = 1.15;
 const double Settings::PlayerRadius = 2;
@@ -9,6 +9,8 @@ double Settings::PlayerSpeed = 0.05;
 const double Settings::TextureSizeMultiplier = 10;
 size_t Settings::UpdateInterval = 5;
 size_t Settings::DrawInterval = 16;
+const double Settings::CameraMovementSpeed = 0.1;
+const double Settings::CameraRotationSpeed = 0.1;
 
 const size_t Settings::CircleDrawPrecision = 90;
 const size_t Settings::WayPointDetail = 3;

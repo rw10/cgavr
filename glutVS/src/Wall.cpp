@@ -20,7 +20,8 @@ void Wall::draw(void) const {
 	GLfloat floor = 0;
 	GLfloat ceiling = (GLfloat) Settings::WallHeight;
 
-	// TODO: normals dont fit anymore (only top/bottom)
+	GLfloat textureSizeX = (GLfloat)((end - begin).getLength() / Settings::TextureSizeMultiplier);
+	GLfloat textureSizeY = (GLfloat)(width*2 / Settings::TextureSizeMultiplier);
 	
 	glBegin(GL_QUADS);
 	
@@ -28,17 +29,19 @@ void Wall::draw(void) const {
 	if (width > 0) {
 
 		// top
-		//glTexCoord2f(0.0f, 0.0f);
+		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(cornerPoints.p11.gl_x(), cornerPoints.p11.gl_y(), ceiling);
-		//glTexCoord2f(1.0f, 0.0f);
+		glTexCoord2f(0.0f, textureSizeY);
 		glVertex3f(cornerPoints.p12.gl_x(), cornerPoints.p12.gl_y(), ceiling);
-		//glTexCoord2f(1.0f, 1.0f);
+		glTexCoord2f(textureSizeX, textureSizeY);
 		glVertex3f(cornerPoints.p22.gl_x(), cornerPoints.p22.gl_y(), ceiling);
-		//glTexCoord2f(0.0f, 1.0f);
+		glTexCoord2f(textureSizeX, 0.0f);
 		glVertex3f(cornerPoints.p21.gl_x(), cornerPoints.p21.gl_y(), ceiling);
 
-		// bottom
+
+		// bottom, front and back not drawn because they are not visible
 		/*
+		// bottom
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex3f(cornerPoints.p11.gl_x(), cornerPoints.p11.gl_y(), floor);
 		glTexCoord2f(1.0f, 0.0f);
@@ -47,7 +50,6 @@ void Wall::draw(void) const {
 		glVertex3f(cornerPoints.p22.gl_x(), cornerPoints.p22.gl_y(), floor);
 		glTexCoord2f(0.0f, 1.0f);
 		glVertex3f(cornerPoints.p21.gl_x(), cornerPoints.p21.gl_y(), floor);
-		*/
 
 		// front
 		glTexCoord2f(0.0f, 0.0f);
@@ -68,11 +70,12 @@ void Wall::draw(void) const {
 		glVertex3f(cornerPoints.p22.gl_x(), cornerPoints.p22.gl_y(), ceiling);
 		glTexCoord2f(1.0f, 0.0f);
 		glVertex3f(cornerPoints.p22.gl_x(), cornerPoints.p22.gl_y(), floor);
+		*/
 
 	}
 
-	GLfloat textureSizeX = (GLfloat)((end - begin).getLength() / Settings::TextureSizeMultiplier);
-	GLfloat textureSizeY = (GLfloat)((ceiling - floor) / Settings::TextureSizeMultiplier);
+	//textureSizeX = (GLfloat)((end - begin).getLength() / Settings::TextureSizeMultiplier);
+	textureSizeY = (GLfloat)((ceiling - floor) / Settings::TextureSizeMultiplier);
 
 	// right
 	glTexCoord2f(0.0f, 0.0f);

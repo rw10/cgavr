@@ -16,6 +16,9 @@ public:
 	static size_t UpdateInterval;
 	static size_t DrawInterval;
 
+	static const double CameraMovementSpeed;
+	static const double CameraRotationSpeed;
+
 	static const double CollisionPrecision;
 	
 	// how many points to use for drawing a full circle, should be a common divisor of 360

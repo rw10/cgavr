@@ -6,7 +6,7 @@ std::mutex Model::dataMutex;
 
 Model::Model() : initialized(false)
 {
-	/*
+	
 	// add labyrinth
 	setLab(LabyrinthBuilder::build());
 
@@ -16,7 +16,7 @@ Model::Model() : initialized(false)
 
 	// find route
 	calculateRoute();
-	*/
+	
 	   
 	// 3D Objects
 	//std::shared_ptr<ConeTop> c(new ConeTop(Vector3(0,0,0), 6, 30, Textures::get().wallTexture));

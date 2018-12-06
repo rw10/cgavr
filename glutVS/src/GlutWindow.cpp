@@ -90,65 +90,65 @@ void GlutWindow::display() {
 }
 
 void GlutWindow::idleFunc() {
-
-	// keyboard actions
-	// for standard keys
-	for (const auto& key : keys) {
-		switch (key) {
-		// WASD - control camera movement
-		case 'w':
-			camera->move(1, 0);
-			break;
-		case 's':
-			camera->move(-1, 0);
-			break;
-
-		// strafe - movement
-		case 'a':		// left
-			camera->move(1, 90);
-			break;
-		case 'd':		// right
-			camera->move(1, -90);
-			break;
-		case '+':
-			Settings::PlayerSpeed *= 1.01;
-			break;
-		case '-':
-			Settings::PlayerSpeed /= 1.01;
-			break;
-		default:
-			break;
-		}
-	}
-	// for special keys (like the arrow keys)
-	for (const auto& key : specialkeys) {
-		switch (key) {
-			// control camera height
-		case GLUT_KEY_UP:
-			camera->moveUp(1);
-			break;
-		case GLUT_KEY_DOWN:
-			camera->moveUp(-1);
-			break;
-
-			// control camera rotation
-		case GLUT_KEY_LEFT:
-			camera->rotateAroundZ(1);
-			break;
-		case GLUT_KEY_RIGHT:
-			camera->rotateAroundZ(-1);
-			break;
-		default:
-			break;
-		}
-	}
-
 	// limit update calls to fixed count 
 	// otherwise the movement speed is determined by the speed at which the program runs
 	clock_t now = clock();
 	updateDelta += clockToMilliseconds(now - clock_ticks_update);
 	clock_ticks_update = now;
 	while (updateDelta >= Settings::UpdateInterval) {
+
+		// keyboard actions
+		// for standard keys
+		for (const auto& key : keys) {
+			switch (key) {
+			// WASD - control camera movement
+			case 'w':
+				camera->move(Settings::CameraMovementSpeed * Settings::UpdateInterval, 0);
+				break;
+			case 's':
+				camera->move(-Settings::CameraMovementSpeed * Settings::UpdateInterval, 0);
+				break;
+
+			// strafe - movement
+			case 'a':		// left
+				camera->move(Settings::CameraMovementSpeed * Settings::UpdateInterval, 90);
+				break;
+			case 'd':		// right
+				camera->move(Settings::CameraMovementSpeed * Settings::UpdateInterval, -90);
+				break;
+			case '+':
+				Settings::PlayerSpeed *= 1.01;
+				break;
+			case '-':
+				Settings::PlayerSpeed /= 1.01;
+				break;
+			default:
+				break;
+			}
+		}
+		// for special keys (like the arrow keys)
+		for (const auto& key : specialkeys) {
+			switch (key) {
+				// control camera height
+			case GLUT_KEY_UP:
+				camera->moveUp(Settings::CameraMovementSpeed * Settings::UpdateInterval);
+				break;
+			case GLUT_KEY_DOWN:
+				camera->moveUp(-Settings::CameraMovementSpeed * Settings::UpdateInterval);
+				break;
+
+				// control camera rotation
+			case GLUT_KEY_LEFT:
+				camera->rotateAroundZ(Settings::CameraRotationSpeed * Settings::UpdateInterval);
+				break;
+			case GLUT_KEY_RIGHT:
+				camera->rotateAroundZ(-Settings::CameraRotationSpeed * Settings::UpdateInterval);
+				break;
+			default:
+				break;
+			}
+		}
+
 		Model::get().update();
 		updateDelta -= Settings::UpdateInterval;
 	}
