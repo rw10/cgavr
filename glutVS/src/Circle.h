@@ -8,7 +8,7 @@
 class Circle : public Animation
 {
 public:
-	Circle(const Vector3& position, double radius, AnimationTextures textures, double animationDuration = 1000.0);
+	Circle(const Vector3& position, double radius, AnimationTextures textures, bool fillTexture = true, double animationDuration = 1000.0);
 	Circle(const Vector3& position, double radius, Color3ub color);
 	~Circle();
 
@@ -37,6 +37,8 @@ protected:
 	}
 
 private:
-	void createVertex(int angle) const;
+	bool fillTexture;
+
+	void createVertex(int angle, GLfloat textureSize) const;
 };
 

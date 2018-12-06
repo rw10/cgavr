@@ -8,6 +8,7 @@
 
 
 std::vector<TextureLoader> TextureLoader::INSTANCES = std::vector<TextureLoader>();
+std::mutex TextureLoader::loadMutex;
 
 TextureLoader::TextureLoader()
 {

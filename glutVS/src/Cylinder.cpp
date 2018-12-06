@@ -9,14 +9,14 @@
 
 #include <cmath>
 
-Cylinder::Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures, double animationDuration) :
+Cylinder::Cylinder(const Vector3& position, double radius, double height, AnimationTextures textures, bool fillTexture, double animationDuration) :
 	Animation(textures, animationDuration), pos(position), radius(radius), height(height)
 {
-	floorCircle = std::shared_ptr<Circle> (new Circle(pos, radius, textures));
+	floorCircle = std::shared_ptr<Circle> (new Circle(pos, radius, textures, fillTexture));
 
 	Vector3 cPos = pos;
 	cPos.z += height;
-	ceilingCircle = std::shared_ptr<Circle>(new Circle(cPos, radius, textures));
+	ceilingCircle = std::shared_ptr<Circle>(new Circle(cPos, radius, textures, fillTexture));
 	init();
 }
 
