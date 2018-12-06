@@ -1,7 +1,7 @@
 #include "Settings.h"
 
 const std::string Settings::ProjectName = std::string("Maze Racer");
-const double Settings::WallHeight = 20;
+const double Settings::WallHeight = 10;
 const double Settings::WallWidth = 1.15;
 const double Settings::PlayerRadius = 2;
 const double Settings::PlayerHeight = 3;

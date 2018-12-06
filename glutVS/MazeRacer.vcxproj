@@ -29,7 +29,6 @@
     <ClCompile Include="src\Dijkstra.cpp" />
     <ClCompile Include="src\FirstPersonCamera.cpp" />
     <ClCompile Include="src\moc_Receiver.cpp" />
-    <ClCompile Include="src\moc_Sender.cpp" />
     <ClCompile Include="src\PlayerViewCamera.cpp" />
     <ClCompile Include="src\LabyrinthBuilder.cpp" />
     <ClCompile Include="src\LookAtCamera.cpp" />
@@ -74,14 +73,14 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
     </CustomBuild>
-    <CustomBuild Include="src\Sender.h">
+    <ClInclude Include="src\Sender.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)moc_%(Filename).cpp"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compiling %(Filename).%(Extension) using MOC</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe "%(FullPath)" -o "%(RootDir)%(Directory)moc_%(Filename).cpp"</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compiling %(Filename).%(Extension) using MOC</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(RootDir)%(Directory)moc_%(Filename).cpp</Outputs>
-    </CustomBuild>
+    </ClInclude>
     <ClInclude Include="src\Settings.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\Dijkstra.h" />

@@ -13,7 +13,7 @@ std::shared_ptr<Labyrinth> LabyrinthBuilder::build() {
 	std::shared_ptr<Labyrinth> lab(new Labyrinth);
 
 	// add walls
-	//boundaries(lab, 100);
+	boundaries(lab, 100);
 	staticLab(lab);
 
 
