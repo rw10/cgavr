@@ -90,6 +90,14 @@ void Receiver::processPendingDatagrams()
 					model.setStart(start.x, start.y);
 					model.setEnd(end.x, end.y);
 					model.calculateRoute();
+					
+					while (model.getRoute().size() == 0) {
+						Vector2 st((double)rand() / RAND_MAX * 100.0, (double)rand() / RAND_MAX * 100.0);
+						Vector2 en((double)rand() / RAND_MAX * 100.0, (double)rand() / RAND_MAX * 100.0);
+						model.setStart(st.x, st.y);
+						model.setEnd(en.x, en.y);
+						model.calculateRoute();
+					}
 
 					std::cout << "Applied all received data!" << std::endl;
 				}
