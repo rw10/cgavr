@@ -94,9 +94,23 @@ void Receiver::processPendingDatagrams()
 					while (model.getRoute().size() == 0) {
 						Vector2 st((double)rand() / RAND_MAX * 100.0, (double)rand() / RAND_MAX * 100.0);
 						Vector2 en((double)rand() / RAND_MAX * 100.0, (double)rand() / RAND_MAX * 100.0);
+
 						model.setStart(st.x, st.y);
 						model.setEnd(en.x, en.y);
-						model.calculateRoute();
+
+						// only use start and end point, if not too close to wall
+						bool tooCloseToWall = false;
+						for (const Wall& wall : lab->getWalls()) {
+							double d1 = (Vector2::getClosestPointOnLineSegment(wall.begin, wall.end, st) - st).getLength();
+							double d2 = (Vector2::getClosestPointOnLineSegment(wall.begin, wall.end, en) - en).getLength();
+							if (fmin(d1, d2) < Settings::WallWidth + Settings::PlayerRadius) {
+								tooCloseToWall = true;
+							}
+						}
+						if (!tooCloseToWall) {
+							// try to calculate route, repeat with different start/end until successful
+							model.calculateRoute();
+						}
 					}
 
 					std::cout << "Applied all received data!" << std::endl;

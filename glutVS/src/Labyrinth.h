@@ -33,6 +33,10 @@ public:
 	virtual void show(const double time, const ViewSettings& viewSettings);
 	virtual void animate(const double time);
 
+	const std::vector<Wall>& getWalls(){
+		return walls;
+	}
+
 protected:
 	virtual void draw(void) const;
 
