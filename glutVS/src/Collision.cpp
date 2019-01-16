@@ -152,6 +152,10 @@ void Collision::addConnections(const Wall& newWall, ConnectedNetwork& network) {
 	network[newWall.begin].push_back(newWall.end);
 	network[newWall.end].push_back(newWall.begin);
 
+
+	// disabled rest
+	return;
+
 	// add connection points on each intersection with other walls
 	for (auto& c : network) {
 		const auto& corner = c.first;
