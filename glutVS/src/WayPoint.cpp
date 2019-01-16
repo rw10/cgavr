@@ -70,12 +70,16 @@ WayPoint WayPoint::createWaypointsAroundCorner(const Vector2& corner, double ang
 		wp.others.push_back(leftVec);
 		wp.others.push_back(rightVec);
 
-		// connect the waypoints that are next to each other
-		createRoute(prevL, leftVec, lab.routes);
-		lab.addHelperLine(prevL, leftVec, WallType::AUTO);
+		// connect the waypoints that are next to each other		
+		if (Collision::isColliding(prevL, leftVec, lab.walls, CollisionTestType::FULL_CHECK)) {
+			createRoute(prevL, leftVec, lab.routes);
+			lab.addHelperLine(prevL, leftVec, WallType::AUTO);
+		}
 		prevL = leftVec;
-		createRoute(prevR, rightVec, lab.routes);
-		lab.addHelperLine(prevR, rightVec, WallType::AUTO);
+		if (Collision::isColliding(prevR, rightVec, lab.walls, CollisionTestType::FULL_CHECK)) {
+			createRoute(prevR, rightVec, lab.routes);
+			lab.addHelperLine(prevR, rightVec, WallType::AUTO);
+		}
 		prevR = rightVec;
 	}
 
