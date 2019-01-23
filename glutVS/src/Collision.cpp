@@ -107,8 +107,14 @@ bool Collision::isPointInBoundingBox(const Vector2& p1, const Vector2& p2, const
 
 double Collision::closestDistanceToWall(const Vector2& source, const Vector2& target, const Wall& wall) {
 	return fmin(
-		closestDistanceToPoint(source, target, wall.begin),
-		closestDistanceToPoint(source, target, wall.end)
+		fmin(
+			closestDistanceToPoint(source, target, wall.begin),
+			closestDistanceToPoint(source, target, wall.end)
+		),
+		fmin(
+			closestDistanceToPoint(wall.begin, wall.end, source),
+			closestDistanceToPoint(wall.begin, wall.end, target)
+		)
 	);
 
 	/*
